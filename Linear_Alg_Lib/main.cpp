@@ -5,7 +5,7 @@
 
 
 int	main(int argc, char* argv[]) {
-	testDenseMatrixCtor();
+	testDenseMatrix();
 
 	std::cout << "Tests complete\n";
 }
