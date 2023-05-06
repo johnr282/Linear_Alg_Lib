@@ -28,10 +28,10 @@
     <ClInclude Include="matrix.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="structs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tests.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_helpers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

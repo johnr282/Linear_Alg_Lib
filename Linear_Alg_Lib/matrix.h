@@ -7,7 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-#include "structs.h"
+#include "matrix_helpers.h"
 
 
 // Contains base Matrix class and the derived classes DenseMatrix, SparseMatrix, DiagonalMatrix
@@ -113,24 +113,29 @@ public:
 		m  n  o  p 
 	*/
 	// Ensures columns are aligned, even with different amounts of digits
-	// Doesn't work well with non integer types; lots of trailing 0s in double and
-	// float types make matrix much wider than it should be
+	// Doesn't work well with non integer types
 	void printMatrix() {
-		// Sorts data vector to find number with greatest number of digits
-		std::vector<T> sorted_data = data;
-		std::sort(sorted_data.begin(), sorted_data.end());
-
-		T min_num = sorted_data.front();
-		T max_num = sorted_data.back();
-
-		size_t min_num_digits = (std::to_string(min_num)).size();
-		size_t max_num_digits = (std::to_string(max_num)).size();
+		// Finds maximum number of digits in any element in matrix data
+		size_t max_digits = findMaxDigits(data);
 
 		// Column width is largest number of digits + 2 spaces wide
-		size_t column_width = std::max(min_num_digits, max_num_digits) + 2;
+		size_t column_width = max_digits + 2;
 
-		
+		// Get data vector into row major form to make printing easier
+		std::vector<T> row_maj_data = convertToRowMajorHelper();
 
+		// Print matrix
+		for (int i = 0; i < getSize(); ++i) {
+			T curr_elt = row_maj_data[i];
+			int num_spaces = column_width - numDigits<T>(curr_elt);
+			std::cout << curr_elt;
+			printSpaces(num_spaces);
+
+			// Prints newline after every row
+			if (i % getCols() == getCols() - 1) {
+				std::cout << "\n";
+			}
+		}
 	}
 
 	// Converts storage type from column major to row major by rearranging data vector; 
@@ -214,7 +219,6 @@ private:
 
 	*/
 };
-
 
 
 

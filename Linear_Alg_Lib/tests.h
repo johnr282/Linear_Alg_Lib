@@ -19,6 +19,7 @@ void testDenseMatrixCtor();
 void testDenseMatrixSetData();
 void testDenseMatrixConvertColMajor();
 void testDenseMatrixConvertRowMajor();
+void testDensePrintMatrix();
 
 
 // ********** End helper function prototypes **********
@@ -30,6 +31,7 @@ void testDenseMatrix() {
 	testDenseMatrixSetData();
 	testDenseMatrixConvertColMajor();
 	testDenseMatrixConvertRowMajor();
+	testDensePrintMatrix();
 
 }
 
@@ -145,6 +147,44 @@ void testDenseMatrixConvertRowMajor() {
 	mat4.convertToRowMajor();
 	assert(mat5.getData() == data4);
 }
+
+void testDensePrintMatrix() {
+	std::vector<int> data1(9);
+	std::iota(data1.begin(), data1.end(), 0);
+	DenseMatrix<int> mat1(data1, 3, 3, StorageType::RowMajor);
+	mat1.printMatrix();
+	std::cout << "\n";
+
+	DenseMatrix<int> mat1_col(data1, 3, 3, StorageType::ColumnMajor);
+	mat1_col.printMatrix();
+	std::cout << "\n";
+
+	std::vector<int> data2{ 23, 0, 0, 0 };
+	DenseMatrix<int> mat2(data2, 2, 2);
+	mat2.printMatrix();
+	std::cout << "\n";
+
+	std::vector<int> data3{ -25, 1, 23, 0, 0, 0 };
+	DenseMatrix<int> mat3(data3, 2, 3);
+	mat3.printMatrix();
+	std::cout << "\n";
+
+	std::vector<int> data4{ -1, 9999, 0, 0, 0, 0 };
+	DenseMatrix<int> mat4(data4, 3, 2);
+	mat4.printMatrix();
+	std::cout << "\n";
+
+	std::vector<size_t> data5(144);
+	std::iota(data5.begin(), data5.end(), 0);
+	DenseMatrix<size_t> mat5(data5, 12, 12);
+	mat5.printMatrix();
+	std::cout << "\n";
+
+	DenseMatrix<size_t> mat5_row(data5, 12, 12, StorageType::RowMajor);
+	mat5_row.printMatrix();
+	std::cout << "\n";
+}
+
 	
 
 
