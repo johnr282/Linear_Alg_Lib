@@ -135,6 +135,8 @@
   <ItemGroup>
     <ClInclude Include="matrix.h" />
     <ClInclude Include="matrix_helpers.h" />
+    <ClInclude Include="matrix_ops.h" />
+    <ClInclude Include="matrix_ops_helpers.h" />
     <ClInclude Include="tests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

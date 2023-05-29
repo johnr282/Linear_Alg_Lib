@@ -34,5 +34,11 @@
     <ClInclude Include="matrix_helpers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="matrix_ops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix_ops_helpers.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

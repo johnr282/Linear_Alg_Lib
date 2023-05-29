@@ -7,6 +7,7 @@
 #include <cassert>
 #include <numeric>
 #include "matrix.h"
+#include "matrix_ops.h"
 
 
 
@@ -31,7 +32,7 @@ void testDenseMatrix() {
 	testDenseMatrixSetData();
 	testDenseMatrixConvertColMajor();
 	testDenseMatrixConvertRowMajor();
-	testDensePrintMatrix();
+	// testDensePrintMatrix();
 
 }
 
@@ -185,10 +186,18 @@ void testDensePrintMatrix() {
 	std::cout << "\n";
 }
 
-	
+void testDenseAdd() {
+	std::vector<int> data1{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	DenseMatrix<int> mat1(data1, 3, 3);
+	std::vector<int> data2{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	DenseMatrix<int> mat2(data2, 3, 3);
+	DenseMatrix<int> mat3 = mat1 + mat2;
+	std::vector<int> data3 = data1 + data2;
+	assert(mat3.getData() == (data1 + data2));
 
 
 
+}
 
 
 

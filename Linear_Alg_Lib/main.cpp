@@ -1,6 +1,5 @@
 #include <getopt.h>
 #include <iostream>
-#include "matrix.h"
 #include "tests.h"
 
 

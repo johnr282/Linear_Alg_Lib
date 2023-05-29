@@ -30,19 +30,19 @@ public:
 		: rows(rows_in), cols(cols_in), size(rows_in* cols_in) { }
 
 	// All derived classes have some form of printMatrix() function
-	virtual void printMatrix() = 0;
+	virtual void printMatrix() const = 0;
 
-	// Getter functions common to all derived matrix classes
+	// Getter functions
 
-	size_t getRows() {
+	size_t getRows() const {
 		return rows;
 	}
 
-	size_t getCols() {
+	size_t getCols() const {
 		return cols;
 	}
 
-	size_t getSize() {
+	size_t getSize() const {
 		return size;
 	}
 
@@ -88,7 +88,7 @@ public:
 
 	// Getter and setter functions
 
-	std::vector<T> getData() {
+	std::vector<T> getData() const {
 		return data;
 	}
 
@@ -101,7 +101,7 @@ public:
 		data = data_in;
 	}
 
-	StorageType getStorageType() {
+	StorageType getStorageType() const {
 		return storage_type;
 	}
 
@@ -114,7 +114,7 @@ public:
 	*/
 	// Ensures columns are aligned, even with different amounts of digits
 	// Doesn't work well with non integer types
-	void printMatrix() {
+	void printMatrix() const {
 		// Finds maximum number of digits in any element in matrix data
 		size_t max_digits = findMaxDigits(data);
 
@@ -122,7 +122,7 @@ public:
 		size_t column_width = max_digits + 2;
 
 		// Get data vector into row major form to make printing easier
-		std::vector<T> row_maj_data = convertToRowMajorHelper();
+		std::vector<T> row_maj_data = convertToRowMajorHelper(getData(), getRows(), getCols());
 
 		// Print matrix
 		for (int i = 0; i < getSize(); ++i) {
@@ -141,14 +141,22 @@ public:
 	// Converts storage type from column major to row major by rearranging data vector; 
 	// if storage type is already row major, does nothing
 	void convertToRowMajor() {
-		data = convertToRowMajorHelper();
+		if (storage_type == StorageType::RowMajor) {
+			return;
+		}
+
+		data = convertToRowMajorHelper(getData(), getRows(), getCols());
 		storage_type = StorageType::RowMajor;
 	}
 
 	// Converts storage type from row major to column major by rearranging data vector; 
 	// if storage type is already column major, does nothing
 	void convertToColMajor() {
-		data = convertToColMajorHelper();
+		if (storage_type == StorageType::ColumnMajor) {
+			return;
+		}
+
+		data = convertToColMajorHelper(getData(), getRows(), getCols());
 		storage_type = StorageType::ColumnMajor;
 	}
 
@@ -156,68 +164,8 @@ public:
 private:
 // Private helper functions
 
-	// Returns matrix data vector in row major format
-	std::vector<T> convertToRowMajorHelper() {
-		if (storage_type == StorageType::RowMajor) {
-			return data;
-		}
-
-		// Vector to hold rearranged data
-		std::vector<T> new_data(getSize());
-
-		int col = -1;
-		for (int i = 0; i < getSize(); ++i) {
-			size_t row = i % getRows();
-			// Increment col every n times, where n is the number of rows
-			col += (i % getRows() == 0);
-			size_t new_index = row * getCols() + col;
-			// Put element in new row major position
-			new_data[new_index] = data[i];
-		}
-		return new_data;
-	}
-
-	// Returns matrix data vector in column major format
-	std::vector<T> convertToColMajorHelper() {
-		if (storage_type == StorageType::ColumnMajor) {
-			return data;
-		}
-
-		// Vector to hold rearranged data
-		std::vector<T> new_data(getSize());
-
-		int row = -1;
-		for (int i = 0; i < getSize(); ++i) {
-			size_t col = i % getCols();
-			// Increment row every m times, where m is the number of columns
-			row += (i % getCols() == 0);
-			size_t new_index = col * getRows() + row;
-			// Put element in new column major position
-			new_data[new_index] = data[i];
-		}
-		return new_data;
-	}
 
 
-	/*
-	134   2     9
-	1	  2     13
-	5     1     3
-	2567  1     34
-	34	  5     467
-	2	  14    2
-
-	0  1  2  3
-	4  5  6  7
-	8  9  10 11
-
-	row major: 0 1 2 3 4 5 6 7 8 9 10 11
-
-	column major: 0 4 8 1 5 9 2 6 10 3 7 11
-
-
-
-	*/
 };
 
 
