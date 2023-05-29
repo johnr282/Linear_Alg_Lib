@@ -125,9 +125,9 @@ public:
 		std::vector<T> row_maj_data = convertToRowMajorHelper(getData(), getRows(), getCols());
 
 		// Print matrix
-		for (int i = 0; i < getSize(); ++i) {
+		for (size_t i = 0; i < getSize(); ++i) {
 			T curr_elt = row_maj_data[i];
-			int num_spaces = column_width - numDigits<T>(curr_elt);
+			size_t num_spaces = column_width - numDigits<T>(curr_elt);
 			std::cout << curr_elt;
 			printSpaces(num_spaces);
 

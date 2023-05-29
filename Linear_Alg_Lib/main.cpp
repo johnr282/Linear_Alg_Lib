@@ -5,6 +5,5 @@
 
 int	main(int argc, char* argv[]) {
 	testDenseMatrix();
-
-	std::cout << "Tests complete\n";
+	return 0;
 }

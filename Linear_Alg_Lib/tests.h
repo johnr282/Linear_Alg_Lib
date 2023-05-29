@@ -38,6 +38,8 @@ void testDenseMatrix() {
 	// testDensePrintMatrix();
 	testDenseAdd();
 
+
+	std::cout << "Tests complete\n";
 }
 
 
