@@ -23,8 +23,8 @@ void testDenseMatrixConvertRowMajor();
 void testDensePrintMatrix();
 void testDenseAdd();
 template <typename T>
-void checkMatrix(const DenseMatrix<T>&, const std::vector<T>&, size_t, size_t, size_t, StorageType);
-
+void checkMatrix(const DenseMatrix<T>&, const std::vector<T>&, size_t, size_t, StorageType);
+void testDenseSub();
 
 // ********** End helper function prototypes **********
 
@@ -37,7 +37,7 @@ void testDenseMatrix() {
 	testDenseMatrixConvertRowMajor();
 	// testDensePrintMatrix();
 	testDenseAdd();
-
+	testDenseSub();
 
 	std::cout << "Tests complete\n";
 }
@@ -200,14 +200,14 @@ void testDenseAdd() {
 	DenseMatrix<int> mat2(data2, 3, 3);
 	DenseMatrix<int> mat3 = mat1 + mat2;
 	std::vector<int> data3{ 2, 4, 6, 8, 10, 12, 14, 16, 18 };
-	checkMatrix(mat3, data3, 3, 3, 9, StorageType::ColumnMajor);
+	checkMatrix(mat3, data3, 3, 3, StorageType::ColumnMajor);
 
 	// colmaj + colmaj
 	std::vector<int> data4{ 1, 2, 4, 5, 6, 7, 1, 3, 10 };
 	DenseMatrix<int> mat4(data4, 3, 3);
 	DenseMatrix<int> mat5 = mat1 + mat4;
 	std::vector<int> data5{ 2, 4, 7, 9, 11, 13, 8, 11, 19 };
-	checkMatrix(mat5, data5, 3, 3, 9, StorageType::ColumnMajor);
+	checkMatrix(mat5, data5, 3, 3, StorageType::ColumnMajor);
 
 	// rowmaj + rowmaj
 	std::vector<int> data6{ 1, 0, 0, 2, 3, 0 };
@@ -216,13 +216,13 @@ void testDenseAdd() {
 	DenseMatrix<int> mat7(data7, 2, 3, StorageType::RowMajor); 
 	DenseMatrix<int> mat8 = mat6 + mat7;
 	std::vector<int> data8{ 1, 0, 1, 4, 6, 0 };
-	checkMatrix(mat8, data8, 2, 3, 6, StorageType::RowMajor);
+	checkMatrix(mat8, data8, 2, 3, StorageType::RowMajor);
 
 	// rowmaj + rowmaj
 	DenseMatrix<int> mat9(data6, 3, 2, StorageType::RowMajor);
 	DenseMatrix<int> mat10(data7, 3, 2, StorageType::RowMajor);
 	DenseMatrix<int> mat11 = mat9 + mat10;
-	checkMatrix(mat11, data8, 3, 2, 6, StorageType::RowMajor);
+	checkMatrix(mat11, data8, 3, 2, StorageType::RowMajor);
 
 	// rowmaj + colmaj
 	std::vector<int> data12{ 1, 0, 0, 3, 2, 2, 1, 0, 0, 0, 1, 2 };
@@ -231,7 +231,7 @@ void testDenseAdd() {
 	DenseMatrix<int> mat13(data13, 4, 3, StorageType::ColumnMajor);
 	DenseMatrix<int> mat14 = mat12 + mat13;
 	std::vector<int> data14{ 1, 1, 1, 3, 4, 2, 1, 4, 0, 1, 2, 3 };
-	checkMatrix(mat14, data14, 4, 3, 12, StorageType::RowMajor);
+	checkMatrix(mat14, data14, 4, 3, StorageType::RowMajor);
 
 	// colmaj + rowmaj
 	std::vector<int> data15{ 0, 1, 1, 4, 9, 0, 0, 1, 2, 0 };
@@ -240,18 +240,69 @@ void testDenseAdd() {
 	DenseMatrix<int> mat16(data16, 2, 5, StorageType::RowMajor);
 	DenseMatrix<int> mat17 = mat15 + mat16;
 	std::vector<int> data17{ 0, 1, 1, 13, 13, 1, 2, 3, 3, 0 };
-	checkMatrix(mat17, data17, 2, 5, 10, StorageType::ColumnMajor);
+	checkMatrix(mat17, data17, 2, 5,  StorageType::ColumnMajor);
 }
 
 // Checks if given dense matrix has given data vector, row and column numbers, size, and storage type
 template <typename T>
 void checkMatrix(const DenseMatrix<T>& mat, const std::vector<T>& data, size_t rows,
-	size_t cols, size_t size, StorageType type) {
+	size_t cols, StorageType type) {
 	assert(mat.getData() == data);
 	assert(mat.getRows() == rows);
 	assert(mat.getCols() == cols);
-	assert(mat.getSize() == size);
+	assert(mat.getSize() == (rows * cols));
 	assert(mat.getStorageType() == type);
+}
+
+void testDenseSub() {
+	// colmaj - colmaj
+	std::vector<int> data1{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	DenseMatrix<int> mat1(data1, 3, 3);
+	std::vector<int> data2{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	DenseMatrix<int> mat2(data2, 3, 3);
+	DenseMatrix<int> mat3 = mat1 - mat2;
+	std::vector<int> data3{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	checkMatrix(mat3, data3, 3, 3, StorageType::ColumnMajor);
+
+	// colmaj - colmaj
+	std::vector<int> data4{ 1, 2, 4, 5, 6, 7, 1, 3, 10 };
+	DenseMatrix<int> mat4(data4, 3, 3);
+	DenseMatrix<int> mat5 = mat1 - mat4;
+	std::vector<int> data5{ 0, 0, -1, -1, -1, -1, 6, 5, -1 };
+	checkMatrix(mat5, data5, 3, 3, StorageType::ColumnMajor);
+
+	// rowmaj - rowmaj
+	std::vector<int> data6{ 1, 0, 0, 2, 3, 0 };
+	std::vector<int> data7{ 0, 0, 1, 2, 3, 0 };
+	DenseMatrix<int> mat6(data6, 2, 3, StorageType::RowMajor);
+	DenseMatrix<int> mat7(data7, 2, 3, StorageType::RowMajor);
+	DenseMatrix<int> mat8 = mat6 - mat7;
+	std::vector<int> data8{ 1, 0, -1, 0, 0, 0 };
+	checkMatrix(mat8, data8, 2, 3, StorageType::RowMajor);
+
+	// rowmaj - rowmaj
+	DenseMatrix<int> mat9(data6, 3, 2, StorageType::RowMajor);
+	DenseMatrix<int> mat10(data7, 3, 2, StorageType::RowMajor);
+	DenseMatrix<int> mat11 = mat9 - mat10;
+	checkMatrix(mat11, data8, 3, 2, StorageType::RowMajor);
+
+	// rowmaj - colmaj
+	std::vector<int> data12{ 1, 0, 0, 3, 2, 2, 1, 0, 0, 0, 1, 2 };
+	std::vector<int> data13{ 0, 0, 0, 1, 1, 2, 4, 1, 1, 0, 0, 1 };
+	DenseMatrix<int> mat12(data12, 4, 3, StorageType::RowMajor);
+	DenseMatrix<int> mat13(data13, 4, 3, StorageType::ColumnMajor);
+	DenseMatrix<int> mat14 = mat12 - mat13;
+	std::vector<int> data14{ 1, -1, -1, 3, 0, 2, 1, -4, 0, -1, 0, 1 };
+	checkMatrix(mat14, data14, 4, 3, StorageType::RowMajor);
+
+	// colmaj - rowmaj
+	std::vector<int> data15{ 0, 1, 1, 4, 9, 0, 0, 1, 2, 0 };
+	std::vector<int> data16{ 0, 0, 4, 2, 1, 0, 9, 1, 2, 0 };
+	DenseMatrix<int> mat15(data15, 2, 5, StorageType::ColumnMajor);
+	DenseMatrix<int> mat16(data16, 2, 5, StorageType::RowMajor);
+	DenseMatrix<int> mat17 = mat15 - mat16;
+	std::vector<int> data17{ 0, 1, 1, -5, 5, -1, -2, -1, 1, 0 };
+	checkMatrix(mat17, data17, 2, 5, StorageType::ColumnMajor);
 }
 
 
