@@ -27,7 +27,7 @@ public:
 
 	// Constructor
 	Matrix(size_t rows_in, size_t cols_in)
-		: rows(rows_in), cols(cols_in), size(rows_in* cols_in) { }
+		: rows(rows_in), cols(cols_in), size(rows_in * cols_in) { }
 
 	// All derived classes have some form of printMatrix() function
 	virtual void printMatrix() const = 0;
@@ -132,7 +132,7 @@ public:
 			printSpaces(num_spaces);
 
 			// Prints newline after every row
-			if (i % getCols() == getCols() - 1) {
+			if (colIndex(i, getCols()) == getCols() - 1) {
 				std::cout << "\n";
 			}
 		}
@@ -164,10 +164,74 @@ public:
 private:
 // Private helper functions
 
+};
+
+
+// Matrix class for sparse matrices; stores data in three vectors; one for the actual data, 
+// one for row indices, and one for column indices
+template <typename T>
+class SparseMatrix: public Matrix {
+private:
+
+	// Vector to store data
+	std::vector<T> data;
+
+	// Vectors to store row and column indices; the three vectors data, row_indices, 
+	// and col_indices will always be the same size
+	// The value data[i] is in the position (row_indices[i], col_indices[i])
+	// All other locations in the matrix are zeroes
+	std::vector<size_t> row_indices;
+	std::vector<size_t> col_indices;
+
+	// Number of non-zero elements in the matrix; this is also the size of the data, 
+	// row_indices, and col_indices vectors
+	size_t num_nonzero;
+
+public:
+
+	// Constructor with three input vectors; one data, one row_indices, and one
+	// col_indices vector; the data vector should only contain non-zero values
+	SparseMatrix(const std::vector<T>& data_in, const std::vector<size_t>& row_indices_in,
+		const std::vector<size_t>& col_indices_in, const size_t rows_in, const size_t cols_in)
+		: Matrix(rows_in, cols_in), data(data_in), row_indices(row_indices_in), 
+		  col_indices(col_indices_in), num_nonzero(data_in.size()) { }
+	
+	// Constructor with only one input vector; this vector contains every element
+	// in the matrix, including zero values
+	// The input vector's storage type is equal to the given storage type
+	SparseMatrix(const std::vector<T>& data_in, const StorageType storage_type_in,
+		const size_t rows_in, const size_t cols_in)
+		: Matrix(rows_in, cols_in) {
+		
+		// If data_in is not row major, convert it to row major
+		if (storage_type_in == StorageType::ColumnMajor) {
+			data_in = convertToRowMajorHelper(data_in, rows_in, cols_in);
+		}
+		
+		// Iterates through data_in and puts all non-zero elements into the data vector; 
+		// stores the row and column indices of each non-zero element in row_indices and
+		// col_indices respectively
+		num_nonzero = 0;
+		for (size_t i = 0; i < data_in.size(); ++i) {
+			T elt = data_in[i];
+			if (elt != 0) {
+				size_t row = rowIndex(i, cols_in);
+				size_t col = colIndex(i, cols_in);
+				data.push_back(elt);
+				row_indices.push_back(row);
+				col_indices.push_back(col);
+				++num_nonzero;
+			}
+		}
+
+		// Remove any extra memory allocated to data, row_indices, or col_indices
+		data.resize(num_nonzero);
+		row_indices.resize(num_nonzero);
+		col_indices.resize(num_nonzero);
+	}
 
 
 };
-
 
 
 #endif

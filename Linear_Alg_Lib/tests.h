@@ -39,7 +39,13 @@ void testDenseMatrix() {
 	testDenseAdd();
 	testDenseSub();
 
-	std::cout << "Tests complete\n";
+	std::cout << "Dense matrix tests complete\n";
+}
+
+// Runs all SparseMatrix tests
+void testSparseMatrix() {
+
+	std::cout << "Sparse matrix tests complete\n"; 
 }
 
 
@@ -303,6 +309,17 @@ void testDenseSub() {
 	DenseMatrix<int> mat17 = mat15 - mat16;
 	std::vector<int> data17{ 0, 1, 1, -5, 5, -1, -2, -1, 1, 0 };
 	checkMatrix(mat17, data17, 2, 5, StorageType::ColumnMajor);
+}
+
+
+// Sparse matrix tests
+
+void testSparseCtor() {
+	// Test ctor with three input vectors
+	std::vector<int> data1{ 1, 1, 1 };
+	std::vector<size_t> rows1{ 0, 1, 2 };
+	std::vector<size_t> cols1{ 0, 1, 2 };
+	//SparseMatrix<int> mat1(data1, rows1, cols1, 3, 3);
 }
 
 
