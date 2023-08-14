@@ -127,17 +127,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="matrix.h" />
-    <ClInclude Include="matrix_helpers.h" />
-    <ClInclude Include="matrix_ops.h" />
-    <ClInclude Include="matrix_ops_helpers.h" />
-    <ClInclude Include="tests.h" />
+    <ClInclude Include="include\dense_matrix.h" />
+    <ClInclude Include="include\matrix.h" />
+    <ClInclude Include="include\matrix_ops.h" />
+    <ClInclude Include="include\matrix_ops_utils.h" />
+    <ClInclude Include="include\matrix_utils.h" />
+    <ClInclude Include="include\sparse_matrix.h" />
+    <ClInclude Include="include\tests.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dense_matrix.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\matrix.cpp" />
+    <ClCompile Include="src\matrix_ops.cpp" />
+    <ClCompile Include="src\matrix_ops_utils.cpp" />
+    <ClCompile Include="src\matrix_utils.cpp" />
+    <ClCompile Include="src\sparse_matrix.cpp" />
+    <ClCompile Include="src\tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

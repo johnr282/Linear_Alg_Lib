@@ -1,19 +1,6 @@
-#pragma once
-
-#ifndef MATRIX_HELPERS_H
-#define MATRIX_HELPERS_H
-
-
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-// Contains helper functions, structs, and enums used in matrix.h, matrix_ops.h
-
-enum class StorageType {
-	ColumnMajor, 
-	RowMajor
-};
+#include <string>
+#include "../include/matrix_utils.h"
+#include "../include/dense_matrix.h"
 
 // Returns number of digits in val; used in printMatrix()
 template <typename T>
@@ -85,6 +72,3 @@ size_t colIndex(const size_t i, const size_t cols) {
 size_t rowIndex(const size_t i, const size_t cols) {
 	return (i - colIndex(i, cols)) / cols;
 }
-
-
-#endif

@@ -1,32 +1,4 @@
-#pragma once
-
-#ifndef TESTS_H
-#define TESTS_H
-
-
-#include <cassert>
-#include <numeric>
-#include "matrix.h"
-#include "matrix_ops.h"
-
-
-
-// Contains unit testing functions
-
-
-// ********** Helper function prototypes **********
-
-void testDenseMatrixCtor();
-void testDenseMatrixSetData();
-void testDenseMatrixConvertColMajor();
-void testDenseMatrixConvertRowMajor();
-void testDensePrintMatrix();
-void testDenseAdd();
-template <typename T>
-void checkMatrix(const DenseMatrix<T>&, const std::vector<T>&, size_t, size_t, StorageType);
-void testDenseSub();
-
-// ********** End helper function prototypes **********
+#include "../include/tests.h"
 
 
 // Runs all DenseMatrix tests
@@ -45,7 +17,7 @@ void testDenseMatrix() {
 // Runs all SparseMatrix tests
 void testSparseMatrix() {
 
-	std::cout << "Sparse matrix tests complete\n"; 
+	std::cout << "Sparse matrix tests complete\n";
 }
 
 
@@ -219,7 +191,7 @@ void testDenseAdd() {
 	std::vector<int> data6{ 1, 0, 0, 2, 3, 0 };
 	std::vector<int> data7{ 0, 0, 1, 2, 3, 0 };
 	DenseMatrix<int> mat6(data6, 2, 3, StorageType::RowMajor);
-	DenseMatrix<int> mat7(data7, 2, 3, StorageType::RowMajor); 
+	DenseMatrix<int> mat7(data7, 2, 3, StorageType::RowMajor);
 	DenseMatrix<int> mat8 = mat6 + mat7;
 	std::vector<int> data8{ 1, 0, 1, 4, 6, 0 };
 	checkMatrix(mat8, data8, 2, 3, StorageType::RowMajor);
@@ -246,7 +218,7 @@ void testDenseAdd() {
 	DenseMatrix<int> mat16(data16, 2, 5, StorageType::RowMajor);
 	DenseMatrix<int> mat17 = mat15 + mat16;
 	std::vector<int> data17{ 0, 1, 1, 13, 13, 1, 2, 3, 3, 0 };
-	checkMatrix(mat17, data17, 2, 5,  StorageType::ColumnMajor);
+	checkMatrix(mat17, data17, 2, 5, StorageType::ColumnMajor);
 }
 
 // Checks if given dense matrix has given data vector, row and column numbers, size, and storage type
@@ -321,10 +293,3 @@ void testSparseCtor() {
 	std::vector<size_t> cols1{ 0, 1, 2 };
 	//SparseMatrix<int> mat1(data1, rows1, cols1, 3, 3);
 }
-
-
-
-
-
-
-#endif

@@ -1,17 +1,13 @@
-#pragma once
-
-#ifndef MATRIX_OPS_H
-#define MATRIX_OPS_H
-
-#include "matrix.h"
-#include "matrix_ops_helpers.h"
+#include "../include/matrix_ops.h"
+#include "../include/matrix_ops_utils.h"
 
 
 // Contains operator overloads for matrices
 
 // Addition operator for std::vector; adds element-wise
 template <typename T>
-std::vector<T> operator+(const std::vector<T>& vec1, const std::vector<T>& vec2) {
+std::vector<T> operator+(const std::vector<T>& vec1,
+	const std::vector<T>& vec2) {
 	// Check that both vectors have the same size
 	if (vec1.size() != vec2.size()) {
 		std::cerr << "Error in std::vector addition operator: Vector sizes must match.\n";
@@ -27,7 +23,8 @@ std::vector<T> operator+(const std::vector<T>& vec1, const std::vector<T>& vec2)
 
 // Subtraction operator for std::vector; subtracts element-wise
 template <typename T>
-std::vector<T> operator-(const std::vector<T>& vec1, const std::vector<T>& vec2) {
+std::vector<T> operator-(const std::vector<T>& vec1,
+	const std::vector<T>& vec2) {
 	// Check that both vectors have the same size
 	if (vec1.size() != vec2.size()) {
 		std::cerr << "Error in std::vector addition operator: Vector sizes must match.\n";
@@ -43,7 +40,8 @@ std::vector<T> operator-(const std::vector<T>& vec1, const std::vector<T>& vec2)
 
 // Addition overload for DenseMatrix class; returns a DenseMatrix with the same StorageType as mat1
 template <typename T>
-DenseMatrix<T> operator+(DenseMatrix<T>& mat1, DenseMatrix<T>& mat2) {
+DenseMatrix<T> operator+(DenseMatrix<T>& mat1,
+	DenseMatrix<T>& mat2) {
 	// Check that both matrices have the same dimensions
 	if (sameDimension(mat1, mat2)) {
 		std::cerr << "Error in matrix addition operator: Matrix dimensions must match.\n";
@@ -76,7 +74,8 @@ DenseMatrix<T> operator+(DenseMatrix<T>& mat1, DenseMatrix<T>& mat2) {
 
 // Subtraction overload for DenseMatrix class; returns a DenseMatrix with the same StorageType as mat1
 template <typename T>
-DenseMatrix<T> operator-(DenseMatrix<T>& mat1, DenseMatrix<T>& mat2) {
+DenseMatrix<T> operator-(DenseMatrix<T>& mat1,
+	DenseMatrix<T>& mat2) {
 	// Check that both matrices have the same dimensions
 	if (sameDimension(mat1, mat2)) {
 		std::cerr << "Error in matrix subtraction operator: Matrix dimensions must match.\n";
@@ -106,7 +105,3 @@ DenseMatrix<T> operator-(DenseMatrix<T>& mat1, DenseMatrix<T>& mat2) {
 		return result;
 	}
 }
-
-
-
-#endif
