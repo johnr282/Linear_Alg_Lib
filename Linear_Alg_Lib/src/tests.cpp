@@ -1,8 +1,19 @@
 #include "../include/tests.h"
+#include "../include/matrix_ops.h"
+#include "../include/sparse_matrix.h"
+#include "../include/dense_matrix.h"
+#include "../include/tests_utils.h"
+
+// ------------------------------------------------------------------
+// Implementations of unit testing functions
+// ------------------------------------------------------------------
 
 
-// Runs all DenseMatrix tests
-void testDenseMatrix() {
+// DenseMatrix unit tests
+
+// Runs all DenseMatrix unit tests
+void testDenseMatrix() 
+{
 	testDenseMatrixCtor();
 	testDenseMatrixSetData();
 	testDenseMatrixConvertColMajor();
@@ -14,15 +25,9 @@ void testDenseMatrix() {
 	std::cout << "Dense matrix tests complete\n";
 }
 
-// Runs all SparseMatrix tests
-void testSparseMatrix() {
-
-	std::cout << "Sparse matrix tests complete\n";
-}
-
-
 // Dense Matrix constructor tests
-void testDenseMatrixCtor() {
+void testDenseMatrixCtor() 
+{
 	// Test first constructor with data vector
 	std::vector<int> data(12, 1);
 	DenseMatrix<int> mat(data, 3, 4, StorageType::RowMajor);
@@ -52,7 +57,8 @@ void testDenseMatrixCtor() {
 	assert(mat4.getStorageType() == StorageType::RowMajor);
 }
 
-void testDenseMatrixSetData() {
+void testDenseMatrixSetData() 
+{
 	std::vector<int> data(10, 5);
 	DenseMatrix<int> mat(data, 5, 2);
 	std::vector<int> data2(10, 2);
@@ -61,7 +67,8 @@ void testDenseMatrixSetData() {
 }
 
 // Test conversions from row major to column major
-void testDenseMatrixConvertColMajor() {
+void testDenseMatrixConvertColMajor() 
+{
 	// To column major conversion
 	std::vector<int> data1(12);
 	std::iota(data1.begin(), data1.end(), 0);
@@ -98,7 +105,8 @@ void testDenseMatrixConvertColMajor() {
 
 }
 
-void testDenseMatrixConvertRowMajor() {
+void testDenseMatrixConvertRowMajor() 
+{
 	std::vector<int> data1(12);
 	std::iota(data1.begin(), data1.end(), 0);
 	DenseMatrix<int> mat1(data1, 3, 4);
@@ -133,7 +141,8 @@ void testDenseMatrixConvertRowMajor() {
 	assert(mat5.getData() == data4);
 }
 
-void testDensePrintMatrix() {
+void testDensePrintMatrix() 
+{
 	std::vector<int> data1(9);
 	std::iota(data1.begin(), data1.end(), 0);
 	DenseMatrix<int> mat1(data1, 3, 3, StorageType::RowMajor);
@@ -170,7 +179,8 @@ void testDensePrintMatrix() {
 	std::cout << "\n";
 }
 
-void testDenseAdd() {
+void testDenseAdd() 
+{
 	// colmaj + colmaj
 	std::vector<int> data1{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	DenseMatrix<int> mat1(data1, 3, 3);
@@ -221,18 +231,8 @@ void testDenseAdd() {
 	checkMatrix(mat17, data17, 2, 5, StorageType::ColumnMajor);
 }
 
-// Checks if given dense matrix has given data vector, row and column numbers, size, and storage type
-template <typename T>
-void checkMatrix(const DenseMatrix<T>& mat, const std::vector<T>& data, size_t rows,
-	size_t cols, StorageType type) {
-	assert(mat.getData() == data);
-	assert(mat.getRows() == rows);
-	assert(mat.getCols() == cols);
-	assert(mat.getSize() == (rows * cols));
-	assert(mat.getStorageType() == type);
-}
-
-void testDenseSub() {
+void testDenseSub() 
+{
 	// colmaj - colmaj
 	std::vector<int> data1{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 	DenseMatrix<int> mat1(data1, 3, 3);
@@ -284,9 +284,17 @@ void testDenseSub() {
 }
 
 
-// Sparse matrix tests
+// SparseMatrix unit tests
 
-void testSparseCtor() {
+// Runs all SparseMatrix tests
+void testSparseMatrix() 
+{
+
+	std::cout << "Sparse matrix tests complete\n";
+}
+
+void testSparseCtor() 
+{
 	// Test ctor with three input vectors
 	std::vector<int> data1{ 1, 1, 1 };
 	std::vector<size_t> rows1{ 0, 1, 2 };

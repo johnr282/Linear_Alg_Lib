@@ -137,15 +137,10 @@
     <ClInclude Include="include\matrix_utils.h" />
     <ClInclude Include="include\sparse_matrix.h" />
     <ClInclude Include="include\tests.h" />
+    <ClInclude Include="include\tests_utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\dense_matrix.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\matrix.cpp" />
-    <ClCompile Include="src\matrix_ops.cpp" />
-    <ClCompile Include="src\matrix_ops_utils.cpp" />
-    <ClCompile Include="src\matrix_utils.cpp" />
-    <ClCompile Include="src\sparse_matrix.cpp" />
     <ClCompile Include="src\tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

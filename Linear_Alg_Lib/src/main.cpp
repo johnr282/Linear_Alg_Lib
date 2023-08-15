@@ -4,5 +4,6 @@
 
 int	main(int argc, char* argv[]) {
 	testDenseMatrix();
+	testSparseMatrix();
 	return 0;
 }
