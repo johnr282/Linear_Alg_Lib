@@ -340,8 +340,8 @@ void testDenseMult()
 
 	// rowmaj * colmaj, square
 	DenseMatrix<int> mat19 = mat17 * mat16;
-	std::vector<int> data18{ 3, 6, 8, 4, 3, 3, 6, 6, 0, 4, 6, 4, 2, 6, 5, 9 };
-	checkDenseMatrix(mat18, data18, 4, 4, StorageType::RowMajor);
+	std::vector<int> data19{ 3, 6, 8, 4, 3, 3, 6, 6, 0, 4, 6, 4, 2, 6, 5, 9 };
+	checkDenseMatrix(mat19, data19, 4, 4, StorageType::RowMajor);
 }
 
 
