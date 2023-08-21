@@ -29,6 +29,8 @@ void testDenseAdd();
 
 void testDenseSub();
 
+void testDenseMult();
+
 
 // SparseMatrix unit tests
 

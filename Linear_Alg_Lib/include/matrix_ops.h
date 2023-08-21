@@ -13,7 +13,7 @@
 // must be equal length
 template <typename T>
 inline std::vector<T> operator+(const std::vector<T>& vec1, 
-						 const std::vector<T>& vec2) 
+								const std::vector<T>& vec2) 
 {
 	// Check that both vectors have the same size
 	if (vec1.size() != vec2.size()) 
@@ -31,7 +31,7 @@ inline std::vector<T> operator+(const std::vector<T>& vec1,
 // and vec2 must be equal length
 template <typename T>
 inline std::vector<T> operator-(const std::vector<T>& vec1,
-						 const std::vector<T>& vec2) 
+								const std::vector<T>& vec2) 
 {
 	// Check that both vectors have the same size
 	if (vec1.size() != vec2.size())
@@ -49,7 +49,7 @@ inline std::vector<T> operator-(const std::vector<T>& vec1,
 // the same StorageType as mat1
 template <typename T>
 inline DenseMatrix<T> operator+(const DenseMatrix<T>& mat1,
-						 const DenseMatrix<T>& mat2)
+								const DenseMatrix<T>& mat2)
 {
 	// Check that both matrices have the same dimensions
 	if (sameDimension(mat1, mat2)) 
@@ -90,8 +90,8 @@ inline DenseMatrix<T> operator+(const DenseMatrix<T>& mat1,
 // Subtraction overload for DenseMatrix class; returns a DenseMatrix with 
 // the same StorageType as mat1
 template <typename T>
-inline DenseMatrix<T> operator-(DenseMatrix<T>& mat1,
-						 DenseMatrix<T>& mat2) 
+inline DenseMatrix<T> operator-(const DenseMatrix<T>& mat1,
+								const DenseMatrix<T>& mat2) 
 {
 	// Check that both matrices have the same dimensions
 	if (sameDimension(mat1, mat2))
@@ -127,6 +127,17 @@ inline DenseMatrix<T> operator-(DenseMatrix<T>& mat1,
 	std::vector<T> result_data = mat1.getData() - data2_converted;
 	DenseMatrix<T> result(
 		result_data, mat1.getRows(), mat2.getCols(), mat1.getStorageType());
+	return result;
+}
+
+// Multiplication overload for DenseMatrix; returns a DenseMatrix with the 
+// the same storage type as mat1
+template <typename T>
+inline DenseMatrix<T> operator*(const DenseMatrix<T>& mat1, 
+								const DenseMatrix<T>& mat2)
+{
+	// TODO
+	DenseMatrix<T> result(3, 3);
 	return result;
 }
 

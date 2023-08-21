@@ -64,6 +64,46 @@ public:
 		_col_indices.resize(_num_nonzero);
 	}
 
+	// Returns _data vector
+	std::vector<T> getData() const
+	{
+		return _data;
+	}
+
+	// Returns _row_indices vector
+	std::vector<size_t> getRowIndices() const
+	{
+		return _row_indices;
+	}
+
+	// Returns _col_indices vector
+	std::vector<size_t> getColIndices() const
+	{
+		return _col_indices;
+	}
+
+	// Returns _num_nonzero
+	size_t getNumNonzero() const
+	{
+		return _num_nonzero;
+	}
+
+
+
+	// Prints matrix to cout:
+	/*
+		a  b  c  d
+		e  f  g  h
+		i  j  k  l
+		m  n  o  p
+	*/
+	// Ensures columns are aligned, even with different amounts of digits
+	// Doesn't work well with non integer types
+	void printMatrix() const
+	{
+		//TODO
+	}
+
 private:
 
 	// Vector to store non-zero data
