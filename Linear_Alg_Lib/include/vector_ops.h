@@ -5,7 +5,7 @@
 #include "ops_utils.h"
 
 // ------------------------------------------------------------------
-// Operator overloads for MathVector class
+// Operator overloads and other operations for MathVector class
 // ------------------------------------------------------------------
 
 // Insertion operator overload for MathVector class
@@ -36,7 +36,8 @@ inline MathVector<T> operator+(const MathVector<T>& vec1,
 		throw std::length_error(
 			"Can't add vectors, invalid dimensions");
 
-	std::vector<T> result_data = addStdVectors(vec1.getData(), vec2.getData());
+	std::vector<T> result_data = addStdVectors(
+		vec1.getData(), vec2.getData());
 	MathVector<T> result(result_data);
 	return result;
 }
@@ -74,6 +75,26 @@ inline T dotProduct(const MathVector<T>& vec1,
 	{
 		result += data1[i] * data2[i];
 	}
+	return result;
+}
+
+// Returns cross product of two given vectors; vectors both must 
+// of length 3, otherwise the cross product isn't defined
+// Note: Could cause issues with a MathVector<size_t>, as the cross 
+// product of two positive vectors can have negative values
+template <typename T>
+inline MathVector<T> crossProduct(const MathVector<T>& vec1,
+								  const MathVector<T>& vec2)
+{
+	if(vec1.getSize() != 3 || vec2.getSize() != 3)
+		throw std::length_error(
+			"Can't compute cross product, invalid dimensions");
+
+	T i_component = vec1[1] * vec2[2] - vec1[2] * vec2[1];
+	T j_component = vec1[2] * vec2[0] - vec1[0] * vec2[2];
+	T k_component = vec1[0] * vec2[1] - vec1[1] * vec2[0];
+
+	MathVector<T> result({ i_component, j_component, k_component });
 	return result;
 }
 

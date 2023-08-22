@@ -16,11 +16,15 @@ void testMathVector();
 
 void testMathVectorInsertion();
 
+void testMathVectorSubscript();
+
 void testMathVectorAdd();
 
 void testMathVectorSubtract();
 
 void testMathVectorDotProduct();
+
+void testMathVectorCrossProduct();
 
 
 // DenseMatrix unit tests

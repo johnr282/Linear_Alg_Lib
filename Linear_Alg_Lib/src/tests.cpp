@@ -15,9 +15,11 @@
 void testMathVector()
 {
 	// testMathVectorInsertion();
+	testMathVectorSubscript();
 	testMathVectorAdd();
 	testMathVectorSubtract();
 	testMathVectorDotProduct();
+	testMathVectorCrossProduct();
 
 	std::cout << "MathVector tests complete\n";
 }
@@ -27,6 +29,17 @@ void testMathVectorInsertion()
 	std::vector<int> data{ 0, 1, 4, 12, 1, 4, 10 };
 	MathVector<int> vector(data);
 	std::cout << vector;
+}
+
+void testMathVectorSubscript()
+{
+	std::vector<int> data1{ 0, 1, 2 };
+	const MathVector<int> vec1(data1);
+	assert(vec1[0] == 0);	
+
+	MathVector<int> vec2(data1);
+	vec2[1] = 5;
+	assert(vec2[1] == 5);
 }
 
 void testMathVectorAdd()
@@ -83,6 +96,24 @@ void testMathVectorDotProduct()
 	int result2 = 13;
 	assert(dotProduct(vec3, vec4) == result2);
 }
+
+void testMathVectorCrossProduct()
+{
+	std::vector<int> data1{ 4, 2, 6 };
+	std::vector<int> data2{ 1, 3, -1 };
+	MathVector<int> vec1(data1);
+	MathVector<int> vec2(data2);
+	std::vector<int> data3{ -20, 10, 10 };
+	assert(crossProduct(vec1, vec2).getData() == data3);
+
+	std::vector<int> data4{ 1, 3, -1 };
+	std::vector<int> data5{ 0, 0, 5 };
+	MathVector<int> vec4(data4);
+	MathVector<int> vec5(data5);
+	std::vector<int> data6{ 15, -5, 0 };
+	assert(crossProduct(vec4, vec5).getData() == data6);
+}
+
 
 
 

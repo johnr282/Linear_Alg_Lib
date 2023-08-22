@@ -34,6 +34,18 @@ public:
 		return _data.size();
 	}
 
+	// Subscript operator overload for MathVector class, const version
+	T operator[](int index) const
+	{
+		return _data[index];
+	}
+
+	// Subscript operator overload for MathVector class, non-const version
+	T& operator[](int index) 
+	{
+		return _data[index];
+	}
+
 
 private:
 
