@@ -19,9 +19,6 @@ public:
 		_size(rows_in* cols_in)
 	{ }
 
-	// All derived classes have some form of printMatrix() function
-	virtual void printMatrix() const = 0;
-
 	size_t getRows() const
 	{
 		return _rows;

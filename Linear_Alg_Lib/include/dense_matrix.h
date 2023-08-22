@@ -5,10 +5,12 @@
 #include "matrix.h"
 #include "matrix_utils.h"
 
+// ------------------------------------------------------------------
+// Templated class defining a matrix; stores all data, zero and 
+// nonzero, in one-dimensional array; supports both RowMajor and 
+// ColumnMajor storage, but defaults to ColumnMajor
+// ------------------------------------------------------------------
 
-// DenseMatrix class, derived from base Matrix class; stores all data, zero and nonzero,
-// in one-dimensional array; supports both RowMajor and ColumnMajor storage, but defaults
-// to ColumnMajor
 template <typename T>
 class DenseMatrix : public Matrix 
 {
@@ -62,42 +64,6 @@ public:
 	StorageType getStorageType() const 
 	{
 		return _storage_type;
-	}
-
-	// Prints matrix to cout in row major format, regardless of storage type: 
-	/*
-		a  b  c  d
-		e  f  g  h
-		i  j  k  l
-		m  n  o  p
-	*/
-	// Ensures columns are aligned, even with different amounts of digits
-	// Doesn't work well with non integer types
-	void printMatrix() const 
-	{
-		// Finds maximum number of digits in any element in matrix data
-		size_t max_digits = findMaxDigits(_data);
-
-		// Column width is largest number of digits + 2 spaces wide
-		size_t column_width = max_digits + 2;
-
-		// Get data vector into row major form to make printing easier
-		std::vector<T> row_maj_data = convertToRowMajorHelper(getData(), getRows(), getCols());
-
-		// Print matrix
-		for (size_t i = 0; i < getSize(); ++i) 
-		{
-			T curr_elt = row_maj_data[i];
-			size_t num_spaces = column_width - numDigits<T>(curr_elt);
-			std::cout << curr_elt;
-			printSpaces(num_spaces);
-
-			// Prints newline after every row
-			if (colIndex(i, getCols()) == getCols() - 1) 
-			{
-				std::cout << "\n";
-			}
-		}
 	}
 
 	// Converts storage type from column major to row major by rearranging data vector; 

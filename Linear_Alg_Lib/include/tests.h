@@ -10,6 +10,18 @@
 // Unit testing functions
 // ------------------------------------------------------------------
 
+// MathVector unit tests
+
+void testMathVector();
+
+void testMathVectorInsertion();
+
+void testMathVectorAdd();
+
+void testMathVectorSubtract();
+
+void testMathVectorDotProduct();
+
 
 // DenseMatrix unit tests
 
@@ -17,13 +29,13 @@ void testDenseMatrix();
 
 void testDenseMatrixCtor();
 
+void testDenseMatrixInsertion();
+
 void testDenseMatrixSetData();
 
 void testDenseMatrixConvertColMajor();
 
 void testDenseMatrixConvertRowMajor();
-
-void testDensePrintMatrix();
 
 void testDenseAdd();
 

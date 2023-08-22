@@ -15,25 +15,24 @@ enum class StorageType {
 	RowMajor
 };
 
-// Returns number of digits in val; used in printMatrix()
+// Returns number of digits in val
 template <typename T>
 inline size_t numDigits(T val)
 {
 	return (std::to_string(val)).size();
 }
 
-
-// Prints n spaces to cout; used in printMatrix()
-inline void printSpaces(const size_t n)
+// Prints n spaces to given stream
+inline void printSpaces(std::ostream& stream, 
+						const size_t n)
 {
 	for (size_t i = 0; i < n; ++i) 
 	{
-		std::cout << " ";
+		stream << " ";
 	}
 }
 
-// Returns maximum number of digits in any single number in given vector; 
-// used in printMatrix()
+// Returns maximum number of digits in any single number in given vector
 template <typename T>
 inline size_t findMaxDigits(const std::vector<T>& data)
 {

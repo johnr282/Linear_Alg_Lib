@@ -1,5 +1,6 @@
 #include "../include/tests.h"
 #include "../include/matrix_ops.h"
+#include "../include/vector_ops.h"
 #include "../include/sparse_matrix.h"
 #include "../include/dense_matrix.h"
 #include "../include/tests_utils.h"
@@ -7,6 +8,84 @@
 // ------------------------------------------------------------------
 // Implementations of unit testing functions
 // ------------------------------------------------------------------
+
+// MathVector unit tests
+
+// Runs all MathVector unit tests
+void testMathVector()
+{
+	// testMathVectorInsertion();
+	testMathVectorAdd();
+	testMathVectorSubtract();
+	testMathVectorDotProduct();
+
+	std::cout << "MathVector tests complete\n";
+}
+
+void testMathVectorInsertion()
+{
+	std::vector<int> data{ 0, 1, 4, 12, 1, 4, 10 };
+	MathVector<int> vector(data);
+	std::cout << vector;
+}
+
+void testMathVectorAdd()
+{
+	std::vector<int> data1{ 0, 1, 0, 2, 2, 0 };
+	std::vector<int> data2{ 1, 2, 0, 0, 1, 0 };
+	MathVector<int> vec1(data1);
+	MathVector<int> vec2(data2);
+	std::vector<int> data3{ 1, 3, 0, 2, 3, 0 };
+	MathVector<int> vec3 = vec1 + vec2;
+	assert(vec3.getData() == data3);
+
+	std::vector<int> data4{ 1, 1, 3, 0 };
+	std::vector<int> data5{ 0, 1, 5, 4 };
+	MathVector<int> vec4(data4);
+	MathVector<int> vec5(data5);
+	std::vector<int> data6{ 1, 2, 8, 4 };
+	MathVector<int> vec6 = vec4 + vec5;
+	assert(vec6.getData() == data6);
+}
+
+void testMathVectorSubtract()
+{
+	std::vector<int> data1{ 0, 1, 0, 2, 2, 0 };
+	std::vector<int> data2{ 1, 2, 0, 0, 1, 0 };
+	MathVector<int> vec1(data1);
+	MathVector<int> vec2(data2);
+	std::vector<int> data3{ -1, -1, 0, 2, 1, 0 };
+	MathVector<int> vec3 = vec1 - vec2;
+	assert(vec3.getData() == data3);
+
+	std::vector<int> data4{ 1, 1, 3, 0 };
+	std::vector<int> data5{ 0, 1, 5, 4 };
+	MathVector<int> vec4(data4);
+	MathVector<int> vec5(data5);
+	std::vector<int> data6{ 1, 0, -2, -4 };
+	MathVector<int> vec6 = vec4 - vec5;
+	assert(vec6.getData() == data6);
+}
+
+void testMathVectorDotProduct()
+{
+	std::vector<int> data1{ 0, 1, 0, 2, 2, 0 };
+	std::vector<int> data2{ 1, 2, 0, 0, 1, 0 };
+	MathVector<int> vec1(data1);
+	MathVector<int> vec2(data2);
+	int result1 = 4;
+	assert(dotProduct(vec1, vec2) == result1);
+
+	std::vector<int> data3{ 1, 1, 2, 0, 3 };
+	std::vector<int> data4{ 0, 3, 5, 1, 0 };
+	MathVector<int> vec3(data3);
+	MathVector<int> vec4(data4);
+	int result2 = 13;
+	assert(dotProduct(vec3, vec4) == result2);
+}
+
+
+
 
 
 // DenseMatrix unit tests
@@ -18,11 +97,11 @@ void testDenseMatrix()
 	testDenseMatrixSetData();
 	testDenseMatrixConvertColMajor();
 	testDenseMatrixConvertRowMajor();
-	// testDensePrintMatrix();
+	//testDenseMatrixInsertion();
 	testDenseAdd();
 	testDenseSub();
 
-	std::cout << "Dense matrix tests complete\n";
+	std::cout << "DenseMatrix tests complete\n";
 }
 
 // Dense Matrix constructor tests
@@ -56,6 +135,45 @@ void testDenseMatrixCtor()
 	assert(mat4.getSize() == 36);
 	assert(mat4.getStorageType() == StorageType::RowMajor);
 }
+
+void testDenseMatrixInsertion()
+{
+	std::vector<int> data1(9);
+	std::iota(data1.begin(), data1.end(), 0);
+	DenseMatrix<int> mat1(data1, 3, 3, StorageType::RowMajor);
+	std::cout << mat1;
+	std::cout << "\n";
+
+	DenseMatrix<int> mat1_col(data1, 3, 3, StorageType::ColumnMajor);
+	std::cout << mat1_col;
+	std::cout << "\n";
+
+	std::vector<int> data2{ 23, 0, 0, 0 };
+	DenseMatrix<int> mat2(data2, 2, 2);
+	std::cout << mat2;
+	std::cout << "\n";
+
+	std::vector<int> data3{ -25, 1, 23, 0, 0, 0 };
+	DenseMatrix<int> mat3(data3, 2, 3);
+	std::cout << mat3;
+	std::cout << "\n";
+
+	std::vector<int> data4{ -1, 9999, 0, 0, 0, 0 };
+	DenseMatrix<int> mat4(data4, 3, 2);
+	std::cout << mat4;
+	std::cout << "\n";
+
+	std::vector<size_t> data5(144);
+	std::iota(data5.begin(), data5.end(), 0);
+	DenseMatrix<size_t> mat5(data5, 12, 12);
+	std::cout << mat5;
+	std::cout << "\n";
+
+	DenseMatrix<size_t> mat5_row(data5, 12, 12, StorageType::RowMajor);
+	std::cout << mat5_row;
+	std::cout << "\n";
+}
+
 
 void testDenseMatrixSetData() 
 {
@@ -139,44 +257,6 @@ void testDenseMatrixConvertRowMajor()
 	DenseMatrix<int> mat5(data4, 1, 4);
 	mat4.convertToRowMajor();
 	assert(mat5.getData() == data4);
-}
-
-void testDensePrintMatrix() 
-{
-	std::vector<int> data1(9);
-	std::iota(data1.begin(), data1.end(), 0);
-	DenseMatrix<int> mat1(data1, 3, 3, StorageType::RowMajor);
-	mat1.printMatrix();
-	std::cout << "\n";
-
-	DenseMatrix<int> mat1_col(data1, 3, 3, StorageType::ColumnMajor);
-	mat1_col.printMatrix();
-	std::cout << "\n";
-
-	std::vector<int> data2{ 23, 0, 0, 0 };
-	DenseMatrix<int> mat2(data2, 2, 2);
-	mat2.printMatrix();
-	std::cout << "\n";
-
-	std::vector<int> data3{ -25, 1, 23, 0, 0, 0 };
-	DenseMatrix<int> mat3(data3, 2, 3);
-	mat3.printMatrix();
-	std::cout << "\n";
-
-	std::vector<int> data4{ -1, 9999, 0, 0, 0, 0 };
-	DenseMatrix<int> mat4(data4, 3, 2);
-	mat4.printMatrix();
-	std::cout << "\n";
-
-	std::vector<size_t> data5(144);
-	std::iota(data5.begin(), data5.end(), 0);
-	DenseMatrix<size_t> mat5(data5, 12, 12);
-	mat5.printMatrix();
-	std::cout << "\n";
-
-	DenseMatrix<size_t> mat5_row(data5, 12, 12, StorageType::RowMajor);
-	mat5_row.printMatrix();
-	std::cout << "\n";
 }
 
 void testDenseAdd() 

@@ -3,7 +3,7 @@
 
 
 int	main(int argc, char* argv[]) {
+	testMathVector();
 	testDenseMatrix();
-	testSparseMatrix();
 	return 0;
 }

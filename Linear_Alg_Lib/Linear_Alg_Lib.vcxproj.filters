@@ -38,10 +38,16 @@
     <ClInclude Include="include\matrix_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\matrix_ops_utils.h">
+    <ClInclude Include="include\tests_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\tests_utils.h">
+    <ClInclude Include="include\math_vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vector_ops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ops_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
