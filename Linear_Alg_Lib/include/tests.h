@@ -26,6 +26,8 @@ void testMathVectorDotProduct();
 
 void testMathVectorCrossProduct();
 
+void testMathVectorMagnitude();
+
 
 // DenseMatrix unit tests
 

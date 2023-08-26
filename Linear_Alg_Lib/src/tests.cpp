@@ -1,9 +1,12 @@
 #include "../include/tests.h"
+
 #include "../include/matrix_ops.h"
 #include "../include/vector_ops.h"
 #include "../include/sparse_matrix.h"
 #include "../include/dense_matrix.h"
 #include "../include/tests_utils.h"
+#include "../include/lib_utils.h"
+
 
 // ------------------------------------------------------------------
 // Implementations of unit testing functions
@@ -20,6 +23,7 @@ void testMathVector()
 	testMathVectorSubtract();
 	testMathVectorDotProduct();
 	testMathVectorCrossProduct();
+	testMathVectorMagnitude();
 
 	std::cout << "MathVector tests complete\n";
 }
@@ -114,7 +118,23 @@ void testMathVectorCrossProduct()
 	assert(crossProduct(vec4, vec5).getData() == data6);
 }
 
+void testMathVectorMagnitude()
+{
+	std::vector<int> data1{ 0, 1, 4 };
+	MathVector<int> vec1(data1);
+	double result1 = 4.123105626;
+	assert(areEqual(result1, vec1.magnitude()));
 
+	std::vector<double> data2{ 1.3902, 0.213, 2.493, 5.343 };
+	MathVector<double> vec2(data2);
+	double result2 = 6.061412627;
+	assert(areEqual(result2, vec2.magnitude()));
+
+	std::vector<int> data3{ 0, 0, 0 };
+	MathVector<int> vec3(data3);
+	double result3 = 0.0;
+	assert(areEqual(result3, vec3.magnitude()));
+}
 
 
 

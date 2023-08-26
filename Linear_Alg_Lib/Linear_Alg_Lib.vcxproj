@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\dense_matrix.h" />
+    <ClInclude Include="include\lib_utils.h" />
     <ClInclude Include="include\math_vector.h" />
     <ClInclude Include="include\matrix.h" />
     <ClInclude Include="include\matrix_ops.h" />
@@ -142,6 +143,7 @@
     <ClInclude Include="include\vector_ops.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\lib_utils.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\tests.cpp" />
   </ItemGroup>

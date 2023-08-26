@@ -2,6 +2,7 @@
 #define MATH_VECTOR_H
 
 #include <vector>
+#include <cmath>
 
 // ------------------------------------------------------------------
 // Templated class defining a column vector
@@ -45,6 +46,13 @@ public:
 	{
 		return _data[index];
 	}
+
+	// Returns the magnitude of the vector
+	double magnitude() const
+	{
+		return std::sqrt(dotProduct(*this, *this));
+	}
+
 
 
 private:
