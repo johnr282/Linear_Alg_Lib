@@ -1,10 +1,10 @@
-#include "../include/tests.h"
+#include "tests.h"
 
+#include "tests_utils.h"
 #include "../include/matrix_ops.h"
 #include "../include/vector_ops.h"
 #include "../include/sparse_matrix.h"
 #include "../include/dense_matrix.h"
-#include "../include/tests_utils.h"
 #include "../include/lib_utils.h"
 
 using namespace LinAlg;

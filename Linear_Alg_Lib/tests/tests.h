@@ -3,8 +3,8 @@
 
 #include <cassert>
 #include <numeric>
-#include "dense_matrix.h"
-#include "sparse_matrix.h"
+#include "../include/dense_matrix.h"
+#include "../include/sparse_matrix.h"
 
 // ------------------------------------------------------------------
 // Unit testing functions
