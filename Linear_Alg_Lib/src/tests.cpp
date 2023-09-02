@@ -7,6 +7,7 @@
 #include "../include/tests_utils.h"
 #include "../include/lib_utils.h"
 
+using namespace LinAlg;
 
 // ------------------------------------------------------------------
 // Implementations of unit testing functions

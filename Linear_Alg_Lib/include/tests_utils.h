@@ -5,6 +5,8 @@
 #include "sparse_matrix.h"
 #include "lib_utils.h"
 
+using namespace LinAlg;
+
 // ------------------------------------------------------------------
 // Helpers for unit testing
 // ------------------------------------------------------------------
