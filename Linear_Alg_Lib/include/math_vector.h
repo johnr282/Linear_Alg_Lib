@@ -4,6 +4,8 @@
 #include <vector>
 #include <cmath>
 
+#include "lib_utils.h"
+
 // ------------------------------------------------------------------
 // Templated class defining a column vector
 // ------------------------------------------------------------------
@@ -53,16 +55,31 @@ public:
 		return std::sqrt(dotProduct(*this, *this));
 	}
 
+	// Returns normalized unit vector, or returns zero vector if this is
+	// a zero vector
+	MathVector<double> getUnitVector() const
+	{
+		double mag = magnitude();
+		if (areEqual(0, mag))
+		{
+			std::vector<double> zero_vec(_data.size(), 0);
+			return MathVector<double>(zero_vec);
+		}
 
+		std::vector<double> normalized_data(_data.size());
+		for (size_t i = 0; i < normalized_data.size(); ++i)
+		{
+			normalized_data[i] = static_cast<double>(_data[i]) / mag;
+		}
 
+		MathVector<double> unit_vector(normalized_data);
+		return unit_vector;
+	}
+	
 private:
 
 	// Stores data in the column vector
 	std::vector<T> _data;
 };
-
-
-
-
 
 #endif
