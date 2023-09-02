@@ -1,8 +1,8 @@
-#include "sparse_matrix_tests.h"
+#include "../include/sparse_matrix_tests.h"
 
 #include <cassert>
-#include "tests_utils.h"
-#include "../include/sparse_matrix.h"
+#include "../include/tests_utils.h"
+#include "../../include/sparse_matrix.h"
 
 using namespace LinAlg;
 

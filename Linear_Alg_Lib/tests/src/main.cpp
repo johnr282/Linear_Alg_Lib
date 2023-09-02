@@ -1,6 +1,6 @@
 #include <iostream>
-#include "math_vector_tests.h"
-#include "dense_matrix_tests.h"
+#include "../include/math_vector_tests.h"
+#include "../include/dense_matrix_tests.h"
 
 // ------------------------------------------------------------------
 // Runs all tests

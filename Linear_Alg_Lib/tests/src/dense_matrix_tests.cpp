@@ -1,10 +1,10 @@
-#include "dense_matrix_tests.h"
+#include "../include/dense_matrix_tests.h"
 
 #include <cassert>
 #include <numeric>
-#include "tests_utils.h"
-#include "../include/dense_matrix.h"
-#include "../include/matrix_ops.h"
+#include "../include/tests_utils.h"
+#include "../../include/dense_matrix.h"
+#include "../../include/matrix_ops.h"
 
 using namespace LinAlg;
 

@@ -139,19 +139,17 @@
     <ClInclude Include="include\matrix_utils.h" />
     <ClInclude Include="include\ops_utils.h" />
     <ClInclude Include="include\sparse_matrix.h" />
-    <ClInclude Include="tests\dense_matrix_tests.h" />
-    <ClInclude Include="tests\math_vector_tests.h" />
-    <ClInclude Include="tests\sparse_matrix_tests.h" />
-    <ClInclude Include="tests\tests.h" />
-    <ClInclude Include="tests\tests_utils.h" />
+    <ClInclude Include="tests\include\dense_matrix_tests.h" />
+    <ClInclude Include="tests\include\math_vector_tests.h" />
+    <ClInclude Include="tests\include\sparse_matrix_tests.h" />
+    <ClInclude Include="tests\include\tests_utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lib_utils.cpp" />
-    <ClCompile Include="tests\dense_matrix_tests.cpp" />
-    <ClCompile Include="tests\main.cpp" />
-    <ClCompile Include="tests\math_vector_tests.cpp" />
-    <ClCompile Include="tests\sparse_matrix_tests.cpp" />
-    <ClCompile Include="tests\tests.cpp" />
+    <ClCompile Include="tests\src\dense_matrix_tests.cpp" />
+    <ClCompile Include="tests\src\main.cpp" />
+    <ClCompile Include="tests\src\math_vector_tests.cpp" />
+    <ClCompile Include="tests\src\sparse_matrix_tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

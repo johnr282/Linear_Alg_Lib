@@ -1,9 +1,9 @@
 #ifndef TESTS_UTILS_H
 #define TESTS_UTILS_H
 
-#include "../include/dense_matrix.h"
-#include "../include/sparse_matrix.h"
-#include "../include/lib_utils.h"
+#include "../../include/dense_matrix.h"
+#include "../../include/sparse_matrix.h"
+#include "../../include/lib_utils.h"
 
 using namespace LinAlg;
 

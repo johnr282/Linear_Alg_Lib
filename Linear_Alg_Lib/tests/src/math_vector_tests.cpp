@@ -1,10 +1,10 @@
-#include "math_vector_tests.h"
+#include "../include/math_vector_tests.h"
 
 #include <cassert>
-#include "tests_utils.h"
-#include "../include/math_vector.h"
-#include "../include/math_vector_ops.h"
-#include "../include/lib_utils.h"
+#include "../include/tests_utils.h"
+#include "../../include/math_vector.h"
+#include "../../include/math_vector_ops.h"
+#include "../../include/lib_utils.h"
 
 using namespace LinAlg;
 
@@ -15,7 +15,7 @@ using namespace LinAlg;
 // Runs all MathVector unit tests
 void testMathVector()
 {
-	// testMathVectorInsertion();
+	//testMathVectorInsertion();
 	testMathVectorSubscript();
 	testMathVectorAdd();
 	testMathVectorSubtract();
