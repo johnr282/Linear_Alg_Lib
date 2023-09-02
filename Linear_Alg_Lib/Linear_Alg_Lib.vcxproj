@@ -133,18 +133,24 @@
     <ClInclude Include="include\dense_matrix.h" />
     <ClInclude Include="include\lib_utils.h" />
     <ClInclude Include="include\math_vector.h" />
+    <ClInclude Include="include\math_vector_ops.h" />
     <ClInclude Include="include\matrix.h" />
     <ClInclude Include="include\matrix_ops.h" />
     <ClInclude Include="include\matrix_utils.h" />
     <ClInclude Include="include\ops_utils.h" />
     <ClInclude Include="include\sparse_matrix.h" />
-    <ClInclude Include="include\vector_ops.h" />
+    <ClInclude Include="tests\dense_matrix_tests.h" />
+    <ClInclude Include="tests\math_vector_tests.h" />
+    <ClInclude Include="tests\sparse_matrix_tests.h" />
     <ClInclude Include="tests\tests.h" />
     <ClInclude Include="tests\tests_utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lib_utils.cpp" />
+    <ClCompile Include="tests\dense_matrix_tests.cpp" />
     <ClCompile Include="tests\main.cpp" />
+    <ClCompile Include="tests\math_vector_tests.cpp" />
+    <ClCompile Include="tests\sparse_matrix_tests.cpp" />
     <ClCompile Include="tests\tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

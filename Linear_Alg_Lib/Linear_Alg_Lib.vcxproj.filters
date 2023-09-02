@@ -38,9 +38,6 @@
     <ClInclude Include="include\math_vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\vector_ops.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ops_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -53,6 +50,18 @@
     <ClInclude Include="tests\tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tests\dense_matrix_tests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\math_vector_tests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\sparse_matrix_tests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math_vector_ops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lib_utils.cpp">
@@ -62,6 +71,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tests\tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\dense_matrix_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\math_vector_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\sparse_matrix_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
