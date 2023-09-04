@@ -12,24 +12,24 @@
 
 namespace LinAlg
 {
-	template <typename T>
+	template <typename DataType>
 	class MathVector
 	{
 	public:
 
 		// Constructor
-		MathVector(const std::vector<T>& data_in) :
+		MathVector(const std::vector<DataType>& data_in) :
 			_data(data_in)
 		{ }
 
 		// Getter and setter functions
 
-		std::vector<T> getData() const
+		std::vector<DataType> getData() const
 		{
 			return _data;
 		}
 
-		void setData(const std::vector<T>& data_in)
+		void setData(const std::vector<DataType>& data_in)
 		{
 			_data = data_in;
 		}
@@ -40,13 +40,13 @@ namespace LinAlg
 		}
 
 		// Subscript operator overload for MathVector class, const version
-		T operator[](int index) const
+		DataType operator[](int index) const
 		{
 			return _data[index];
 		}
 
 		// Subscript operator overload for MathVector class, non-const version
-		T& operator[](int index)
+		DataType& operator[](int index)
 		{
 			return _data[index];
 		}
@@ -59,7 +59,7 @@ namespace LinAlg
 
 		// Returns normalized unit vector, or returns zero vector if this is
 		// a zero vector
-		MathVector<double> getUnitVector() const
+		MathVector<double> normalize() const
 		{
 			double mag = magnitude();
 			if (areEqual(0, mag))
@@ -81,7 +81,7 @@ namespace LinAlg
 	private:
 
 		// Stores data in the column vector
-		std::vector<T> _data;
+		std::vector<DataType> _data;
 	};
 }
 

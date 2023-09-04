@@ -13,17 +13,17 @@
 
 namespace LinAlg
 {
-	template <typename T>
-	class DenseMatrix : public Matrix
+	template <typename DataType>
+	class DenseMatrix : public Matrix<DataType, DenseMatrix<DataType> >
 	{
 	public:
 
 		// Constructor
-		DenseMatrix(const std::vector<T>& data_in,
+		DenseMatrix(const std::vector<DataType>& data_in,
 			const size_t rows_in,
 			const size_t cols_in,
 			const StorageType storage_type_in = StorageType::ColumnMajor) :
-			Matrix(rows_in, cols_in),
+			Matrix<DataType, DenseMatrix<DataType> >(rows_in, cols_in),
 			_data(data_in),
 			_storage_type(storage_type_in)
 		{
@@ -39,24 +39,24 @@ namespace LinAlg
 		DenseMatrix(const size_t rows_in,
 			const size_t cols_in,
 			const StorageType storage_type_in = StorageType::ColumnMajor) :
-			Matrix(rows_in, cols_in),
+			Matrix<DataType, DenseMatrix<DataType> >(rows_in, cols_in),
 			_storage_type(storage_type_in)
 		{
-			std::vector<T> data_in(rows_in * cols_in);
+			std::vector<DataType> data_in(rows_in * cols_in);
 			_data = data_in;
 		}
 
 		// Getter and setter functions
 
-		std::vector<T> getData() const
+		std::vector<DataType> getData() const
 		{
 			return _data;
 		}
 
-		void setData(const std::vector<T>& data_in)
+		void setData(const std::vector<DataType>& data_in)
 		{
 			// Check that data_in vector matches matrix size
-			if (data_in.size() != getSize())
+			if (data_in.size() != this->getSize())
 			{
 				throw std::length_error("Size of input data vector must match size of matrix");
 			}
@@ -75,7 +75,8 @@ namespace LinAlg
 			if (_storage_type == StorageType::RowMajor)
 				return;
 
-			_data = convertToRowMajorHelper(getData(), getRows(), getCols());
+			_data = convertToRowMajorHelper(
+				this->getData(), this->getRows(), this->getCols());
 			_storage_type = StorageType::RowMajor;
 		}
 
@@ -86,14 +87,55 @@ namespace LinAlg
 			if (_storage_type == StorageType::ColumnMajor)
 				return;
 
-			_data = convertToColMajorHelper(getData(), getRows(), getCols());
+			_data = convertToColMajorHelper(
+				this->getData(), this->getRows(), this->getCols());
 			_storage_type = StorageType::ColumnMajor;
+		}
+
+		// Returns transpose of matrix
+		DenseMatrix<DataType> tranpose() const override
+		{
+			// TODO
+			return *this;
+		}
+
+		// Calculates determinant of matrix and puts it in DataType parameter; 
+		// only returns false if matrix is not square
+		bool determinant(DataType& det) const override
+		{
+			// TODO
+			return false;
+		}
+
+		// Returns whether matrix is invertible
+		bool isInvertible() const override
+		{
+			// TODO
+			return false;
+		}
+
+		// Calculates inverse of matrix and puts it in MatrixType parameter;
+		// returns whether the matrix is invertible
+		bool inverse(DenseMatrix<DataType>& inv) const override
+		{
+			// TODO
+			return false;
+		}
+
+		// Calculates eigenvectors and eigenvalues of matrix; puts eigenvectors
+		// in eigenvecs parameter and eigenvalues in eigenvals parameter; 
+		// eigenvecs[i]'s eigenvalue is eigenvals[i]
+		bool eigenvectors(std::vector<MathVector<double> >& eigenvecs,
+						  std::vector<double>& eigenvals) const override
+		{
+			// TODO
+			return false;
 		}
 
 	private:
 
 		// Vector to store data 
-		std::vector<T> _data;
+		std::vector<DataType> _data;
 
 		// Determines method of data storage, either column major or row major
 		// Column major by default

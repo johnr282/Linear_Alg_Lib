@@ -21,6 +21,6 @@ void testMathVectorCrossProduct();
 
 void testMathVectorMagnitude();
 
-void testMathVectorGetUnitVector();
+void testMathVectorNormalize();
 
 #endif

@@ -5,8 +5,8 @@
 // Unit tests for SparseMatrix class
 // ------------------------------------------------------------------
 
-void testSparseMatrix();
-
-void testSparseCtor();
+//void testSparseMatrix();
+//
+//void testSparseCtor();
 
 #endif

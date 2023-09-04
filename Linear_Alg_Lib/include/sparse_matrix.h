@@ -12,19 +12,19 @@
 
 namespace LinAlg
 {
-	template <typename T>
-	class SparseMatrix : public Matrix
+	template <typename DataType>
+	class SparseMatrix : public Matrix<DataType, SparseMatrix<DataType> >
 	{
 	public:
 
 		// Constructor with three input vectors; one _data, one _row_indices, and one
 		// _col_indices vector; the data vector should only contain non-zero values
-		SparseMatrix(const std::vector<T>& data_in,
+		SparseMatrix(const std::vector<DataType>& data_in,
 			const std::vector<size_t>& row_indices_in,
 			const std::vector<size_t>& col_indices_in,
 			const size_t rows_in,
 			const size_t cols_in) :
-			Matrix(rows_in, cols_in),
+			Matrix<DataType, SparseMatrix<DataType> >(rows_in, cols_in),
 			_data(data_in),
 			_row_indices(row_indices_in),
 			_col_indices(col_indices_in),
@@ -34,11 +34,11 @@ namespace LinAlg
 		// Constructor with only one input vector; this vector contains every element
 		// in the matrix, including zero values
 		// The input vector's storage type is equal to the given storage type
-		SparseMatrix(const std::vector<T>& data_in,
+		SparseMatrix(const std::vector<DataType>& data_in,
 			const StorageType storage_type_in,
 			const size_t rows_in,
 			const size_t cols_in) :
-			Matrix(rows_in, cols_in)
+			Matrix<DataType, SparseMatrix<DataType> >(rows_in, cols_in)
 		{
 			// If data_in is not row major, convert it to row major
 			if (storage_type_in == StorageType::ColumnMajor)
@@ -50,7 +50,7 @@ namespace LinAlg
 			_num_nonzero = 0;
 			for (size_t i = 0; i < data_in.size(); ++i)
 			{
-				T elt = data_in[i];
+				DataType elt = data_in[i];
 				if (elt != 0)
 				{
 					size_t row = rowIndex(i, cols_in);
@@ -69,7 +69,7 @@ namespace LinAlg
 		}
 
 		// Returns _data vector
-		std::vector<T> getData() const
+		std::vector<DataType> getData() const
 		{
 			return _data;
 		}
@@ -111,7 +111,7 @@ namespace LinAlg
 	private:
 
 		// Vector to store non-zero data
-		std::vector<T> _data;
+		std::vector<DataType> _data;
 
 		// Vectors to store row and column indices; the three vectors _data, _row_indices, 
 		// and _col_indices will always be the same size
