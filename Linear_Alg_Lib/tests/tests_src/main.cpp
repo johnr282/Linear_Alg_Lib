@@ -9,5 +9,7 @@
 int	main(int argc, char* argv[]) {
 	testMathVector();
 	testDenseMatrix();
+
+	std::cout << "All tests complete\n";
 	return 0;
 }

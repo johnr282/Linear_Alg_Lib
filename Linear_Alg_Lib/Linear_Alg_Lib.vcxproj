@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\dense_matrix.h" />
+    <ClInclude Include="include\exceptions.h" />
     <ClInclude Include="include\lib_utils.h" />
     <ClInclude Include="include\math_vector.h" />
     <ClInclude Include="include\math_vector_ops.h" />

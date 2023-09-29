@@ -64,8 +64,7 @@ namespace LinAlg
 	{
 		// Check that both matrices have the same dimensions
 		if (!sameDimension(mat1, mat2))
-			throw std::length_error(
-				"Can't add matrices, invalid dimensions");
+			throw InvalidDimensions("Matrix addition");
 
 		// Check that both matrices have the same storage format
 		if (mat1.getStorageType() == mat2.getStorageType())
@@ -107,8 +106,7 @@ namespace LinAlg
 	{
 		// Check that both matrices have the same dimensions
 		if (!sameDimension(mat1, mat2))
-			throw std::length_error(
-				"Can't subtract matrices, invalid dimensions");
+			throw InvalidDimensions("Matrix subtraction");
 
 		// Check that both matrices have the same storage format
 		if (mat1.getStorageType() == mat2.getStorageType())
@@ -152,8 +150,7 @@ namespace LinAlg
 		const DenseMatrix<T>& mat2)
 	{
 		if (mat1.getCols() != mat2.getRows())
-			throw std::length_error(
-				"Can't multiply matrices, invalid dimensions");
+			throw InvalidDimensions("Matrix multiplication");
 
 
 

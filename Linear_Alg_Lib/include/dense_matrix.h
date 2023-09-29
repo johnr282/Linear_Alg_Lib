@@ -4,6 +4,7 @@
 #include <vector>
 #include "matrix.h"
 #include "matrix_utils.h"
+#include "exceptions.h"
 
 // ------------------------------------------------------------------
 // Templated class defining a matrix; stores all data, zero and 
@@ -30,8 +31,7 @@ namespace LinAlg
 			// Check that size of data vector matches rows_in * cols_in
 			if (data_in.size() != rows_in * cols_in)
 			{
-				throw std::length_error(
-					"Size of input vector must equal number of rows times number of columns");
+				throw InvalidDimensions("DenseMatrix()");
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace LinAlg
 			// Check that data_in vector matches matrix size
 			if (data_in.size() != this->getSize())
 			{
-				throw std::length_error("Size of input data vector must match size of matrix");
+				throw InvalidDimensions("setData()");
 			}
 			_data = data_in;
 		}

@@ -35,8 +35,7 @@ namespace LinAlg
 		const MathVector<T>& vec2)
 	{
 		if (vec1.getSize() != vec2.getSize())
-			throw std::length_error(
-				"Can't add vectors, invalid dimensions");
+			throw InvalidDimensions("Vector addition");
 
 		std::vector<T> result_data = addStdVectors(
 			vec1.getData(), vec2.getData());
@@ -50,8 +49,7 @@ namespace LinAlg
 		const MathVector<T>& vec2)
 	{
 		if (vec1.getSize() != vec2.getSize())
-			throw std::length_error(
-				"Can't add vectors, invalid dimensions");
+			throw InvalidDimensions("Vector subtraction");
 
 		std::vector<T> result_data = subtractStdVectors(
 			vec1.getData(), vec2.getData());
@@ -66,8 +64,7 @@ namespace LinAlg
 		const MathVector<T>& vec2)
 	{
 		if (vec1.getSize() != vec2.getSize())
-			throw std::length_error(
-				"Can't compute dot product, invalid dimensions");
+			throw InvalidDimensions("dotProduct()");
 
 		std::vector<T> data1 = vec1.getData();
 		std::vector<T> data2 = vec2.getData();
@@ -89,8 +86,7 @@ namespace LinAlg
 		const MathVector<T>& vec2)
 	{
 		if (vec1.getSize() != 3 || vec2.getSize() != 3)
-			throw std::length_error(
-				"Can't compute cross product, invalid dimensions");
+			throw InvalidDimensions("crossProduct()");
 
 		T i_component = vec1[1] * vec2[2] - vec1[2] * vec2[1];
 		T j_component = vec1[2] * vec2[0] - vec1[0] * vec2[2];
