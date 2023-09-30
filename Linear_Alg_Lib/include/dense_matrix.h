@@ -114,7 +114,7 @@ namespace LinAlg
 			if (invalid_index)
 				throw OutOfBounds("DenseMatrix::row()");
 
-			std::vector<DataType> row_data;
+			std::vector<DataType> row_data(this->_cols);
 
 			if (_storage_type == StorageType::RowMajor)
 			{
@@ -127,8 +127,6 @@ namespace LinAlg
 			else
 			{
 				std::vector<size_t> row_indices = rowIndices(row_index);
-				std::vector<DataType> row_data(this->_rows);
-
 				for (size_t i = 0; i < row_data.size(); ++i)
 				{
 					size_t row_elt_index = row_indices[i];
@@ -155,7 +153,7 @@ namespace LinAlg
 			if (invalid_index)
 				throw OutOfBounds("DenseMatrix::setRow()");
 
-			bool invalid_row = (new_row.getSize() != this->_rows);
+			bool invalid_row = (new_row.getSize() != this->_cols);
 			if (invalid_row)
 				throw InvalidDimensions("DenseMatrix::setRow()");
 
@@ -257,13 +255,13 @@ namespace LinAlg
 		// assumes _storage_type is ColumnMajor and row_index is in bounds
 		std::vector<size_t> rowIndices(const size_t row_index) const
 		{
-			std::vector<size_t> row_indices(this->_rows);
+			std::vector<size_t> row_indices(this->_cols);
 			size_t row_elt_index = row_index;
 
 			for (size_t i = 0; i < row_indices.size(); ++i)
 			{
-				row_indices[i] = row_index;
-				row_elt_index += this->_cols;
+				row_indices[i] = row_elt_index;
+				row_elt_index += this->_rows;
 			}
 
 			return row_indices;
