@@ -46,6 +46,18 @@ namespace LinAlg
 			_data = data_in;
 		}
 
+		// Returns element at location (row, col), const version
+		DataType at(size_t row, size_t col) const override
+		{
+			return atHelper(row, col);
+		}
+
+		// Returns element at location (row, col), non-const version
+		DataType at(size_t row, size_t col) override
+		{
+			return atHelper(row, col);
+		}
+
 		// Getter and setter functions
 
 		std::vector<DataType> getData() const
@@ -133,6 +145,18 @@ namespace LinAlg
 		}
 
 	private:
+
+		DataType atHelper(size_t row, size_t col) const
+		{
+			bool invalid_index = (row >= this->_rows) || (col >= this->_cols);
+			if (invalid_index)
+				throw OutOfBounds("in DenseMatrix::at()");
+
+			if (_storage_type == StorageType::RowMajor)
+				return _data[row * this->_cols + col];
+			else // _storage_type == StorageType::ColumnMajor
+				return _data[col * this->_rows + row];
+		}
 
 		// Vector to store data 
 		std::vector<DataType> _data;

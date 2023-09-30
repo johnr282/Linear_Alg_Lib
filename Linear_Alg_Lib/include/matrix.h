@@ -51,6 +51,24 @@ namespace LinAlg
 			return _rows == _cols;
 		}
 
+		// Returns element at location (row, col), const version
+		virtual DataType at(size_t row, size_t col) const = 0;
+
+		// Returns element at location (row, col), non-const version
+		virtual DataType at(size_t row, size_t col) = 0;
+
+		//// Returns row i as a MathVector, const version
+		//virtual MathVector<DataType> row(size_t i) const = 0;
+
+		//// Returns row i as a MathVector, non-const version
+		//virtual MathVector<DataType> row(size_t i) = 0;
+
+		//// Returns col j as a MathVector, const version
+		//virtual MathVector<DataType> col(size_t j) const = 0;
+
+		//// Returns col j as a MathVector, non-const version
+		//virtual MathVector<DataType> col(size_t j) = 0;
+
 		// Returns transpose of matrix
 		virtual MatrixType tranpose() const = 0;
 
@@ -71,7 +89,7 @@ namespace LinAlg
 		virtual bool eigenvectors(std::vector<MathVector<double> >& eigenvecs,
 								  std::vector<double>& eigenvals) const = 0;
 
-	private:
+	protected:
 
 		// Number of rows/columns and total number of elements
 		size_t _rows;

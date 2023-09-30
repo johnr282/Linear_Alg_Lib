@@ -6,7 +6,7 @@
 #include <algorithm>
 
 // ------------------------------------------------------------------
-// Helpers for DenseMatrix and SparseMatrix classes
+// Utility functions for DenseMatrix and SparseMatrix classes
 // ------------------------------------------------------------------
 
 namespace LinAlg
@@ -33,7 +33,8 @@ namespace LinAlg
 		}
 	}
 
-	// Returns maximum number of digits in any single number in given vector
+	// Returns maximum number of digits in any single number in given 
+	// vector
 	template <typename T>
 	inline size_t findMaxDigits(const std::vector<T>& data)
 	{
@@ -45,7 +46,8 @@ namespace LinAlg
 		return max_digits;
 	}
 
-	// Returns given data vector in column major form; assumes vector is in row major form
+	// Returns given data vector in column major form; assumes vector 
+	// is in row major form
 	template <typename T>
 	inline std::vector<T> convertToColMajorHelper(const std::vector<T>& data,
 		const size_t rows,
@@ -67,7 +69,8 @@ namespace LinAlg
 		return new_data;
 	}
 
-	// Returns given data vector in row major form; assumes vector is in column major form
+	// Returns given data vector in row major form; assumes vector is in 
+	// column major form
 	template <typename T>
 	inline std::vector<T> convertToRowMajorHelper(const std::vector<T>& data,
 		const size_t rows,
@@ -89,18 +92,18 @@ namespace LinAlg
 		return new_data;
 	}
 
-	// Given index of a dense row major data vector and how many columns the matrix has, returns 
-	// the column index corresponding to the vector index
-	inline size_t colIndex(const size_t i,
-		const size_t cols)
+	// Given index of a dense row major data vector and how many columns 
+	// the matrix has, returns the column index corresponding to the 
+	// vector index
+	inline size_t colIndex(const size_t i, const size_t cols)
 	{
 		return i % cols;
 	}
 
-	// Given index of a dense row major data vector and how many columns the matrix has, 
-	// returns the row index corresponding to the vector index
-	inline size_t rowIndex(const size_t i,
-		const size_t cols)
+	// Given index of a dense row major data vector and how many columns 
+	// the matrix has, returns the row index corresponding to the vector 
+	// index
+	inline size_t rowIndex(const size_t i, const size_t cols)
 	{
 		return (i - colIndex(i, cols)) / cols;
 	}

@@ -22,6 +22,7 @@ void testDenseMatrix()
 	//testDenseMatrixInsertion();
 	testDenseAdd();
 	testDenseSub();
+	testDenseAtRowCol();
 
 	std::cout << "DenseMatrix tests complete\n";
 }
@@ -344,4 +345,30 @@ void testDenseMult()
 	DenseMatrix<int> mat19 = mat17 * mat16;
 	std::vector<int> data19{ 3, 6, 8, 4, 3, 3, 6, 6, 0, 4, 6, 4, 2, 6, 5, 9 };
 	checkDenseMatrix(mat19, data19, 4, 4, StorageType::RowMajor);
+}
+
+void testDenseAtRowCol()
+{
+	// rowmaj
+	std::vector<size_t> data1{ 0, 9, 2, 1, 4, 2, 0, 3, 6 };
+	DenseMatrix<size_t> mat1(data1, 3, 3, StorageType::RowMajor);
+	// 0 9 2
+	// 1 4 2
+	// 0 3 6
+	assert(mat1.at(0, 0) == 0);
+	assert(mat1.at(0, 2) == 2);
+	assert(mat1.at(2, 2) == 6);
+	assert(mat1.at(1, 0) == 1);
+
+	// colmaj
+	std::vector<int> data2{ 2, 4, 1, 1, 6, 0, 3, 9 };
+	DenseMatrix<int> mat2(data2, 4, 2, StorageType::ColumnMajor);
+	// 2 6
+	// 4 0
+	// 1 3
+	// 1 9
+	assert(mat2.at(0, 0) == 2);
+	assert(mat2.at(2, 1) == 3);
+	assert(mat2.at(3, 1) == 9);
+	assert(mat2.at(1, 0) == 4);
 }
