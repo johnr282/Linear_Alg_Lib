@@ -23,6 +23,7 @@ void testDenseMatrix()
 	testDenseAdd();
 	testDenseSub();
 	testDenseAtRowCol();
+	testDenseEquals();
 
 	std::cout << "DenseMatrix tests complete\n";
 }
@@ -377,4 +378,23 @@ void testDenseAtRowCol()
 
 	mat1.at(1, 1) = 3;
 	assert(mat1.at(1, 1) == 3);
+}
+
+void testDenseEquals()
+{
+	std::vector<int> data1{ 1, 4, 2, 3, 4, 6 };
+	DenseMatrix<int> mat1(data1, 2, 3);
+	DenseMatrix<int> mat2(data1, 3, 2);
+	assert(mat1 != mat2);
+
+	DenseMatrix<int> mat3(data1, 2, 3, StorageType::RowMajor);
+	assert(mat1 != mat3);
+
+	DenseMatrix<int> mat4(data1, 2, 3);
+	assert(mat1 == mat4);
+
+	mat4.at(0, 2) = 0;
+	assert(mat1 != mat4);
+	mat1.at(0, 2) = 0;
+	assert(mat1 == mat4);
 }

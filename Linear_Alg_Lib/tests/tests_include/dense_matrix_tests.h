@@ -25,4 +25,6 @@ void testDenseMult();
 
 void testDenseAtRowCol();
 
+void testDenseEquals();
+
 #endif

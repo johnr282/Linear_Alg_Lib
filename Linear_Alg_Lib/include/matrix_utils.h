@@ -17,8 +17,8 @@ namespace LinAlg
 	};
 
 	// Returns number of digits in val
-	template <typename T>
-	inline size_t numDigits(T val)
+	template <typename DataType>
+	inline size_t numDigits(DataType val)
 	{
 		return (std::to_string(val)).size();
 	}
@@ -35,26 +35,26 @@ namespace LinAlg
 
 	// Returns maximum number of digits in any single number in given 
 	// vector
-	template <typename T>
-	inline size_t findMaxDigits(const std::vector<T>& data)
+	template <typename DataType>
+	inline size_t findMaxDigits(const std::vector<DataType>& data)
 	{
 		size_t max_digits = 0;
-		for (T elt : data)
+		for (DataType elt : data)
 		{
-			max_digits = std::max(max_digits, numDigits<T>(elt));
+			max_digits = std::max(max_digits, numDigits<DataType>(elt));
 		}
 		return max_digits;
 	}
 
 	// Returns given data vector in column major form; assumes vector 
 	// is in row major form
-	template <typename T>
-	inline std::vector<T> convertToColMajorHelper(const std::vector<T>& data,
+	template <typename DataType>
+	inline std::vector<DataType> convertToColMajorHelper(const std::vector<DataType>& data,
 		const size_t rows,
 		const size_t cols)
 	{
 		// Vector to hold rearranged data
-		std::vector<T> new_data(data.size());
+		std::vector<DataType> new_data(data.size());
 
 		int row = -1;
 		for (size_t i = 0; i < data.size(); ++i)
@@ -71,13 +71,13 @@ namespace LinAlg
 
 	// Returns given data vector in row major form; assumes vector is in 
 	// column major form
-	template <typename T>
-	inline std::vector<T> convertToRowMajorHelper(const std::vector<T>& data,
+	template <typename DataType>
+	inline std::vector<DataType> convertToRowMajorHelper(const std::vector<DataType>& data,
 		const size_t rows,
 		const size_t cols)
 	{
 		// Vector to hold rearranged data
-		std::vector<T> new_data(data.size());
+		std::vector<DataType> new_data(data.size());
 
 		int col = -1;
 		for (size_t i = 0; i < data.size(); ++i)

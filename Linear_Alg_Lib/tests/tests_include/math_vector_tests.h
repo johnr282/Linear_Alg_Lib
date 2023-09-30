@@ -7,6 +7,8 @@
 
 void testMathVector();
 
+void testMathVectorEquals();
+
 void testMathVectorInsertion();
 
 void testMathVectorSubscript();

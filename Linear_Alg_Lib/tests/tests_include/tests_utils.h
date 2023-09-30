@@ -12,9 +12,9 @@ using namespace LinAlg;
 // ------------------------------------------------------------------
 
 // Checks if given vectors are approximately equal
-template <typename T>
-void checkVectors(const std::vector<T>& vec1, 
-				  const std::vector<T>& vec2)
+template <typename DataType>
+void checkVectors(const std::vector<DataType>& vec1, 
+				  const std::vector<DataType>& vec2)
 {
 	assert(vec1.size() == vec2.size());
 
@@ -26,9 +26,9 @@ void checkVectors(const std::vector<T>& vec1,
 
 // Checks if given dense matrix has given data vector, row and column 
 // numbers, size, and storage type
-template <typename T>
-inline void checkDenseMatrix(const DenseMatrix<T>& mat, 
-							 const std::vector<T>& data, 
+template <typename DataType>
+inline void checkDenseMatrix(const DenseMatrix<DataType>& mat, 
+							 const std::vector<DataType>& data, 
 							 size_t rows,
 							 size_t cols, 
 							 StorageType type)
@@ -42,9 +42,9 @@ inline void checkDenseMatrix(const DenseMatrix<T>& mat,
 
 // Checks if given sparse matrix has given data, row indices, col indices, 
 // number of nonzero elements, and number of rows and columns
-template <typename T>
-inline void checkSparseMatrix(const SparseMatrix<T>& mat, 
-							  const std::vector<T>& data,
+template <typename DataType>
+inline void checkSparseMatrix(const SparseMatrix<DataType>& mat, 
+							  const std::vector<DataType>& data,
 							  const std::vector<size_t>& row_indices,
 							  const std::vector<size_t>& col_indices, 
 							  size_t num_nonzero,

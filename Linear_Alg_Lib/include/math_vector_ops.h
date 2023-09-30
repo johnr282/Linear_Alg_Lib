@@ -10,6 +10,23 @@
 
 namespace LinAlg
 {
+	// == operator overload for MathVector class; only use with integral
+	// data types
+	template <typename DataType>
+	inline bool operator==(const MathVector<DataType>& lhs,
+		const MathVector<DataType>& rhs)
+	{
+		return lhs.getData() == rhs.getData();
+	}
+
+	// != operator overload for MathVector class
+	template <typename DataType>
+	inline bool operator!=(const MathVector<DataType>& lhs,
+		const MathVector<DataType>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
 	// Insertion operator overload for MathVector class
 	// Outputs MathVector in following format:
 	/*
@@ -17,12 +34,12 @@ namespace LinAlg
 		b
 		c
 	*/
-	template <typename T>
+	template <typename DataType>
 	inline std::ostream& operator<<(std::ostream& stream,
-		const MathVector<T>& vector)
+		const MathVector<DataType>& vector)
 	{
-		std::vector<T> data = vector.getData();
-		for (T elt : data)
+		std::vector<DataType> data = vector.getData();
+		for (DataType elt : data)
 		{
 			stream << elt << "\n";
 		}
@@ -30,46 +47,46 @@ namespace LinAlg
 	}
 
 	// Addition operator overload for MathVector class
-	template <typename T>
-	inline MathVector<T> operator+(const MathVector<T>& vec1,
-		const MathVector<T>& vec2)
+	template <typename DataType>
+	inline MathVector<DataType> operator+(const MathVector<DataType>& vec1,
+		const MathVector<DataType>& vec2)
 	{
 		if (vec1.getSize() != vec2.getSize())
 			throw InvalidDimensions("Vector addition");
 
-		std::vector<T> result_data = addStdVectors(
+		std::vector<DataType> result_data = addStdVectors(
 			vec1.getData(), vec2.getData());
-		MathVector<T> result(result_data);
+		MathVector<DataType> result(result_data);
 		return result;
 	}
 
 	// Subtraction operator overload for MathVector class
-	template <typename T>
-	inline MathVector<T> operator-(const MathVector<T>& vec1,
-		const MathVector<T>& vec2)
+	template <typename DataType>
+	inline MathVector<DataType> operator-(const MathVector<DataType>& vec1,
+		const MathVector<DataType>& vec2)
 	{
 		if (vec1.getSize() != vec2.getSize())
 			throw InvalidDimensions("Vector subtraction");
 
-		std::vector<T> result_data = subtractStdVectors(
+		std::vector<DataType> result_data = subtractStdVectors(
 			vec1.getData(), vec2.getData());
-		MathVector<T> result(result_data);
+		MathVector<DataType> result(result_data);
 		return result;
 	}
 
 	// Returns dot product of two given vectors; vectors must of equal 
 	// length
-	template <typename T>
-	inline T dotProduct(const MathVector<T>& vec1,
-		const MathVector<T>& vec2)
+	template <typename DataType>
+	inline DataType dotProduct(const MathVector<DataType>& vec1,
+		const MathVector<DataType>& vec2)
 	{
 		if (vec1.getSize() != vec2.getSize())
 			throw InvalidDimensions("dotProduct()");
 
-		std::vector<T> data1 = vec1.getData();
-		std::vector<T> data2 = vec2.getData();
+		std::vector<DataType> data1 = vec1.getData();
+		std::vector<DataType> data2 = vec2.getData();
 
-		T result = 0;
+		DataType result = 0;
 		for (size_t i = 0; i < vec1.getSize(); ++i)
 		{
 			result += data1[i] * data2[i];
@@ -81,18 +98,18 @@ namespace LinAlg
 	// of length 3, otherwise the cross product isn't defined
 	// Note: Could cause issues with a MathVector<size_t>, as the cross 
 	// product of two positive vectors can have negative values
-	template <typename T>
-	inline MathVector<T> crossProduct(const MathVector<T>& vec1,
-		const MathVector<T>& vec2)
+	template <typename DataType>
+	inline MathVector<DataType> crossProduct(const MathVector<DataType>& vec1,
+		const MathVector<DataType>& vec2)
 	{
 		if (vec1.getSize() != 3 || vec2.getSize() != 3)
 			throw InvalidDimensions("crossProduct()");
 
-		T i_component = vec1[1] * vec2[2] - vec1[2] * vec2[1];
-		T j_component = vec1[2] * vec2[0] - vec1[0] * vec2[2];
-		T k_component = vec1[0] * vec2[1] - vec1[1] * vec2[0];
+		DataType i_component = vec1[1] * vec2[2] - vec1[2] * vec2[1];
+		DataType j_component = vec1[2] * vec2[0] - vec1[0] * vec2[2];
+		DataType k_component = vec1[0] * vec2[1] - vec1[1] * vec2[0];
 
-		MathVector<T> result({ i_component, j_component, k_component });
+		MathVector<DataType> result({ i_component, j_component, k_component });
 		return result;
 	}
 }

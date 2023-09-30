@@ -11,6 +11,27 @@
 
 namespace LinAlg
 {
+	// == operator overload for DenseMatrix class; only use with 
+	// integral data types
+	template <typename DataType>
+	inline bool operator==(const DenseMatrix<DataType>& lhs,
+		const DenseMatrix<DataType>& rhs)
+	{
+		return (lhs.getSize() == rhs.getSize()) &&
+			(lhs.getRows() == rhs.getRows()) &&
+			(lhs.getCols() == rhs.getCols()) &&
+			(lhs.getStorageType() == rhs.getStorageType()) &&
+			(lhs.getData() == rhs.getData());
+	}
+
+	// != operator overload for DenseMatrix class
+	template <typename DataType>
+	inline bool operator!=(const DenseMatrix<DataType>& lhs,
+		const DenseMatrix<DataType>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
 	// Insertion operator overload for DenseMatrix class
 	// Outputs DenseMatrix in row major format:
 	/*
@@ -21,11 +42,11 @@ namespace LinAlg
 	*/
 	// Ensures columns are aligned, even with different amounts of digits
 	// Doesn't work well with non integer types
-	template <typename T>
+	template <typename DataType>
 	inline std::ostream& operator<<(std::ostream& stream,
-		const DenseMatrix<T> mat)
+		const DenseMatrix<DataType>& mat)
 	{
-		std::vector<T> data = mat.getData();
+		std::vector<DataType> data = mat.getData();
 		size_t rows = mat.getRows();
 		size_t cols = mat.getCols();
 
@@ -42,8 +63,8 @@ namespace LinAlg
 		// Print matrix
 		for (size_t i = 0; i < mat.getSize(); ++i)
 		{
-			T curr_elt = data[i];
-			size_t num_spaces = column_width - numDigits<T>(curr_elt);
+			DataType curr_elt = data[i];
+			size_t num_spaces = column_width - numDigits<DataType>(curr_elt);
 			stream << curr_elt;
 			printSpaces(stream, num_spaces);
 
@@ -58,9 +79,9 @@ namespace LinAlg
 
 	// Addition overload for DenseMatrix class; returns a DenseMatrix with 
 	// the same StorageType as mat1
-	template <typename T>
-	inline DenseMatrix<T> operator+(const DenseMatrix<T>& mat1,
-		const DenseMatrix<T>& mat2)
+	template <typename DataType>
+	inline DenseMatrix<DataType> operator+(const DenseMatrix<DataType>& mat1,
+		const DenseMatrix<DataType>& mat2)
 	{
 		// Check that both matrices have the same dimensions
 		if (!sameDimension(mat1, mat2))
@@ -70,13 +91,13 @@ namespace LinAlg
 		if (mat1.getStorageType() == mat2.getStorageType())
 		{
 			// Add the data vectors together and return a new DenseMatrix
-			std::vector<T> result_data = addStdVectors(mat1.getData(), mat2.getData());
-			DenseMatrix<T> result(
+			std::vector<DataType> result_data = addStdVectors(mat1.getData(), mat2.getData());
+			DenseMatrix<DataType> result(
 				result_data, mat1.getRows(), mat1.getCols(), mat1.getStorageType());
 			return result;
 		}
 		// If the matrices' storage formats don't match
-		std::vector<T> data2_converted;
+		std::vector<DataType> data2_converted;
 
 		if (mat1.getStorageType() == StorageType::RowMajor)
 		{
@@ -92,17 +113,17 @@ namespace LinAlg
 				mat2.getData(), mat2.getRows(), mat2.getCols());
 		}
 
-		std::vector<T> result_data = addStdVectors(mat1.getData(), data2_converted);
-		DenseMatrix<T> result(
+		std::vector<DataType> result_data = addStdVectors(mat1.getData(), data2_converted);
+		DenseMatrix<DataType> result(
 			result_data, mat1.getRows(), mat2.getCols(), mat1.getStorageType());
 		return result;
 	}
 
 	// Subtraction overload for DenseMatrix class; returns a DenseMatrix with 
 	// the same StorageType as mat1
-	template <typename T>
-	inline DenseMatrix<T> operator-(const DenseMatrix<T>& mat1,
-		const DenseMatrix<T>& mat2)
+	template <typename DataType>
+	inline DenseMatrix<DataType> operator-(const DenseMatrix<DataType>& mat1,
+		const DenseMatrix<DataType>& mat2)
 	{
 		// Check that both matrices have the same dimensions
 		if (!sameDimension(mat1, mat2))
@@ -112,15 +133,15 @@ namespace LinAlg
 		if (mat1.getStorageType() == mat2.getStorageType())
 		{
 			// Subract the data vectors and return a new DenseMatrix
-			std::vector<T> result_data = subtractStdVectors(
+			std::vector<DataType> result_data = subtractStdVectors(
 				mat1.getData(), mat2.getData());
-			DenseMatrix<T> result(
+			DenseMatrix<DataType> result(
 				result_data, mat1.getRows(), mat1.getCols(), mat1.getStorageType());
 			return result;
 		}
 
 		// If the matrices' storage formats don't match
-		std::vector<T> data2_converted;
+		std::vector<DataType> data2_converted;
 
 		if (mat1.getStorageType() == StorageType::RowMajor)
 		{
@@ -136,18 +157,18 @@ namespace LinAlg
 				mat2.getData(), mat2.getRows(), mat2.getCols());
 		}
 
-		std::vector<T> result_data = subtractStdVectors(
+		std::vector<DataType> result_data = subtractStdVectors(
 			mat1.getData(), data2_converted);
-		DenseMatrix<T> result(
+		DenseMatrix<DataType> result(
 			result_data, mat1.getRows(), mat2.getCols(), mat1.getStorageType());
 		return result;
 	}
 
 	// Multiplication overload for DenseMatrix; returns a DenseMatrix with the 
 	// the same storage type as mat1
-	template <typename T>
-	inline DenseMatrix<T> operator*(const DenseMatrix<T>& mat1,
-		const DenseMatrix<T>& mat2)
+	template <typename DataType>
+	inline DenseMatrix<DataType> operator*(const DenseMatrix<DataType>& mat1,
+		const DenseMatrix<DataType>& mat2)
 	{
 		if (mat1.getCols() != mat2.getRows())
 			throw InvalidDimensions("matrix multiplication");
@@ -155,7 +176,7 @@ namespace LinAlg
 
 
 		// TODO
-		DenseMatrix<T> result(3, 3);
+		DenseMatrix<DataType> result(3, 3);
 		return result;
 	}
 }

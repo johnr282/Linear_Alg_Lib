@@ -17,6 +17,7 @@ void testMathVector()
 {
 	//testMathVectorInsertion();
 	testMathVectorSubscript();
+	testMathVectorEquals();
 	testMathVectorAdd();
 	testMathVectorSubtract();
 	testMathVectorDotProduct();
@@ -43,6 +44,17 @@ void testMathVectorSubscript()
 	MathVector<int> vec2(data1);
 	vec2[1] = 5;
 	assert(vec2[1] == 5);
+}
+
+void testMathVectorEquals()
+{
+	std::vector<int> data1{ 0, 2, 1, 4 };
+	MathVector<int> vec1(data1);
+	MathVector<int> vec2(data1);
+	assert(vec1 == vec2);
+
+	vec1[2] = 5;
+	assert(vec1 != vec2);
 }
 
 void testMathVectorAdd()
