@@ -121,7 +121,7 @@ namespace LinAlg
 				std::pair<size_t, size_t> row_bounds = rowBounds(row_index);
 				size_t row_start = row_bounds.first;
 				size_t row_end = row_bounds.second;
-				std::vector<DataType> row_data = std::vector<DataType>(
+				row_data = std::vector<DataType>(
 					_data.begin() + row_start, _data.begin() + row_end);
 			}
 			else
