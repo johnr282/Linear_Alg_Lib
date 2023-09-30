@@ -15,30 +15,21 @@ namespace LinAlg
 	{
 	public:
 
-		CustomException(std::string message_in,
-			std::string custom_message_in) :
-			_message(message_in),
-			_custom_message(custom_message_in)
+		CustomException(std::string func_name,
+			std::string exception_type)
 		{ 
-			_output = (_custom_message + " in " + _message).c_str();
+			_output = exception_type + " in " + func_name;
 		}
 
 		const char* what()
 		{
-			return _output;
+			return _output.c_str();
 		}
 
 	private:
 
-		// Name or description of function in which the exception 
-		// is thrown 
-		std::string _message;
-
-		// Custom message unique to each custom exception
-		std::string _custom_message;
-
-		// Output of what(), prevents dangling pointer errors
-		const char* _output;
+		// Output of what(), formatted as "Exception type in func()"
+		std::string _output;
 	};
 
 	// Thrown when a mismatch in dimensions make an operation impossible

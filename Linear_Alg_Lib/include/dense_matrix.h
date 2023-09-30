@@ -35,7 +35,8 @@ namespace LinAlg
 			}
 		}
 
-		// Constructor with no given data vector; default initializes all elements in matrix
+		// Constructor with no given data vector; default initializes 
+		// all elements in matrix
 		DenseMatrix(const size_t rows_in,
 			const size_t cols_in,
 			const StorageType storage_type_in = StorageType::ColumnMajor) :
@@ -44,18 +45,6 @@ namespace LinAlg
 		{
 			std::vector<DataType> data_in(rows_in * cols_in);
 			_data = data_in;
-		}
-
-		// Returns element at location (row, col), const version
-		DataType at(size_t row, size_t col) const override
-		{
-			return atHelper(row, col);
-		}
-
-		// Returns element at location (row, col), non-const version
-		DataType at(size_t row, size_t col) override
-		{
-			return atHelper(row, col);
 		}
 
 		// Getter and setter functions
@@ -80,28 +69,123 @@ namespace LinAlg
 			return _storage_type;
 		}
 
-		// Converts storage type from column major to row major by rearranging data vector; 
-		// if storage type is already row major, does nothing
+		// Converts storage type from column major to row major by 
+		// rearranging data vector; if storage type is already row 
+		// major, does nothing
 		void convertToRowMajor()
 		{
 			if (_storage_type == StorageType::RowMajor)
 				return;
 
 			_data = convertToRowMajorHelper(
-				this->getData(), this->getRows(), this->getCols());
+				this->_data, this->_rows, this->_cols);
 			_storage_type = StorageType::RowMajor;
 		}
 
-		// Converts storage type from row major to column major by rearranging data vector; 
-		// if storage type is already column major, does nothing
+		// Converts storage type from row major to column major by 
+		// rearranging data vector; if storage type is already column 
+		// major, does nothing
 		void convertToColMajor()
 		{
 			if (_storage_type == StorageType::ColumnMajor)
 				return;
 
 			_data = convertToColMajorHelper(
-				this->getData(), this->getRows(), this->getCols());
+				this->_data, this->_rows, this->_cols);
 			_storage_type = StorageType::ColumnMajor;
+		}
+
+		// Returns element at location (row, col), const version
+		DataType at(const size_t row, const size_t col) const override
+		{
+			return _data[atHelper(row, col)];
+		}
+
+		// Returns element at location (row, col), non-const version
+		DataType& at(const size_t row, const size_t col) override
+		{
+			return _data[atHelper(row, col)];
+		}
+
+		// Returns row row_index as a MathVector
+		MathVector<DataType> row(const size_t row_index) const
+		{
+			bool invalid_index = (row_index >= this->_rows);
+			if (invalid_index)
+				throw OutOfBounds("DenseMatrix::row()");
+
+			std::vector<DataType> row_data;
+
+			if (_storage_type == StorageType::RowMajor)
+			{
+				std::pair<size_t, size_t> row_bounds = rowBounds(row_index);
+				size_t row_start = row_bounds.first;
+				size_t row_end = row_bounds.second;
+				std::vector<DataType> row_data = std::vector<DataType>(
+					_data.begin() + row_start, _data.begin() + row_end);
+			}
+			else
+			{
+				std::vector<size_t> row_indices = rowIndices(row_index);
+				std::vector<DataType> row_data(this->_rows);
+
+				for (size_t i = 0; i < row_data.size(); ++i)
+				{
+					size_t row_elt_index = row_indices[i];
+					row_data[i] = _data[row_elt_index];
+				}
+			}
+
+			return MathVector<DataType>(row_data);
+		}
+
+		// Returns col j as a MathVector
+		MathVector<DataType> col(const size_t col_index) const
+		{
+			// TODO
+			std::vector<DataType> data;
+			return MathVector<DataType>(data);
+		}
+
+		// Sets row row_index to given MathVector
+		void setRow(const size_t row_index,
+			const MathVector<DataType>& new_row)
+		{
+			bool invalid_index = (row_index >= this->_rows);
+			if (invalid_index)
+				throw OutOfBounds("DenseMatrix::setRow()");
+
+			bool invalid_row = (new_row.getSize() != this->_rows);
+			if (invalid_row)
+				throw InvalidDimensions("DenseMatrix::setRow()");
+
+			if (_storage_type == StorageType::RowMajor)
+			{
+				std::pair<size_t, size_t> row_bounds = rowBounds(row_index);
+				size_t row_start = row_bounds.first;
+				
+				std::vector<DataType> new_row_data = new_row.getData();
+				std::copy(new_row_data.begin(), new_row_data.end(), 
+					_data.begin() + row_start);
+			}
+			else
+			{
+				std::vector<size_t> row_indices = rowIndices(row_index);
+				std::vector<DataType> new_row_data = new_row.getData();
+
+				for (size_t i = 0; i < new_row_data.size(); ++i)
+				{
+					size_t row_elt_index = row_indices[i];
+					_data[row_elt_index] = new_row_data[i];
+				}
+			}
+		}
+
+		// Sets col j to given MathVector
+		void setCol(const size_t col_index,
+			const MathVector<DataType>& new_col)
+		{
+
 		}
 
 		// Returns transpose of matrix
@@ -111,8 +195,8 @@ namespace LinAlg
 			return *this;
 		}
 
-		// Calculates determinant of matrix and puts it in DataType parameter; 
-		// only returns false if matrix is not square
+		// Calculates determinant of matrix and puts it in DataType 
+		// parameter; only returns false if matrix is not square
 		bool determinant(DataType& det) const override
 		{
 			// TODO
@@ -126,17 +210,17 @@ namespace LinAlg
 			return false;
 		}
 
-		// Calculates inverse of matrix and puts it in MatrixType parameter;
-		// returns whether the matrix is invertible
+		// Calculates inverse of matrix and puts it in MatrixType 
+		// parameter; returns whether the matrix is invertible
 		bool inverse(DenseMatrix<DataType>& inv) const override
 		{
 			// TODO
 			return false;
 		}
 
-		// Calculates eigenvectors and eigenvalues of matrix; puts eigenvectors
-		// in eigenvecs parameter and eigenvalues in eigenvals parameter; 
-		// eigenvecs[i]'s eigenvalue is eigenvals[i]
+		// Calculates eigenvectors and eigenvalues of matrix; puts 
+		// eigenvectors in eigenvecs parameter and eigenvalues in 
+		// eigenvals parameter; eigenvecs[i]'s eigenvalue is eigenvals[i]
 		bool eigenvectors(std::vector<MathVector<double> >& eigenvecs,
 						  std::vector<double>& eigenvals) const override
 		{
@@ -146,23 +230,50 @@ namespace LinAlg
 
 	private:
 
-		DataType atHelper(size_t row, size_t col) const
+		// Returns index in _data corresponding to given row and col
+		size_t atHelper(const size_t row, const size_t col) const
 		{
-			bool invalid_index = (row >= this->_rows) || (col >= this->_cols);
+			bool invalid_index = (row >= this->_rows) || 
+								 (col >= this->_cols);
 			if (invalid_index)
-				throw OutOfBounds("in DenseMatrix::at()");
+				throw OutOfBounds("DenseMatrix::at()");
 
 			if (_storage_type == StorageType::RowMajor)
-				return _data[row * this->_cols + col];
-			else // _storage_type == StorageType::ColumnMajor
-				return _data[col * this->_rows + row];
+				return row * this->_cols + col;
+			else 
+				return col * this->_rows + row;
+		}
+
+		// Returns [start, end) indices of row row_index; assumes 
+		// _storage_type is RowMajor and row_index is in bounds
+		std::pair<size_t, size_t> rowBounds(const size_t row_index) const
+		{
+			size_t row_start = row_index * this->_cols;
+			size_t row_end = row_start + this->_cols;
+			return { row_start, row_end };
+		}
+
+		// Returns vector of indices of the elements in row row_index;
+		// assumes _storage_type is ColumnMajor and row_index is in bounds
+		std::vector<size_t> rowIndices(const size_t row_index) const
+		{
+			std::vector<size_t> row_indices(this->_rows);
+			size_t row_elt_index = row_index;
+
+			for (size_t i = 0; i < row_indices.size(); ++i)
+			{
+				row_indices[i] = row_index;
+				row_elt_index += this->_cols;
+			}
+
+			return row_indices;
 		}
 
 		// Vector to store data 
 		std::vector<DataType> _data;
 
-		// Determines method of data storage, either column major or row major
-		// Column major by default
+		// Determines method of data storage, either column major or 
+		// row major; column major by default
 		StorageType _storage_type;
 
 	};

@@ -360,6 +360,9 @@ void testDenseAtRowCol()
 	assert(mat1.at(2, 2) == 6);
 	assert(mat1.at(1, 0) == 1);
 
+	mat1.at(1, 2) = 5;
+	assert(mat1.at(1, 2) == 5);
+
 	// colmaj
 	std::vector<int> data2{ 2, 4, 1, 1, 6, 0, 3, 9 };
 	DenseMatrix<int> mat2(data2, 4, 2, StorageType::ColumnMajor);
@@ -371,4 +374,7 @@ void testDenseAtRowCol()
 	assert(mat2.at(2, 1) == 3);
 	assert(mat2.at(3, 1) == 9);
 	assert(mat2.at(1, 0) == 4);
+
+	mat1.at(1, 1) = 3;
+	assert(mat1.at(1, 1) == 3);
 }

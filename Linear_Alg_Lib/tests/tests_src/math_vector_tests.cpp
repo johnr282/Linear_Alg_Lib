@@ -142,7 +142,7 @@ void testMathVectorNormalize()
 	double mag1 = vec1.magnitude();
 	std::vector<double> result1{
 		0 / mag1, 1 / mag1, 4 / mag1, 2 / mag1, 3 / mag1 };
-	MathVector<double> unit_vec1 = vec1.normalize();
+	MathVector<double> unit_vec1 = vec1.normalized();
 	checkVectors(result1, unit_vec1.getData());
 
 	std::vector<double> data2{ 1.23, 0.1, 4.99, -8.7, 12.294, -0.23 };
@@ -150,12 +150,12 @@ void testMathVectorNormalize()
 	double mag2 = vec2.magnitude();
 	std::vector<double> result2{
 		1.23 / mag2, 0.1 / mag2, 4.99 / mag2, -8.7 / mag2, 12.294 / mag2, -0.23 / mag2 };
-	MathVector<double> unit_vec2 = vec2.normalize();
+	MathVector<double> unit_vec2 = vec2.normalized();
 	checkVectors(result2, unit_vec2.getData());
 
 	std::vector<double> data3{ 0, 0, 0 };
 	MathVector<double> vec3(data3);
 	std::vector<double> result3{ 0, 0, 0 };
-	MathVector<double> unit_vec3 = vec3.normalize();
+	MathVector<double> unit_vec3 = vec3.normalized();
 	checkVectors(result3, unit_vec3.getData());
 }

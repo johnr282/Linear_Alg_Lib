@@ -59,7 +59,7 @@ namespace LinAlg
 
 		// Returns normalized unit vector, or returns zero vector if this is
 		// a zero vector
-		MathVector<double> normalize() const
+		MathVector<double> normalized() const
 		{
 			double mag = magnitude();
 			if (areEqual(0, mag))

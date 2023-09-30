@@ -52,22 +52,24 @@ namespace LinAlg
 		}
 
 		// Returns element at location (row, col), const version
-		virtual DataType at(size_t row, size_t col) const = 0;
+		virtual DataType at(const size_t row, const size_t col) const = 0;
 
 		// Returns element at location (row, col), non-const version
-		virtual DataType at(size_t row, size_t col) = 0;
+		virtual DataType& at(const size_t row, const size_t col) = 0;
 
-		//// Returns row i as a MathVector, const version
-		//virtual MathVector<DataType> row(size_t i) const = 0;
+		// Returns row i as a MathVector
+		virtual MathVector<DataType> row(const size_t i) const = 0;
 
-		//// Returns row i as a MathVector, non-const version
-		//virtual MathVector<DataType> row(size_t i) = 0;
+		// Returns col j as a MathVector
+		virtual MathVector<DataType> col(const size_t j) const = 0;
 
-		//// Returns col j as a MathVector, const version
-		//virtual MathVector<DataType> col(size_t j) const = 0;
+		// Sets row i to given MathVector
+		virtual void setRow(const size_t i, 
+			const MathVector<DataType>& new_row) = 0;
 
-		//// Returns col j as a MathVector, non-const version
-		//virtual MathVector<DataType> col(size_t j) = 0;
+		// Sets col j to given MathVector
+		virtual void setCol(const size_t j,
+			const MathVector<DataType>& new_col) = 0;
 
 		// Returns transpose of matrix
 		virtual MatrixType tranpose() const = 0;
