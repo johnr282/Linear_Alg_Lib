@@ -140,9 +140,31 @@ namespace LinAlg
 		// Returns col j as a MathVector
 		MathVector<DataType> col(const size_t col_index) const
 		{
-			// TODO
-			std::vector<DataType> data;
-			return MathVector<DataType>(data);
+			bool invalid_index = (col_index >= this->_cols);
+			if (invalid_index)
+				throw OutOfBounds("DenseMatrix::col()");
+
+			std::vector<DataType> col_data(this->_rows);
+
+			if (_storage_type == StorageType::ColumnMajor)
+			{
+				std::pair<size_t, size_t> col_bounds = colBounds(col_index);
+				size_t col_start = col_bounds.first;
+				size_t col_end = col_bounds.second;
+				col_data = std::vector<DataType>(
+					_data.begin() + col_start, _data.begin() + col_end);
+			}
+			else
+			{
+				std::vector<size_t> col_indices = colIndices(col_index);
+				for (size_t i = 0; i < col_data.size(); ++i)
+				{
+					size_t col_elt_index = col_indices[i];
+					col_data[i] = _data[col_elt_index];
+				}
+			}
+
+			return MathVector<DataType>(col_data);
 		}
 
 		// Sets row row_index to given MathVector
@@ -157,20 +179,19 @@ namespace LinAlg
 			if (invalid_row)
 				throw InvalidDimensions("DenseMatrix::setRow()");
 
+			std::vector<DataType> new_row_data = new_row.getData();
+
 			if (_storage_type == StorageType::RowMajor)
 			{
 				std::pair<size_t, size_t> row_bounds = rowBounds(row_index);
 				size_t row_start = row_bounds.first;
 				
-				std::vector<DataType> new_row_data = new_row.getData();
 				std::copy(new_row_data.begin(), new_row_data.end(), 
 					_data.begin() + row_start);
 			}
 			else
 			{
 				std::vector<size_t> row_indices = rowIndices(row_index);
-				std::vector<DataType> new_row_data = new_row.getData();
-
 				for (size_t i = 0; i < new_row_data.size(); ++i)
 				{
 					size_t row_elt_index = row_indices[i];
@@ -183,7 +204,33 @@ namespace LinAlg
 		void setCol(const size_t col_index,
 			const MathVector<DataType>& new_col)
 		{
+			bool invalid_index = (col_index >= this->_cols);
+			if (invalid_index)
+				throw OutOfBounds("DenseMatrix::setCol()");
 
+			bool invalid_row = (new_col.getSize() != this->_rows);
+			if (invalid_row)
+				throw InvalidDimensions("DenseMatrix::setCol()");
+
+			std::vector<DataType> new_col_data = new_col.getData();
+
+			if (_storage_type == StorageType::ColumnMajor)
+			{
+				std::pair<size_t, size_t> col_bounds = colBounds(col_index);
+				size_t col_start = col_bounds.first;
+
+				std::copy(new_col_data.begin(), new_col_data.end(),
+					_data.begin() + col_start);
+			}
+			else
+			{
+				std::vector<size_t> col_indices = colIndices(col_index);
+				for (size_t i = 0; i < new_col_data.size(); ++i)
+				{
+					size_t col_elt_index = col_indices[i];
+					_data[col_elt_index] = new_col_data[i];
+				}
+			}
 		}
 
 		// Returns transpose of matrix
@@ -251,6 +298,15 @@ namespace LinAlg
 			return { row_start, row_end };
 		}
 
+		// Returns [start, end) indices of col col_index; assumes 
+		// _storage_type is ColMajor and col_index is in bounds
+		std::pair<size_t, size_t> colBounds(const size_t col_index) const
+		{
+			size_t col_start = col_index * this->_rows;
+			size_t col_end = col_start + this->_rows;
+			return { col_start, col_end };
+		}
+
 		// Returns vector of indices of the elements in row row_index;
 		// assumes _storage_type is ColumnMajor and row_index is in bounds
 		std::vector<size_t> rowIndices(const size_t row_index) const
@@ -265,6 +321,22 @@ namespace LinAlg
 			}
 
 			return row_indices;
+		}
+
+		// Returns vector of indices of the elements in col col_index; 
+		// assumes _storage_type is RowMajor and col_index is in bounds
+		std::vector<size_t> colIndices(const size_t col_index) const
+		{
+			std::vector<size_t> col_indices(this->_rows);
+			size_t col_elt_index = col_index;
+
+			for (size_t i = 0; i < col_indices.size(); ++i)
+			{
+				col_indices[i] = col_elt_index;
+				col_elt_index += this->_cols;
+			}
+
+			return col_indices;
 		}
 
 		// Vector to store data 

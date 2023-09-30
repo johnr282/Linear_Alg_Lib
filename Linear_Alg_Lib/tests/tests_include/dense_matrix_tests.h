@@ -21,10 +21,10 @@ void testDenseAdd();
 
 void testDenseSub();
 
-void testDenseMult();
-
 void testDenseAtRowCol();
 
 void testDenseEquals();
+
+void testDenseMult();
 
 #endif

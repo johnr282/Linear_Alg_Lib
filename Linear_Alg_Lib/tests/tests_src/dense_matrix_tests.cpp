@@ -288,6 +288,122 @@ void testDenseSub()
 	checkDenseMatrix(mat17, data17, 2, 5, StorageType::ColumnMajor);
 }
 
+void testDenseAtRowCol()
+{
+	// rowmaj
+	std::vector<size_t> data1{ 0, 9, 2, 1, 4, 2, 0, 3, 6 };
+	DenseMatrix<size_t> mat1(data1, 3, 3, StorageType::RowMajor);
+	// 0 9 2
+	// 1 4 2
+	// 0 3 6
+	assert(mat1.at(0, 0) == 0);
+	assert(mat1.at(0, 2) == 2);
+	assert(mat1.at(2, 2) == 6);
+	assert(mat1.at(1, 0) == 1);
+
+	mat1.at(1, 2) = 5;
+	assert(mat1.at(1, 2) == 5);
+
+	MathVector<size_t> row0({ 0, 9, 2 });
+	MathVector<size_t> row1({ 1, 4, 5 });
+	MathVector<size_t> row2({ 0, 3, 6 });
+	assert(mat1.row(0) == row0);
+	assert(mat1.row(1) == row1);
+	assert(mat1.row(2) == row2);
+
+	MathVector<size_t> col0({ 0, 1, 0 });
+	MathVector<size_t> col1({ 9, 4, 3 });
+	MathVector<size_t> col2({ 2, 5, 6 });
+	assert(mat1.col(0) == col0);
+	assert(mat1.col(1) == col1);
+	assert(mat1.col(2) == col2);
+
+	MathVector<size_t> new_row0({ 1, 1, 3 });
+	MathVector<size_t> new_row2({ 0, 0, 1 });
+	mat1.setRow(0, new_row0);
+	mat1.setRow(2, new_row2);
+	assert(mat1.row(0) == new_row0);
+	assert(mat1.row(2) == new_row2);
+
+	MathVector<size_t> new_col0({ 4, 9, 0 });
+	MathVector<size_t> new_col1({ 1, 0, 0 });
+	MathVector<size_t> new_col2({ 2, 0, 4 });
+	mat1.setCol(0, new_col0);
+	mat1.setCol(1, new_col1);
+	mat1.setCol(2, new_col2);
+	assert(mat1.col(0) == new_col0);
+	assert(mat1.col(1) == new_col1);
+	assert(mat1.col(2) == new_col2);
+
+	// colmaj
+	std::vector<int> data2{ 2, 4, 1, 1, 6, 0, 3, 9 };
+	DenseMatrix<int> mat2(data2, 4, 2, StorageType::ColumnMajor);
+	// 2 6
+	// 4 0
+	// 1 3
+	// 1 9
+	assert(mat2.at(0, 0) == 2);
+	assert(mat2.at(2, 1) == 3);
+	assert(mat2.at(3, 1) == 9);
+	assert(mat2.at(1, 0) == 4);
+
+	mat2.at(1, 1) = 3;
+	assert(mat2.at(1, 1) == 3);
+
+	MathVector<int> mat2_row0({ 2, 6 });
+	MathVector<int> mat2_row1({ 4, 3 });
+	MathVector<int> mat2_row2({ 1, 3 });
+	MathVector<int> mat2_row3({ 1, 9 });
+	assert(mat2.row(0) == mat2_row0);
+	assert(mat2.row(1) == mat2_row1);
+	assert(mat2.row(2) == mat2_row2);
+	assert(mat2.row(3) == mat2_row3);
+
+	MathVector<int> mat2_col0({ 2, 4, 1, 1 });
+	MathVector<int> mat2_col1({ 6, 3, 3, 9 });
+	assert(mat2.col(0) == mat2_col0);
+	assert(mat2.col(1) == mat2_col1);
+
+	MathVector<int> mat2_new_row0({ 1, 1 });
+	MathVector<int> mat2_new_row1({ 1, 5 });
+	MathVector<int> mat2_new_row2({ 2, 7 });
+	MathVector<int> mat2_new_row3({ 0, 0 });
+	mat2.setRow(0, mat2_new_row0);
+	mat2.setRow(1, mat2_new_row1);
+	mat2.setRow(2, mat2_new_row2);
+	mat2.setRow(3, mat2_new_row3);
+	assert(mat2.row(0) == mat2_new_row0);
+	assert(mat2.row(1) == mat2_new_row1);
+	assert(mat2.row(2) == mat2_new_row2);
+	assert(mat2.row(3) == mat2_new_row3);
+
+	MathVector<int> mat2_new_col0({ 1, 4, 0, 0 });
+	MathVector<int> mat2_new_col1({ 9, 8, 1, 5 });
+	mat2.setCol(0, mat2_new_col0);
+	mat2.setCol(1, mat2_new_col1);
+	assert(mat2.col(0) == mat2_new_col0);
+	assert(mat2.col(1) == mat2_new_col1);
+}
+
+void testDenseEquals()
+{
+	std::vector<int> data1{ 1, 4, 2, 3, 4, 6 };
+	DenseMatrix<int> mat1(data1, 2, 3);
+	DenseMatrix<int> mat2(data1, 3, 2);
+	assert(mat1 != mat2);
+
+	DenseMatrix<int> mat3(data1, 2, 3, StorageType::RowMajor);
+	assert(mat1 != mat3);
+
+	DenseMatrix<int> mat4(data1, 2, 3);
+	assert(mat1 == mat4);
+
+	mat4.at(0, 2) = 0;
+	assert(mat1 != mat4);
+	mat1.at(0, 2) = 0;
+	assert(mat1 == mat4);
+}
+
 void testDenseMult()
 {
 	// colmaj * colmaj, square 
@@ -347,93 +463,4 @@ void testDenseMult()
 	DenseMatrix<int> mat19 = mat17 * mat16;
 	std::vector<int> data19{ 3, 6, 8, 4, 3, 3, 6, 6, 0, 4, 6, 4, 2, 6, 5, 9 };
 	checkDenseMatrix(mat19, data19, 4, 4, StorageType::RowMajor);
-}
-
-void testDenseAtRowCol()
-{
-	// rowmaj
-	std::vector<size_t> data1{ 0, 9, 2, 1, 4, 2, 0, 3, 6 };
-	DenseMatrix<size_t> mat1(data1, 3, 3, StorageType::RowMajor);
-	// 0 9 2
-	// 1 4 2
-	// 0 3 6
-	assert(mat1.at(0, 0) == 0);
-	assert(mat1.at(0, 2) == 2);
-	assert(mat1.at(2, 2) == 6);
-	assert(mat1.at(1, 0) == 1);
-
-	mat1.at(1, 2) = 5;
-	assert(mat1.at(1, 2) == 5);
-
-	MathVector<size_t> row0({ 0, 9, 2 });
-	MathVector<size_t> row1({ 1, 4, 5 });
-	MathVector<size_t> row2({ 0, 3, 6 });
-	assert(mat1.row(0) == row0);
-	assert(mat1.row(1) == row1);
-	assert(mat1.row(2) == row2);
-
-	MathVector<size_t> new_row0({ 1, 1, 3 });
-	MathVector<size_t> new_row2({ 0, 0, 1 });
-	mat1.setRow(0, new_row0);
-	mat1.setRow(2, new_row2);
-	assert(mat1.row(0) == new_row0);
-	assert(mat1.row(2) == new_row2);
-
-
-	// colmaj
-	std::vector<int> data2{ 2, 4, 1, 1, 6, 0, 3, 9 };
-	DenseMatrix<int> mat2(data2, 4, 2, StorageType::ColumnMajor);
-	// 2 6
-	// 4 0
-	// 1 3
-	// 1 9
-	assert(mat2.at(0, 0) == 2);
-	assert(mat2.at(2, 1) == 3);
-	assert(mat2.at(3, 1) == 9);
-	assert(mat2.at(1, 0) == 4);
-
-	mat2.at(1, 1) = 3;
-	assert(mat2.at(1, 1) == 3);
-
-	MathVector<int> mat2_row0({ 2, 6 });
-	MathVector<int> mat2_row1({ 4, 3 });
-	MathVector<int> mat2_row2({ 1, 3 });
-	MathVector<int> mat2_row3({ 1, 9 });
-	assert(mat2.row(0) == mat2_row0);
-	assert(mat2.row(1) == mat2_row1);
-	assert(mat2.row(2) == mat2_row2);
-	assert(mat2.row(3) == mat2_row3);
-
-	MathVector<int> mat2_new_row0({ 1, 1 });
-	MathVector<int> mat2_new_row1({ 1, 5 });
-	MathVector<int> mat2_new_row2({ 2, 7 });
-	MathVector<int> mat2_new_row3({ 0, 0 });
-	mat2.setRow(0, mat2_new_row0);
-	mat2.setRow(1, mat2_new_row1);
-	mat2.setRow(2, mat2_new_row2);
-	mat2.setRow(3, mat2_new_row3);
-	assert(mat2.row(0) == mat2_new_row0);
-	assert(mat2.row(1) == mat2_new_row1);
-	assert(mat2.row(2) == mat2_new_row2);
-	assert(mat2.row(3) == mat2_new_row3);
-
-}
-
-void testDenseEquals()
-{
-	std::vector<int> data1{ 1, 4, 2, 3, 4, 6 };
-	DenseMatrix<int> mat1(data1, 2, 3);
-	DenseMatrix<int> mat2(data1, 3, 2);
-	assert(mat1 != mat2);
-
-	DenseMatrix<int> mat3(data1, 2, 3, StorageType::RowMajor);
-	assert(mat1 != mat3);
-
-	DenseMatrix<int> mat4(data1, 2, 3);
-	assert(mat1 == mat4);
-
-	mat4.at(0, 2) = 0;
-	assert(mat1 != mat4);
-	mat1.at(0, 2) = 0;
-	assert(mat1 == mat4);
 }
