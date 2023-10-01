@@ -62,6 +62,12 @@
     <ClInclude Include="include\exceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tests\tests_include\benchmarks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\tests_include\benchmark_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lib_utils.cpp">
@@ -77,6 +83,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tests\tests_src\sparse_matrix_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\tests_src\benchmarks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\tests_src\benchmark_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

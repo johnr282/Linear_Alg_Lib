@@ -173,11 +173,20 @@ namespace LinAlg
 		if (mat1.cols() != mat2.rows())
 			throw InvalidDimensions("matrix multiplication");
 
+		return basicMult(mat1, mat2);
+	}
 
-
-		// TODO
-		DenseMatrix<DataType> result(3, 3);
-		return result;
+	// Performs basic multiplication algorithm based on mathematical 
+	// definition of matrix multiplication
+	template<typename DataType>
+	inline DenseMatrix<DataType> basicMult(const DenseMatrix<DataType>& mat1,
+		const DenseMatrix<DataType>& mat2)
+	{
+		// Multiplication is most efficient when mat1 is row major 
+		// and mat2 is column major
+		
+		std::vector<DataType> data;
+		return DenseMatrix<DataType>(data, 0, 0);
 	}
 }
 

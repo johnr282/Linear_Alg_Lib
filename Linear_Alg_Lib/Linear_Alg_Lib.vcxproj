@@ -140,6 +140,8 @@
     <ClInclude Include="include\matrix_utils.h" />
     <ClInclude Include="include\ops_utils.h" />
     <ClInclude Include="include\sparse_matrix.h" />
+    <ClInclude Include="tests\tests_include\benchmarks.h" />
+    <ClInclude Include="tests\tests_include\benchmark_utils.h" />
     <ClInclude Include="tests\tests_include\dense_matrix_tests.h" />
     <ClInclude Include="tests\tests_include\math_vector_tests.h" />
     <ClInclude Include="tests\tests_include\sparse_matrix_tests.h" />
@@ -147,6 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lib_utils.cpp" />
+    <ClCompile Include="tests\tests_src\benchmarks.cpp" />
+    <ClCompile Include="tests\tests_src\benchmark_utils.cpp" />
     <ClCompile Include="tests\tests_src\dense_matrix_tests.cpp" />
     <ClCompile Include="tests\tests_src\main.cpp" />
     <ClCompile Include="tests\tests_src\math_vector_tests.cpp" />
