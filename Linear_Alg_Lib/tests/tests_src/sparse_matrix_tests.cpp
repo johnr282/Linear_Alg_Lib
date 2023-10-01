@@ -2,7 +2,7 @@
 
 #include <cassert>
 #include "../tests_include/tests_utils.h"
-#include "../../include/sparse_matrix.h"
+#include "../../include/linalg.h"
 
 using namespace LinAlg;
 

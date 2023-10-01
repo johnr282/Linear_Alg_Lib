@@ -2,9 +2,7 @@
 
 #include <cassert>
 #include "../tests_include/tests_utils.h"
-#include "../../include/math_vector.h"
-#include "../../include/math_vector_ops.h"
-#include "../../include/lib_utils.h"
+#include "../../include/linalg.h"
 
 using namespace LinAlg;
 

@@ -1,19 +1,17 @@
 #ifndef TESTS_UTILS_H
 #define TESTS_UTILS_H
 
-#include "../../include/dense_matrix.h"
-#include "../../include/sparse_matrix.h"
-#include "../../include/lib_utils.h"
+#include "../../include/linalg.h"
 
 using namespace LinAlg;
 
 // ------------------------------------------------------------------
-// Helpers for unit testing
+// Utility functions for unit testing
 // ------------------------------------------------------------------
 
 // Checks if given vectors are approximately equal
 template <typename DataType>
-void checkVectors(const std::vector<DataType>& vec1, 
+inline void checkVectors(const std::vector<DataType>& vec1, 
 				  const std::vector<DataType>& vec2)
 {
 	assert(vec1.size() == vec2.size());
@@ -57,6 +55,20 @@ inline void checkSparseMatrix(const SparseMatrix<DataType>& mat,
 	assert(mat.getNumNonzero() == num_nonzero);
 	assert(mat.rows() == rows);
 	assert(mat.cols() == cols);
+}
+
+// Returns a randomly generated vector of size n
+inline std::vector<int> generateRandomVector(const size_t n)
+{
+	std::vector<int> values(n);
+
+	auto generateRandomValues = [n]() -> int 
+		{ 
+			return rand() % n; 
+		};
+
+	generate(values.begin(), values.end(), generateRandomValues);
+	return values;
 }
 
 

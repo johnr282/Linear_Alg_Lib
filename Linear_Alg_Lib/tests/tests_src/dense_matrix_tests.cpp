@@ -3,9 +3,7 @@
 #include <cassert>
 #include <numeric>
 #include "../tests_include/tests_utils.h"
-#include "../../include/dense_matrix.h"
-#include "../../include/matrix_ops.h"
-#include "../../include/math_vector_ops.h"
+#include "../../include/linalg.h"
 
 using namespace LinAlg;
 
