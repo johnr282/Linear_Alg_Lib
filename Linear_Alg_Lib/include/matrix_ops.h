@@ -184,9 +184,20 @@ namespace LinAlg
 	{
 		// Multiplication is most efficient when mat1 is row major 
 		// and mat2 is column major
-		
-		std::vector<DataType> data;
-		return DenseMatrix<DataType>(data, 0, 0);
+
+		std::vector<DataType> product_data(mat1.rows() * mat2.cols());
+		DenseMatrix<DataType> product(
+			product_data, mat1.rows(), mat2.cols(), mat1.getStorageType());
+
+		for (size_t i = 0; i < product.rows(); ++i)
+		{
+			for (size_t j = 0; j < product.cols(); ++j)
+			{
+				product.at(i, j) = dotProduct(mat1.row(i), mat2.col(j));
+			}
+		}
+
+		return product;
 	}
 }
 

@@ -25,6 +25,7 @@ void testDenseMatrix()
 	testDenseSub();
 	testDenseAtRowCol();
 	testDenseEquals();
+	testDenseMult();
 
 	std::cout << "DenseMatrix tests complete\n";
 }
@@ -421,7 +422,7 @@ void testDenseMult()
 	DenseMatrix<int> mat5(data5, 5, 5, StorageType::ColumnMajor);
 	DenseMatrix<int> mat6 = mat4 * mat5;
 	std::vector<int> data6{ 37, 25, 13, 101, 126, 148, 58, 15, 74, 64, 58, 104, 142, 79, 91, 7, 47, 75, 26, 30, 28, 66, 97, 24, 53 };
-	checkDenseMatrix(mat6, data6, 3, 3, StorageType::ColumnMajor);
+	checkDenseMatrix(mat6, data6, 5, 5, StorageType::ColumnMajor);
 
 	// colmaj * colmaj, different dimensions
 	std::vector<int> data7{ 1, 2, 0, 0, 1, 4 };
