@@ -57,7 +57,7 @@ namespace LinAlg
 		void setData(const std::vector<DataType>& data_in)
 		{
 			// Check that data_in vector matches matrix size
-			if (data_in.size() != this->getSize())
+			if (data_in.size() != this->size())
 			{
 				throw InvalidDimensions("setData()");
 			}
@@ -175,7 +175,7 @@ namespace LinAlg
 			if (invalid_index)
 				throw OutOfBounds("DenseMatrix::setRow()");
 
-			bool invalid_row = (new_row.getSize() != this->_cols);
+			bool invalid_row = (new_row.size() != this->_cols);
 			if (invalid_row)
 				throw InvalidDimensions("DenseMatrix::setRow()");
 
@@ -208,7 +208,7 @@ namespace LinAlg
 			if (invalid_index)
 				throw OutOfBounds("DenseMatrix::setCol()");
 
-			bool invalid_row = (new_col.getSize() != this->_rows);
+			bool invalid_row = (new_col.size() != this->_rows);
 			if (invalid_row)
 				throw InvalidDimensions("DenseMatrix::setCol()");
 

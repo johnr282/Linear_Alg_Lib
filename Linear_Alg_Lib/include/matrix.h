@@ -26,17 +26,17 @@ namespace LinAlg
 			_size(rows_in* cols_in)
 		{ }
 
-		size_t getRows() const
+		size_t rows() const
 		{
 			return _rows;
 		}
 
-		size_t getCols() const
+		size_t cols() const
 		{
 			return _cols;
 		}
 
-		size_t getSize() const
+		size_t size() const
 		{
 			return _size;
 		}

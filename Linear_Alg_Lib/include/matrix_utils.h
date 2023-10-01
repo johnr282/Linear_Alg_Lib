@@ -6,7 +6,7 @@
 #include <algorithm>
 
 // ------------------------------------------------------------------
-// Utility functions for DenseMatrix and SparseMatrix classes
+// Utility functions for matrix classes and operations
 // ------------------------------------------------------------------
 
 namespace LinAlg

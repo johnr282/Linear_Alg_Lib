@@ -34,9 +34,9 @@ inline void checkDenseMatrix(const DenseMatrix<DataType>& mat,
 							 StorageType type)
 {
 	assert(mat.getData() == data);
-	assert(mat.getRows() == rows);
-	assert(mat.getCols() == cols);
-	assert(mat.getSize() == (rows * cols));
+	assert(mat.rows() == rows);
+	assert(mat.cols() == cols);
+	assert(mat.size() == (rows * cols));
 	assert(mat.getStorageType() == type);
 }
 
@@ -55,8 +55,8 @@ inline void checkSparseMatrix(const SparseMatrix<DataType>& mat,
 	assert(mat.getRowIndices() == row_indices);
 	assert(mat.getColIndices() == col_indices);
 	assert(mat.getNumNonzero() == num_nonzero);
-	assert(mat.getRows() == rows);
-	assert(mat.getCols() == cols);
+	assert(mat.rows() == rows);
+	assert(mat.cols() == cols);
 }
 
 

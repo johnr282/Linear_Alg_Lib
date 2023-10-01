@@ -17,9 +17,9 @@ namespace LinAlg
 	inline bool operator==(const DenseMatrix<DataType>& lhs,
 		const DenseMatrix<DataType>& rhs)
 	{
-		return (lhs.getSize() == rhs.getSize()) &&
-			(lhs.getRows() == rhs.getRows()) &&
-			(lhs.getCols() == rhs.getCols()) &&
+		return (lhs.size() == rhs.size()) &&
+			(lhs.rows() == rhs.rows()) &&
+			(lhs.cols() == rhs.cols()) &&
 			(lhs.getStorageType() == rhs.getStorageType()) &&
 			(lhs.getData() == rhs.getData());
 	}
@@ -47,8 +47,8 @@ namespace LinAlg
 		const DenseMatrix<DataType>& mat)
 	{
 		std::vector<DataType> data = mat.getData();
-		size_t rows = mat.getRows();
-		size_t cols = mat.getCols();
+		size_t rows = mat.rows();
+		size_t cols = mat.cols();
 
 		// Finds maximum number of digits in any element in matrix data
 		size_t max_digits = findMaxDigits(data);
@@ -61,7 +61,7 @@ namespace LinAlg
 			data = convertToRowMajorHelper(data, rows, cols);
 
 		// Print matrix
-		for (size_t i = 0; i < mat.getSize(); ++i)
+		for (size_t i = 0; i < mat.size(); ++i)
 		{
 			DataType curr_elt = data[i];
 			size_t num_spaces = column_width - numDigits<DataType>(curr_elt);
@@ -93,7 +93,7 @@ namespace LinAlg
 			// Add the data vectors together and return a new DenseMatrix
 			std::vector<DataType> result_data = addStdVectors(mat1.getData(), mat2.getData());
 			DenseMatrix<DataType> result(
-				result_data, mat1.getRows(), mat1.getCols(), mat1.getStorageType());
+				result_data, mat1.rows(), mat1.cols(), mat1.getStorageType());
 			return result;
 		}
 		// If the matrices' storage formats don't match
@@ -104,18 +104,18 @@ namespace LinAlg
 			// Mat2 must be column major, so convert it's data vector to 
 			// row major for easy addition
 			data2_converted = convertToRowMajorHelper(
-				mat2.getData(), mat2.getRows(), mat2.getCols());
+				mat2.getData(), mat2.rows(), mat2.cols());
 		}
 		else
 		{
 			// Mat2 must be row major, so convert it's data vector to column major
 			data2_converted = convertToColMajorHelper(
-				mat2.getData(), mat2.getRows(), mat2.getCols());
+				mat2.getData(), mat2.rows(), mat2.cols());
 		}
 
 		std::vector<DataType> result_data = addStdVectors(mat1.getData(), data2_converted);
 		DenseMatrix<DataType> result(
-			result_data, mat1.getRows(), mat2.getCols(), mat1.getStorageType());
+			result_data, mat1.rows(), mat2.cols(), mat1.getStorageType());
 		return result;
 	}
 
@@ -136,7 +136,7 @@ namespace LinAlg
 			std::vector<DataType> result_data = subtractStdVectors(
 				mat1.getData(), mat2.getData());
 			DenseMatrix<DataType> result(
-				result_data, mat1.getRows(), mat1.getCols(), mat1.getStorageType());
+				result_data, mat1.rows(), mat1.cols(), mat1.getStorageType());
 			return result;
 		}
 
@@ -148,19 +148,19 @@ namespace LinAlg
 			// Mat2 must be column major, so convert it's data vector to row 
 			// major for easy addition
 			data2_converted = convertToRowMajorHelper(
-				mat2.getData(), mat2.getRows(), mat2.getCols());
+				mat2.getData(), mat2.rows(), mat2.cols());
 		}
 		else
 		{
 			// Mat2 must be row major, so convert it's data vector to column major
 			data2_converted = convertToColMajorHelper(
-				mat2.getData(), mat2.getRows(), mat2.getCols());
+				mat2.getData(), mat2.rows(), mat2.cols());
 		}
 
 		std::vector<DataType> result_data = subtractStdVectors(
 			mat1.getData(), data2_converted);
 		DenseMatrix<DataType> result(
-			result_data, mat1.getRows(), mat2.getCols(), mat1.getStorageType());
+			result_data, mat1.rows(), mat2.cols(), mat1.getStorageType());
 		return result;
 	}
 
@@ -170,7 +170,7 @@ namespace LinAlg
 	inline DenseMatrix<DataType> operator*(const DenseMatrix<DataType>& mat1,
 		const DenseMatrix<DataType>& mat2)
 	{
-		if (mat1.getCols() != mat2.getRows())
+		if (mat1.cols() != mat2.rows())
 			throw InvalidDimensions("matrix multiplication");
 
 

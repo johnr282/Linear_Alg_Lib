@@ -34,7 +34,7 @@ namespace LinAlg
 			_data = data_in;
 		}
 
-		size_t getSize() const
+		size_t size() const
 		{
 			return _data.size();
 		}

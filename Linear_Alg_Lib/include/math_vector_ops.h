@@ -51,7 +51,7 @@ namespace LinAlg
 	inline MathVector<DataType> operator+(const MathVector<DataType>& vec1,
 		const MathVector<DataType>& vec2)
 	{
-		if (vec1.getSize() != vec2.getSize())
+		if (vec1.size() != vec2.size())
 			throw InvalidDimensions("Vector addition");
 
 		std::vector<DataType> result_data = addStdVectors(
@@ -65,7 +65,7 @@ namespace LinAlg
 	inline MathVector<DataType> operator-(const MathVector<DataType>& vec1,
 		const MathVector<DataType>& vec2)
 	{
-		if (vec1.getSize() != vec2.getSize())
+		if (vec1.size() != vec2.size())
 			throw InvalidDimensions("Vector subtraction");
 
 		std::vector<DataType> result_data = subtractStdVectors(
@@ -80,14 +80,14 @@ namespace LinAlg
 	inline DataType dotProduct(const MathVector<DataType>& vec1,
 		const MathVector<DataType>& vec2)
 	{
-		if (vec1.getSize() != vec2.getSize())
+		if (vec1.size() != vec2.size())
 			throw InvalidDimensions("dotProduct()");
 
 		std::vector<DataType> data1 = vec1.getData();
 		std::vector<DataType> data2 = vec2.getData();
 
 		DataType result = 0;
-		for (size_t i = 0; i < vec1.getSize(); ++i)
+		for (size_t i = 0; i < vec1.size(); ++i)
 		{
 			result += data1[i] * data2[i];
 		}
@@ -102,7 +102,7 @@ namespace LinAlg
 	inline MathVector<DataType> crossProduct(const MathVector<DataType>& vec1,
 		const MathVector<DataType>& vec2)
 	{
-		if (vec1.getSize() != 3 || vec2.getSize() != 3)
+		if (vec1.size() != 3 || vec2.size() != 3)
 			throw InvalidDimensions("crossProduct()");
 
 		DataType i_component = vec1[1] * vec2[2] - vec1[2] * vec2[1];

@@ -37,9 +37,9 @@ void testDenseMatrixCtor()
 	DenseMatrix<int> mat(data, 3, 4, StorageType::RowMajor);
 	// Check if data is correct
 	assert(mat.getData() == data);
-	assert(mat.getRows() == 3);
-	assert(mat.getCols() == 4);
-	assert(mat.getSize() == 12);
+	assert(mat.rows() == 3);
+	assert(mat.cols() == 4);
+	assert(mat.size() == 12);
 	assert(mat.getStorageType() == StorageType::RowMajor);
 
 	// Test with default storage type
@@ -49,15 +49,15 @@ void testDenseMatrixCtor()
 
 	// Test second constructor with no data vector
 	DenseMatrix<uint32_t> mat3(4, 5);
-	assert(mat3.getRows() == 4);
-	assert(mat3.getCols() == 5);
-	assert(mat3.getSize() == 20);
+	assert(mat3.rows() == 4);
+	assert(mat3.cols() == 5);
+	assert(mat3.size() == 20);
 	assert(mat3.getStorageType() == StorageType::ColumnMajor);
 
 	DenseMatrix<float> mat4(6, 6, StorageType::RowMajor);
-	assert(mat4.getRows() == 6);
-	assert(mat4.getCols() == 6);
-	assert(mat4.getSize() == 36);
+	assert(mat4.rows() == 6);
+	assert(mat4.cols() == 6);
+	assert(mat4.size() == 36);
 	assert(mat4.getStorageType() == StorageType::RowMajor);
 }
 

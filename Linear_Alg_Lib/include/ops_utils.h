@@ -53,8 +53,8 @@ namespace LinAlg
 	inline bool sameDimension(const DenseMatrix<DataType>& mat1,
 		const DenseMatrix<DataType>& mat2)
 	{
-		return (mat1.getRows() == mat2.getRows()) &&
-			(mat1.getCols() == mat2.getCols());
+		return (mat1.rows() == mat2.rows()) &&
+			(mat1.cols() == mat2.cols());
 	}
 }
 
