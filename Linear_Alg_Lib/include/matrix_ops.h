@@ -173,35 +173,20 @@ namespace LinAlg
 		if (mat1.cols() != mat2.rows())
 			throw InvalidDimensions("matrix multiplication");
 
-		return basicMult2(mat1, mat2);
+		return basicMult(mat1, mat2);
 	}
 
 	// Performs basic multiplication algorithm based on mathematical 
 	// definition of matrix multiplication
+	// Converting mat1 to RowMajor and mat2 to ColMajor improves performance
+	// over not doing the conversion
+	// For multiplying two 300 x 300 matrices: 
+	// ColMajor * ColMajor: 30% faster
+	// ColMajor * RowMajor: 55% faster
+	// RowMajor * RowMajor: 34% faster
+	// RowMajor * ColMajor: 1% slower
 	template<typename DataType>
-	inline DenseMatrix<DataType> basicMult1(const DenseMatrix<DataType>& mat1,
-		const DenseMatrix<DataType>& mat2)
-	{
-		// Multiplication is most efficient when mat1 is row major 
-		// and mat2 is column major
-
-		std::vector<DataType> product_data(mat1.rows() * mat2.cols());
-		DenseMatrix<DataType> product(
-			product_data, mat1.rows(), mat2.cols(), mat1.getStorageType());
-
-		for (size_t i = 0; i < product.rows(); ++i)
-		{
-			for (size_t j = 0; j < product.cols(); ++j)
-			{
-				product.at(i, j) = dotProduct(mat1.row(i), mat2.col(j));
-			}
-		}
-
-		return product;
-	}
-
-	template<typename DataType>
-	inline DenseMatrix<DataType> basicMult2(const DenseMatrix<DataType>& mat1,
+	inline DenseMatrix<DataType> basicMult(const DenseMatrix<DataType>& mat1,
 		const DenseMatrix<DataType>& mat2)
 	{
 		std::vector<DataType> product_data(mat1.rows() * mat2.cols());
@@ -210,6 +195,8 @@ namespace LinAlg
 
 		// Multiplication is most efficient when mat1 is row major 
 		// and mat2 is column major
+		// From benchmarks, performing this conversion resulted in up to 
+		// 40% faster multiplication in the best case, 
 		DenseMatrix<DataType> converted_mat1 = mat1.convertToRowMajor();
 		DenseMatrix<DataType> converted_mat2 = mat2.convertToColMajor();
 
@@ -221,7 +208,6 @@ namespace LinAlg
 					dotProduct(converted_mat1.row(i), converted_mat2.col(j));
 			}
 		}
-
 		return product;
 	}
 }
