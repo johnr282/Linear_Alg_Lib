@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="src\lib_utils.cpp" />
     <ClCompile Include="tests\tests_src\benchmarks.cpp" />
+    <ClCompile Include="tests\tests_src\benchmark_utils.cpp" />
     <ClCompile Include="tests\tests_src\dense_matrix_tests.cpp" />
     <ClCompile Include="tests\tests_src\main.cpp" />
     <ClCompile Include="tests\tests_src\math_vector_tests.cpp" />

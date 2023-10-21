@@ -173,13 +173,13 @@ namespace LinAlg
 		if (mat1.cols() != mat2.rows())
 			throw InvalidDimensions("matrix multiplication");
 
-		return basicMult(mat1, mat2);
+		return basicMult2(mat1, mat2);
 	}
 
 	// Performs basic multiplication algorithm based on mathematical 
 	// definition of matrix multiplication
 	template<typename DataType>
-	inline DenseMatrix<DataType> basicMult(const DenseMatrix<DataType>& mat1,
+	inline DenseMatrix<DataType> basicMult1(const DenseMatrix<DataType>& mat1,
 		const DenseMatrix<DataType>& mat2)
 	{
 		// Multiplication is most efficient when mat1 is row major 
@@ -194,6 +194,31 @@ namespace LinAlg
 			for (size_t j = 0; j < product.cols(); ++j)
 			{
 				product.at(i, j) = dotProduct(mat1.row(i), mat2.col(j));
+			}
+		}
+
+		return product;
+	}
+
+	template<typename DataType>
+	inline DenseMatrix<DataType> basicMult2(const DenseMatrix<DataType>& mat1,
+		const DenseMatrix<DataType>& mat2)
+	{
+		std::vector<DataType> product_data(mat1.rows() * mat2.cols());
+		DenseMatrix<DataType> product(
+			product_data, mat1.rows(), mat2.cols(), mat1.getStorageType());
+
+		// Multiplication is most efficient when mat1 is row major 
+		// and mat2 is column major
+		DenseMatrix<DataType> converted_mat1 = mat1.convertToRowMajor();
+		DenseMatrix<DataType> converted_mat2 = mat2.convertToColMajor();
+
+		for (size_t i = 0; i < product.rows(); ++i)
+		{
+			for (size_t j = 0; j < product.cols(); ++j)
+			{
+				product.at(i, j) = 
+					dotProduct(converted_mat1.row(i), converted_mat2.col(j));
 			}
 		}
 

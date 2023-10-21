@@ -82,6 +82,19 @@ namespace LinAlg
 			_storage_type = StorageType::RowMajor;
 		}
 
+		// Const version, returns converted row major DenseMatrix
+		DenseMatrix<DataType> convertToRowMajor() const
+		{
+			if (_storage_type == StorageType::RowMajor)
+				return DenseMatrix<DataType>(*this);
+
+			std::vector<DataType> converted_data = convertToRowMajorHelper(
+				this->_data, this->_rows, this->_cols);
+			
+			return DenseMatrix<DataType>(
+				converted_data, this->_rows, this->_cols, StorageType::RowMajor);
+		}
+
 		// Converts storage type from row major to column major by 
 		// rearranging data vector; if storage type is already column 
 		// major, does nothing
@@ -93,6 +106,19 @@ namespace LinAlg
 			_data = convertToColMajorHelper(
 				this->_data, this->_rows, this->_cols);
 			_storage_type = StorageType::ColumnMajor;
+		}
+
+		// Const version, returns converted column major DenseMatrix
+		DenseMatrix<DataType> convertToColMajor() const
+		{
+			if (_storage_type == StorageType::ColumnMajor)
+				return DenseMatrix<DataType>(*this);
+
+			std::vector<DataType> converted_data = convertToColMajorHelper(
+				this->_data, this->_rows, this->_cols);
+
+			return DenseMatrix<DataType>(
+				converted_data, this->_rows, this->_cols, StorageType::ColumnMajor);
 		}
 
 		// Returns element at location (row, col), const version

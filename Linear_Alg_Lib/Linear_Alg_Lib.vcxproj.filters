@@ -91,5 +91,8 @@
     <ClCompile Include="tests\tests_src\benchmarks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tests\tests_src\benchmark_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
