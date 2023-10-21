@@ -71,6 +71,9 @@
     <ClInclude Include="include\linalg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\matrix_mult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lib_utils.cpp">
