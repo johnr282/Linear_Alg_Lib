@@ -12,21 +12,22 @@ namespace LinAlg
 {
 	// Performs basic multiplication algorithm based on mathematical 
 	// definition of matrix multiplication; doesn't worry about storage
-	// formats of mat1 and mat2; found to be slower than basicMultWithConversion, 
+	// formats of A and B; found to be slower than basicMultWithConversion, 
 	// so not used
 	template<typename DataType>
-	inline DenseMatrix<DataType> basicMultNoConversion(const DenseMatrix<DataType>& mat1,
-		const DenseMatrix<DataType>& mat2)
+	inline DenseMatrix<DataType> basicMultNoConversion(
+		const DenseMatrix<DataType>& A,
+		const DenseMatrix<DataType>& B)
 	{
-		std::vector<DataType> product_data(mat1.rows() * mat2.cols());
+		std::vector<DataType> product_data(A.rows() * B.cols());
 		DenseMatrix<DataType> product(
-			product_data, mat1.rows(), mat2.cols(), mat1.getStorageType());
+			product_data, A.rows(), B.cols(), A.getStorageType());
 
 		for (size_t i = 0; i < product.rows(); ++i)
 		{
 			for (size_t j = 0; j < product.cols(); ++j)
 			{
-				product.at(i, j) = dotProduct(mat1.row(i), mat2.col(j));
+				product.at(i, j) = dotProduct(A.row(i), B.col(j));
 			}
 		}
 
@@ -35,7 +36,7 @@ namespace LinAlg
 
 	// Performs basic multiplication algorithm based on mathematical 
 	// definition of matrix multiplication
-	// Converting mat1 to RowMajor and mat2 to ColMajor improves performance
+	// Converting A to RowMajor and B to ColMajor improves performance
 	// over not doing the conversion
 	// For multiplying two 300 x 300 matrices: 
 	// ColMajor * ColMajor: 30% faster
@@ -43,27 +44,55 @@ namespace LinAlg
 	// RowMajor * RowMajor: 34% faster
 	// RowMajor * ColMajor: 1% slower
 	template<typename DataType>
-	inline DenseMatrix<DataType> basicMultWithConversion(const DenseMatrix<DataType>& mat1,
-		const DenseMatrix<DataType>& mat2)
+	inline DenseMatrix<DataType> basicMultWithConversion(
+		const DenseMatrix<DataType>& A,
+		const DenseMatrix<DataType>& B)
 	{
-		std::vector<DataType> product_data(mat1.rows() * mat2.cols());
+		std::vector<DataType> product_data(A.rows() * B.cols());
 		DenseMatrix<DataType> product(
-			product_data, mat1.rows(), mat2.cols(), mat1.getStorageType());
+			product_data, A.rows(), B.cols(), A.getStorageType());
 
-		DenseMatrix<DataType> converted_mat1 = mat1.convertToRowMajor();
-		DenseMatrix<DataType> converted_mat2 = mat2.convertToColMajor();
+		DenseMatrix<DataType> converted_A = A.convertToRowMajor();
+		DenseMatrix<DataType> converted_B = B.convertToColMajor();
 
 		for (size_t i = 0; i < product.rows(); ++i)
 		{
 			for (size_t j = 0; j < product.cols(); ++j)
 			{
 				product.at(i, j) =
-					dotProduct(converted_mat1.row(i), converted_mat2.col(j));
+					dotProduct(converted_A.row(i), converted_B.col(j));
 			}
 		}
 
 		return product;
 	}
+
+	// Performs Strassen's algorithm for matrix multiplication; switches
+	// back to basicMultWithConversion once recursive calls get small
+	// enough
+	template<typename DataType>
+	inline DenseMatrix<DataType> strassen(
+		const DenseMatrix<DataType>& A,
+		const DenseMatrix<DataType>& B)
+	{
+		if (A.isSquare() && B.isSquare())
+			return squareStrassen(A, B);
+	}
+
+	// Performs Strassen's algorithm, assuming both matrices are square
+	template<typename DataType>
+	inline DenseMatrix<DataType> squareStrassen(
+		const DenseMatrix<DataType>& A,
+		const DenseMatrix<DataType>& B)
+	{
+		// If matrices have odd dimensions, need to pad with extra row and 
+		// column of zeros
+		/*if(!isEven(A.rows()))*/
+
+	}
+
+	// Pads given matrix with n rows and columns filled with zeros
+
 }
 
 

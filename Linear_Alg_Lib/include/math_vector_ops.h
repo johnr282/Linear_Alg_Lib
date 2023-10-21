@@ -52,7 +52,7 @@ namespace LinAlg
 		const MathVector<DataType>& vec2)
 	{
 		if (vec1.size() != vec2.size())
-			throw InvalidDimensions("Vector addition");
+			throw InvalidDimensions();
 
 		std::vector<DataType> result_data = addStdVectors(
 			vec1.getData(), vec2.getData());
@@ -66,7 +66,7 @@ namespace LinAlg
 		const MathVector<DataType>& vec2)
 	{
 		if (vec1.size() != vec2.size())
-			throw InvalidDimensions("Vector subtraction");
+			throw InvalidDimensions();
 
 		std::vector<DataType> result_data = subtractStdVectors(
 			vec1.getData(), vec2.getData());
@@ -81,7 +81,7 @@ namespace LinAlg
 		const MathVector<DataType>& vec2)
 	{
 		if (vec1.size() != vec2.size())
-			throw InvalidDimensions("dotProduct()");
+			throw InvalidDimensions();
 
 		std::vector<DataType> data1 = vec1.getData();
 		std::vector<DataType> data2 = vec2.getData();
@@ -103,7 +103,7 @@ namespace LinAlg
 		const MathVector<DataType>& vec2)
 	{
 		if (vec1.size() != 3 || vec2.size() != 3)
-			throw InvalidDimensions("crossProduct()");
+			throw InvalidDimensions();
 
 		DataType i_component = vec1[1] * vec2[2] - vec1[2] * vec2[1];
 		DataType j_component = vec1[2] * vec2[0] - vec1[0] * vec2[2];

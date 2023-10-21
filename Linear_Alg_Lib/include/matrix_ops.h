@@ -86,7 +86,7 @@ namespace LinAlg
 	{
 		// Check that both matrices have the same dimensions
 		if (!sameDimension(mat1, mat2))
-			throw InvalidDimensions("matrix addition");
+			throw InvalidDimensions();
 
 		// Check that both matrices have the same storage format
 		if (mat1.getStorageType() == mat2.getStorageType())
@@ -128,7 +128,7 @@ namespace LinAlg
 	{
 		// Check that both matrices have the same dimensions
 		if (!sameDimension(mat1, mat2))
-			throw InvalidDimensions("matrix subtraction");
+			throw InvalidDimensions();
 
 		// Check that both matrices have the same storage format
 		if (mat1.getStorageType() == mat2.getStorageType())
@@ -172,7 +172,7 @@ namespace LinAlg
 		const DenseMatrix<DataType>& mat2)
 	{
 		if (mat1.cols() != mat2.rows())
-			throw InvalidDimensions("matrix multiplication");
+			throw InvalidDimensions();
 
 		return basicMultWithConversion(mat1, mat2);
 	}

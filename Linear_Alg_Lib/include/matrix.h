@@ -71,6 +71,12 @@ namespace LinAlg
 		virtual void setCol(const size_t j,
 			const MathVector<DataType>& new_col) = 0;
 
+		// Adds given row to bottom of matrix
+		virtual void addRow(const MathVector<DataType>& new_row) = 0;
+
+		// Adds given col to right of matrix
+		virtual void addCol(const MathVector<DataType>& new_col) = 0;
+
 		// Returns transpose of matrix
 		virtual MatrixType tranpose() const = 0;
 

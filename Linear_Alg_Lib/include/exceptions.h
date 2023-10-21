@@ -15,10 +15,9 @@ namespace LinAlg
 	{
 	public:
 
-		CustomException(std::string func_name,
-			std::string exception_type)
+		CustomException(const std::string& output_in)
 		{ 
-			_output = exception_type + " in " + func_name;
+			_output = output_in;
 		}
 
 		const char* what()
@@ -28,7 +27,7 @@ namespace LinAlg
 
 	private:
 
-		// Output of what(), formatted as "Exception type in func()"
+		// Output of what()
 		std::string _output;
 	};
 
@@ -37,8 +36,8 @@ namespace LinAlg
 	{
 	public:
 
-		InvalidDimensions(std::string message_in) :
-			CustomException(message_in, "Invalid dimensions")
+		InvalidDimensions() :
+			CustomException("Invalid dimensions")
 		{ }
 	};
 
@@ -47,8 +46,8 @@ namespace LinAlg
 	{
 	public: 
 
-		OutOfBounds(std::string message_in) :
-			CustomException(message_in, "Out of bounds index")
+		OutOfBounds() :
+			CustomException("Out of bounds index")
 		{ }
 	};
 }

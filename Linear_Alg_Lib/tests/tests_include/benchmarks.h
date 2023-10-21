@@ -8,7 +8,7 @@
 // Runs all benchmark tests
 void runBenchmarks();
 
-void benchmarkDenseMatrixMult();
+void benchmarkDenseMatrixBasicMult();
 
 
 

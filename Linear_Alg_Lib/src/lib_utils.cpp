@@ -14,4 +14,10 @@ namespace LinAlg
 		const double epsilon = 0.000001;
 		return std::fabs(num1 - num2) < epsilon;
 	}
+
+	// Returns true if given integer is even
+	bool isEven(const int num)
+	{
+		return num % 2 == 0;
+	}
 }

@@ -31,7 +31,7 @@ namespace LinAlg
 			// Check that size of data vector matches rows_in * cols_in
 			if (data_in.size() != rows_in * cols_in)
 			{
-				throw InvalidDimensions("DenseMatrix()");
+				throw InvalidDimensions();
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace LinAlg
 			// Check that data_in vector matches matrix size
 			if (data_in.size() != this->size())
 			{
-				throw InvalidDimensions("setData()");
+				throw InvalidDimensions();
 			}
 			_data = data_in;
 		}
@@ -138,7 +138,7 @@ namespace LinAlg
 		{
 			bool invalid_index = (row_index >= this->_rows);
 			if (invalid_index)
-				throw OutOfBounds("DenseMatrix::row()");
+				throw OutOfBounds();
 
 			std::vector<DataType> row_data(this->_cols);
 
@@ -168,7 +168,7 @@ namespace LinAlg
 		{
 			bool invalid_index = (col_index >= this->_cols);
 			if (invalid_index)
-				throw OutOfBounds("DenseMatrix::col()");
+				throw OutOfBounds();
 
 			std::vector<DataType> col_data(this->_rows);
 
@@ -199,11 +199,11 @@ namespace LinAlg
 		{
 			bool invalid_index = (row_index >= this->_rows);
 			if (invalid_index)
-				throw OutOfBounds("DenseMatrix::setRow()");
+				throw OutOfBounds();
 
 			bool invalid_row = (new_row.size() != this->_cols);
 			if (invalid_row)
-				throw InvalidDimensions("DenseMatrix::setRow()");
+				throw InvalidDimensions();
 
 			std::vector<DataType> new_row_data = new_row.getData();
 
@@ -232,11 +232,11 @@ namespace LinAlg
 		{
 			bool invalid_index = (col_index >= this->_cols);
 			if (invalid_index)
-				throw OutOfBounds("DenseMatrix::setCol()");
+				throw OutOfBounds();
 
 			bool invalid_row = (new_col.size() != this->_rows);
 			if (invalid_row)
-				throw InvalidDimensions("DenseMatrix::setCol()");
+				throw InvalidDimensions();
 
 			std::vector<DataType> new_col_data = new_col.getData();
 
@@ -257,6 +257,18 @@ namespace LinAlg
 					_data[col_elt_index] = new_col_data[i];
 				}
 			}
+		}
+
+		// Adds given row to bottom of matrix
+		void addRow(const MathVector<DataType>& new_row)
+		{
+
+		}
+
+		// Adds given col to right of matrix
+		void addCol(const MathVector<DataType>& new_col)
+		{
+
 		}
 
 		// Returns transpose of matrix
@@ -307,7 +319,7 @@ namespace LinAlg
 			bool invalid_index = (row >= this->_rows) || 
 								 (col >= this->_cols);
 			if (invalid_index)
-				throw OutOfBounds("DenseMatrix::at()");
+				throw OutOfBounds();
 
 			if (_storage_type == StorageType::RowMajor)
 				return row * this->_cols + col;

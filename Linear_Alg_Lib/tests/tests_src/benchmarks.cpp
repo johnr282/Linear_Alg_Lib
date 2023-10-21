@@ -15,12 +15,12 @@
 // Runs all benchmark tests
 void runBenchmarks()
 {
-	benchmarkDenseMatrixMult();
+	benchmarkDenseMatrixBasicMult();
 }
 
 // Used to determine that converting mat1 to RowMajor and mat2 to 
 // ColMajor improved performance of multiplication
-void benchmarkDenseMatrixMult()
+void benchmarkDenseMatrixBasicMult()
 {
 	std::vector<int> data1 = generateRandomVector(90000);
 	std::vector<int> data2 = generateRandomVector(90000);
