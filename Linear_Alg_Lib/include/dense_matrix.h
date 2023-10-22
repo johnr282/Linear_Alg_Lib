@@ -262,13 +262,60 @@ namespace LinAlg
 		// Adds given row to bottom of matrix
 		void addRow(const MathVector<DataType>& new_row)
 		{
+			if (new_row.size() != this->_cols)
+				throw InvalidDimensions();
 
+			std::vector<DataType> new_row_data = new_row.getData();
+			_data.reserve(_data.size() + new_row.size());
+
+
+			if (_storage_type == StorageType::RowMajor)
+			{
+				_data.insert(
+					_data.end(), new_row_data.begin(), new_row_data.end());
+			}
+			else
+			{
+				size_t i = this->_rows;
+				for (DataType elt : new_row_data)
+				{
+					_data.insert(_data.begin() + i, elt);
+					// Need the + 1 to account for the new element
+					i += this->_rows + 1;
+				}
+			}
+				
+			++this->_rows;
+			this->_size += new_row.size();
 		}
 
 		// Adds given col to right of matrix
 		void addCol(const MathVector<DataType>& new_col)
 		{
+			if (new_col.size() != this->_rows)
+				throw InvalidDimensions();
 
+			std::vector<DataType> new_col_data = new_col.getData();
+			_data.reserve(_data.size() + new_col.size());
+
+			if (_storage_type == StorageType::ColumnMajor)
+			{
+				_data.insert(
+					_data.end(), new_col_data.begin(), new_col_data.end());
+			}
+			else
+			{
+				size_t i = this->_cols;
+				for (DataType elt : new_col_data)
+				{
+					_data.insert(_data.begin() + i, elt);
+					// Need the + 1 to account for the new element
+					i += this->_cols + 1;
+				}
+			}
+
+			++this->_cols;
+			this->_size += new_col.size();
 		}
 
 		// Returns transpose of matrix

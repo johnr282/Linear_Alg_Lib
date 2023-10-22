@@ -23,6 +23,8 @@ void testDenseSub();
 
 void testDenseAtRowCol();
 
+void testDenseAddRowCol();
+
 void testDenseEquals();
 
 void testDenseMult();

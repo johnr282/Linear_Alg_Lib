@@ -22,6 +22,7 @@ void testDenseMatrix()
 	testDenseAdd();
 	testDenseSub();
 	testDenseAtRowCol();
+	testDenseAddRowCol();
 	testDenseEquals();
 	testDenseMult();
 
@@ -382,6 +383,64 @@ void testDenseAtRowCol()
 	mat2.setCol(1, mat2_new_col1);
 	assert(mat2.col(0) == mat2_new_col0);
 	assert(mat2.col(1) == mat2_new_col1);
+}
+
+void testDenseAddRowCol()
+{
+	std::vector<int> data1{ 0, 1, 3, 2, 1, 4, 5, 1, 2 };
+	DenseMatrix<int> mat1(data1, 3, 3, StorageType::RowMajor);
+	std::vector<int> new_row_data{ 1, 4, 2 };
+	MathVector<int> new_row(new_row_data);
+
+	mat1.addRow(new_row);
+	std::vector<int> new_data{ 0, 1, 3, 2, 1, 4, 5, 1, 2, 1, 4, 2 };
+	
+	assert(mat1.getData() == new_data);
+	assert(mat1.rows() == 4);
+	assert(mat1.size() == 12);
+	assert(mat1.cols() == 3);
+
+	std::vector<int> new_col_data{ 0, 5, 2, 1 };
+	MathVector<int> new_col(new_col_data);
+
+	mat1.addCol(new_col);
+	new_data = { 0, 1, 3, 0, 2, 1, 4, 5, 5, 1, 2, 2, 1, 4, 2, 1 };
+
+	/*
+	0 1 3 0
+	2 1 4 5
+	5 1 2 2
+	1 4 2 1
+	*/
+
+	assert(mat1.getData() == new_data);
+	assert(mat1.cols() == 4);
+	assert(mat1.rows() == 4);
+	assert(mat1.size() == 16);
+
+	mat1.convertToColMajor();
+
+	new_col_data = { 9, 1, 3, 6 };
+	new_col = MathVector<int>(new_col_data);
+
+	mat1.addCol(new_col);
+	new_data = { 0, 2, 5, 1, 1, 1, 1, 4, 3, 4, 2, 2, 0, 5, 2, 1, 9, 1, 3, 6 };
+
+	assert(mat1.getData() == new_data);
+	assert(mat1.cols() == 5);
+	assert(mat1.rows() == 4);
+	assert(mat1.size() == 20);
+
+	new_row_data = { 7, 8, 2, 7, 0 };
+	new_row = MathVector<int>(new_row_data);
+
+	mat1.addRow(new_row);
+	new_data = { 0, 2, 5, 1, 7, 1, 1, 1, 4, 8, 3, 4, 2, 2, 2, 0, 5, 2, 1, 7, 9, 1, 3, 6, 0 };
+
+	assert(mat1.getData() == new_data);
+	assert(mat1.cols() == 5);
+	assert(mat1.rows() == 5);
+	assert(mat1.size() == 25);
 }
 
 void testDenseEquals()
