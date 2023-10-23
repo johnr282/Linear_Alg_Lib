@@ -47,6 +47,16 @@ namespace LinAlg
 			_data = data_in;
 		}
 
+		// Default constructor with optional storage type parameter; data 
+		// vector initialized to empty vector, rows, cols, and size 
+		// initialized to 0
+		DenseMatrix(
+			const StorageType storage_type_in = StorageType::ColumnMajor) :
+			Matrix<DataType, DenseMatrix<DataType> >(0, 0),
+			_data(std::vector<DataType>()),
+			_storage_type(storage_type_in)
+		{ }
+
 		// Getter and setter functions
 
 		std::vector<DataType> getData() const
@@ -316,6 +326,19 @@ namespace LinAlg
 
 			++this->_cols;
 			this->_size += new_col.size();
+		}
+
+		// Returns matrix containing rows first_row to last_row and 
+		// columns first_col to last_col
+		DenseMatrix<DataType> subMatrix(size_t first_row,
+			size_t last_row,
+			size_t first_col,
+			size_t last_col) const override
+		{
+			DenseMatrix<DataType> sub_matrix(_storage_type);
+
+
+			return sub_matrix;
 		}
 
 		// Returns transpose of matrix

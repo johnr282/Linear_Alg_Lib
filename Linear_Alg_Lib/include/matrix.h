@@ -26,6 +26,13 @@ namespace LinAlg
 			_size(rows_in* cols_in)
 		{ }
 
+		// Default constructor
+		Matrix() :
+			_rows(0), 
+			_cols(0),
+			_size(0)
+		{ }
+
 		size_t rows() const
 		{
 			return _rows;
@@ -76,6 +83,13 @@ namespace LinAlg
 
 		// Adds given col to right of matrix
 		virtual void addCol(const MathVector<DataType>& new_col) = 0;
+
+		// Returns matrix containing rows first_row to last_row and 
+		// columns first_col to last_col
+		virtual MatrixType subMatrix(size_t first_row,
+			size_t last_row,
+			size_t first_col,
+			size_t last_col) const = 0;
 
 		// Returns transpose of matrix
 		virtual MatrixType tranpose() const = 0;

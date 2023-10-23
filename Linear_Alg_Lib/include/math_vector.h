@@ -22,6 +22,11 @@ namespace LinAlg
 			_data(data_in)
 		{ }
 
+		// Default constructor
+		MathVector() :
+			_data(std::vector<DataType>())
+		{ }
+
 		// Getter and setter functions
 
 		std::vector<DataType> getData() const
