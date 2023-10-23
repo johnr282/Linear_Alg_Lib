@@ -50,15 +50,15 @@ void testMathVectorSubVector()
 	std::vector<int> data1{ 1, 1, 4, 5, 1, 2 };
 	MathVector<int> vec1(data1);
 
-	MathVector<int> sub_vec = vec1.subVector(0, 3);
+	MathVector<int> sub_vec = vec1.getSubVector(0, 3);
 	std::vector<int> sub_data{ 1, 1, 4 };
 	assert(sub_vec.getData() == sub_data);
 
-	sub_vec = vec1.subVector(1, 1);
+	sub_vec = vec1.getSubVector(1, 1);
 	sub_data = { };
 	assert(sub_vec.getData() == sub_data);
 
-	sub_vec = vec1.subVector(2, 6);
+	sub_vec = vec1.getSubVector(2, 6);
 	sub_data = { 4, 5, 1, 2 };
 	assert(sub_vec.getData() == sub_data);
 }

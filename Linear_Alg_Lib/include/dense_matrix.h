@@ -340,7 +340,7 @@ namespace LinAlg
 
 		// Returns matrix containing rows [first_row, last_row) and 
 		// columns [first_col, last_col)
-		DenseMatrix<DataType> subMatrix(const size_t first_row,
+		DenseMatrix<DataType> getSubMatrix(const size_t first_row,
 			const size_t last_row,
 			const size_t first_col,
 			const size_t last_col) const override
@@ -362,7 +362,7 @@ namespace LinAlg
 				for (size_t i = first_row; i < last_row; ++i)
 				{
 					MathVector<DataType> row_i = 
-						row(i).subVector(first_col, last_col);
+						row(i).getSubVector(first_col, last_col);
 					sub_matrix.addRow(row_i);
 				}
 			}
@@ -371,7 +371,7 @@ namespace LinAlg
 				for (size_t i = first_col; i < last_col; ++i)
 				{
 					MathVector<DataType> col_i =
-						col(i).subVector(first_row, last_row);
+						col(i).getSubVector(first_row, last_row);
 					sub_matrix.addCol(col_i);
 				}
 			}

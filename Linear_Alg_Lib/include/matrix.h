@@ -86,7 +86,7 @@ namespace LinAlg
 
 		// Returns matrix containing rows first_row to last_row and 
 		// columns first_col to last_col
-		virtual MatrixType subMatrix(const size_t first_row,
+		virtual MatrixType getSubMatrix(const size_t first_row,
 			const size_t last_row,
 			const size_t first_col,
 			const size_t last_col) const = 0;

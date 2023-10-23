@@ -456,18 +456,18 @@ void testDenseSubMatrix()
 	3 2 2 4
 	*/
 
-	DenseMatrix<int> sub_mat = mat1.subMatrix(0, 2, 0, 2);
+	DenseMatrix<int> sub_mat = mat1.getSubMatrix(0, 2, 0, 2);
 	std::vector<int> sub_data = { 1, 4, 4, 5 };
 	assert(sub_mat.getData() == sub_data);
 
-	sub_mat = mat1.subMatrix(0, 4, 0, 4);
+	sub_mat = mat1.getSubMatrix(0, 4, 0, 4);
 	assert(sub_mat.getData() == data1);
 
-	sub_mat = mat1.subMatrix(1, 4, 1, 3);
+	sub_mat = mat1.getSubMatrix(1, 4, 1, 3);
 	sub_data = { 5, 1, 2, 1, 7, 2 };
 	assert(sub_mat.getData() == sub_data);
 
-	sub_mat = mat1.subMatrix(0, 0, 0, 0);
+	sub_mat = mat1.getSubMatrix(0, 0, 0, 0);
 	sub_data = { };
 	assert(sub_mat.getData() == sub_data);
 
@@ -480,19 +480,19 @@ void testDenseSubMatrix()
 	3 2 2 4
 	*/
 
-	sub_mat = mat1.subMatrix(0, 2, 0, 2);
+	sub_mat = mat1.getSubMatrix(0, 2, 0, 2);
 	sub_data = { 1, 4, 4, 5 };
 	assert(sub_mat.getData() == sub_data);
 
-	sub_mat = mat1.subMatrix(0, 4, 0, 4);
+	sub_mat = mat1.getSubMatrix(0, 4, 0, 4);
 	sub_data = { 1, 4, 5, 1, 4, 5, 1, 6, 2, 1, 7, 3, 3, 2, 2, 4 };
 	assert(sub_mat.getData() == sub_data);
 
-	sub_mat = mat1.subMatrix(1, 4, 1, 3);
+	sub_mat = mat1.getSubMatrix(1, 4, 1, 3);
 	sub_data = { 5, 1, 1, 7, 2, 2 };
 	assert(sub_mat.getData() == sub_data);
 
-	sub_mat = mat1.subMatrix(0, 0, 0, 0);
+	sub_mat = mat1.getSubMatrix(0, 0, 0, 0);
 	sub_data = { };
 	assert(sub_mat.getData() == sub_data);
 }

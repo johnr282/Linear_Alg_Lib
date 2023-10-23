@@ -58,7 +58,7 @@ namespace LinAlg
 		}
 
 		// Returns a MathVector containing elements [first_elt, last_elt)
-		MathVector<DataType> subVector(const size_t first_elt, 
+		MathVector<DataType> getSubVector(const size_t first_elt, 
 			const size_t last_elt)
 		{
 			if (first_elt > size() || last_elt > size())
