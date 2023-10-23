@@ -61,6 +61,16 @@ void testMathVectorSubVector()
 	sub_vec = vec1.getSubVector(2, 6);
 	sub_data = { 4, 5, 1, 2 };
 	assert(sub_vec.getData() == sub_data);
+
+	std::vector<int> new_data{ 0, 1, 5 };
+	MathVector<int> new_vec(new_data);
+	vec1.setSubVector(0, 3, new_vec);
+	assert(vec1.getSubVector(0, 3) == new_vec);
+
+	new_data = { 9, 2, 5 };
+	new_vec.setData(new_data);
+	vec1.setSubVector(3, 6, new_vec);
+	assert(vec1.getSubVector(3, 6) == new_vec);
 }
 
 void testMathVectorEquals()

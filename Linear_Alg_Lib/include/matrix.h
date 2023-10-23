@@ -91,6 +91,14 @@ namespace LinAlg
 			const size_t first_col,
 			const size_t last_col) const = 0;
 
+		// Sets section of matrix including rows [first_row, last_row)
+		// and columns [first_col, last_col) to given matrix
+		virtual void setSubMatrix(const size_t first_row,
+			const size_t last_row,
+			const size_t first_col,
+			const size_t last_col,
+			const MatrixType& new_sub_matrix) = 0;
+
 		// Returns transpose of matrix
 		virtual MatrixType tranpose() const = 0;
 

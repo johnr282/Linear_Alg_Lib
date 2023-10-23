@@ -379,6 +379,56 @@ namespace LinAlg
 			return sub_matrix;
 		}
 
+		// Sets section of matrix including rows [first_row, last_row)
+		// and columns [first_col, last_col) to given matrix
+		void setSubMatrix(const size_t first_row,
+			const size_t last_row,
+			const size_t first_col,
+			const size_t last_col,
+			const DenseMatrix<DataType>& new_sub_matrix) override
+		{
+			if (first_row > this->_rows ||
+				last_row > this->_rows ||
+				first_col > this->_cols ||
+				last_col > this->_cols)
+			{
+				throw OutOfBounds();
+			}
+
+			if (new_sub_matrix.rows() != last_row - first_row ||
+				new_sub_matrix.cols() != last_col - first_col)
+			{
+				throw InvalidDimensions();
+			}
+
+			if (_storage_type == StorageType::RowMajor)
+			{
+				size_t sub_matrix_i = 0;
+				for (size_t i = first_row; i < last_row; ++i)
+				{
+					MathVector<DataType> sub_row = 
+						new_sub_matrix.row(sub_matrix_i);
+					MathVector<DataType> new_row = row(i);
+					new_row.setSubVector(first_col, last_col, sub_row);
+					setRow(i, new_row);
+					++sub_matrix_i;
+				}
+			}
+			else
+			{
+				size_t sub_matrix_i = 0;
+				for (size_t i = first_col; i < last_col; ++i)
+				{
+					MathVector<DataType> sub_col =
+						new_sub_matrix.col(sub_matrix_i);
+					MathVector<DataType> new_col = col(i);
+					new_col.setSubVector(first_row, last_row, sub_col);
+					setCol(i, new_col);
+					++sub_matrix_i;
+				}
+			}
+		}
+
 		// Returns transpose of matrix
 		DenseMatrix<DataType> tranpose() const override
 		{

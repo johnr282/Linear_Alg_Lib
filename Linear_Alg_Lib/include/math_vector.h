@@ -57,16 +57,32 @@ namespace LinAlg
 			return _data[index];
 		}
 
-		// Returns a MathVector containing elements [first_elt, last_elt)
-		MathVector<DataType> getSubVector(const size_t first_elt, 
-			const size_t last_elt)
+		// Returns a MathVector containing elements [first, last)
+		MathVector<DataType> getSubVector(const size_t first, 
+			const size_t last) const
 		{
-			if (first_elt > size() || last_elt > size())
+			if (first > size() || last > size())
 				throw OutOfBounds();
 
 			std::vector<DataType> sub_data(
-				_data.begin() + first_elt, _data.begin() + last_elt);
+				_data.begin() + first, _data.begin() + last);
 			return MathVector<DataType>(sub_data);
+		}
+
+		// Sets section of vector [first, last) to given MathVector
+		void setSubVector(const size_t first,
+			const size_t last,
+			const MathVector<DataType>& new_sub_vec)
+		{
+			if (first > size() || last > size())
+				throw OutOfBounds();
+
+			if (new_sub_vec.size() != last - first)
+				throw InvalidDimensions();
+
+			std::vector<DataType> new_data = new_sub_vec.getData();
+			std::copy(
+				new_data.begin(), new_data.end(), _data.begin() + first);
 		}
 
 		// Returns the magnitude of the vector

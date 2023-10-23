@@ -471,6 +471,21 @@ void testDenseSubMatrix()
 	sub_data = { };
 	assert(sub_mat.getData() == sub_data);
 
+	sub_mat = mat1.getSubMatrix(2, 4, 2, 4);
+	mat1.setSubMatrix(2, 4, 2, 4, mat1.getSubMatrix(0, 2, 0, 2));
+	assert(mat1.getSubMatrix(0, 2, 0, 2) == mat1.getSubMatrix(2, 4, 2, 4));
+
+	DenseMatrix<int> mat1_copy = mat1;
+	mat1.setSubMatrix(0, 0, 0, 0, DenseMatrix<int>());
+	assert(mat1 == mat1_copy);
+
+	mat1.setSubMatrix(2, 4, 2, 4, sub_mat);
+	sub_mat = mat1.getSubMatrix(0, 4, 0, 2);
+	mat1.setSubMatrix(0, 4, 0, 2, mat1.getSubMatrix(0, 4, 2, 4));
+	assert(mat1.getSubMatrix(0, 4, 0, 2) == mat1.getSubMatrix(0, 4, 2, 4));
+	
+	mat1.setSubMatrix(0, 4, 0, 2, sub_mat);
+
 	mat1.convertToRowMajor();
 
 	/*
@@ -495,6 +510,21 @@ void testDenseSubMatrix()
 	sub_mat = mat1.getSubMatrix(0, 0, 0, 0);
 	sub_data = { };
 	assert(sub_mat.getData() == sub_data);
+
+	sub_mat = mat1.getSubMatrix(2, 4, 2, 4);
+	mat1.setSubMatrix(2, 4, 2, 4, mat1.getSubMatrix(0, 2, 0, 2));
+	assert(mat1.getSubMatrix(0, 2, 0, 2) == mat1.getSubMatrix(2, 4, 2, 4));
+
+	mat1_copy = mat1;
+	mat1.setSubMatrix(0, 0, 0, 0, DenseMatrix<int>());
+	assert(mat1 == mat1_copy);
+
+	mat1.setSubMatrix(2, 4, 2, 4, sub_mat);
+	sub_mat = mat1.getSubMatrix(0, 4, 0, 2);
+	mat1.setSubMatrix(0, 4, 0, 2, mat1.getSubMatrix(0, 4, 2, 4));
+	assert(mat1.getSubMatrix(0, 4, 0, 2) == mat1.getSubMatrix(0, 4, 2, 4));
+
+	mat1.setSubMatrix(0, 4, 0, 2, sub_mat);
 }
 
 void testDenseEquals()
