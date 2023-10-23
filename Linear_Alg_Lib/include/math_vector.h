@@ -5,6 +5,7 @@
 #include <cmath>
 
 #include "lib_utils.h"
+#include "exceptions.h"
 
 // ------------------------------------------------------------------
 // Templated class defining a column vector
@@ -45,15 +46,26 @@ namespace LinAlg
 		}
 
 		// Subscript operator overload for MathVector class, const version
-		DataType operator[](int index) const
+		DataType operator[](size_t index) const
 		{
 			return _data[index];
 		}
 
 		// Subscript operator overload for MathVector class, non-const version
-		DataType& operator[](int index)
+		DataType& operator[](size_t index)
 		{
 			return _data[index];
+		}
+
+		// Returns a MathVector containing elements [first_elt, last_elt)
+		MathVector<DataType> subVector(size_t first_elt, size_t last_elt)
+		{
+			if (first_elt >= size() || last_elt > size())
+				throw OutOfBounds();
+
+			std::vector<DataType> sub_data(
+				_data.begin() + first_elt, _data.begin() + last_elt);
+			return MathVector<DataType>(sub_data);
 		}
 
 		// Returns the magnitude of the vector

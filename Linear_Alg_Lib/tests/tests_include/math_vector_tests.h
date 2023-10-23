@@ -13,6 +13,8 @@ void testMathVectorInsertion();
 
 void testMathVectorSubscript();
 
+void testMathVectorSubVector();
+
 void testMathVectorAdd();
 
 void testMathVectorSubtract();
