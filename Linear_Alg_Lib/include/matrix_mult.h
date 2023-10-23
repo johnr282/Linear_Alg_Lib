@@ -68,30 +68,80 @@ namespace LinAlg
 	}
 
 	// Performs Strassen's algorithm for matrix multiplication; switches
-	// back to basicMultWithConversion once recursive calls get small
-	// enough
+	// back to basicMultWithConversion once one dimension of matrix drops
+	// below threshold
 	template<typename DataType>
 	inline DenseMatrix<DataType> strassen(
 		const DenseMatrix<DataType>& A,
-		const DenseMatrix<DataType>& B)
+		const DenseMatrix<DataType>& B,
+		const size_t threshold)
 	{
-		if (A.isSquare() && B.isSquare())
-			return squareStrassen(A, B);
+		DenseMatrix<DataType> padded_A = padMatrix(A);
+		DenseMatrix<DataType> padded_B = padMatrix(B);
+
+		return strassenHelper(padded_A, padded_B, threshold);
 	}
 
-	// Performs Strassen's algorithm, assuming both matrices are square
+	// Helper for strassen; makes sure padMatrix is only called on initial
+	// matrices; assumes A and B have an even number of rows and columns
 	template<typename DataType>
-	inline DenseMatrix<DataType> squareStrassen(
+	inline DenseMatrix<DataType> strassenHelper(
 		const DenseMatrix<DataType>& A,
-		const DenseMatrix<DataType>& B)
+		const DenseMatrix<DataType>& B,
+		const size_t threshold)
 	{
-		// If matrices have odd dimensions, need to pad with extra row and 
-		// column of zeros
-		/*if(!isEven(A.rows()))*/
+		if (A.rows() < threshold ||
+			A.cols() < threshold ||
+			B.rows() < threshold ||
+			B.cols < threshold)
+		{
+			return basicMultWithConversion(A, B);
+		}
+
+		DenseMatrix<DataType> A_11, A_12, A_21, A_22;
+
+		DenseMatrix<DataType> B_11, B_12, B_21, B_22;
 
 	}
 
-	// Pads given matrix with n rows and columns filled with zeros
+	// Returns a matrix with same data as A, but with an extra row 
+	// and/or column filled with zeros for "padding", ensuring A has 
+	// an even number of rows and columns
+	template<typename DataType>
+	inline DenseMatrix<DataType> padMatrix(const DenseMatrix<DataType>& A)
+	{
+		DenseMatrix<DataType> padded_A = A;
+		if (!isEven(A.rows()))
+		{
+			std::vector<DataType> zeros(A.cols(), 0);
+			MathVector<DataType> padding(zeros);
+			padded_A.addRow(padding);
+		}
+
+		if (!isEven(A.cols()))
+		{
+			std::vector<DataType> zeros(A.rows(), 0);
+			MathVector<DataType> padding(zeros);
+			padded_A.addCol(padding);
+		}
+
+		return padded_A;
+	}
+
+	// Partitions given matrix into 4 equal sub-matrices; puts sub-matrices
+	// into output parameters
+	template<typename DataType>
+	inline void partitionMatrix(const DenseMatrix<DataType>& A,
+		DenseMatrix<DataType>& A_11,
+		DenseMatrix<DataType>& A_12,
+		DenseMatrix<DataType>& A_21,
+		DenseMatrix<DataType>& A_22)
+	{
+		size_t new_rows = A.rows() / 2;
+		size_t new_cols = A.cols() / 2;
+	}
+
+
 
 }
 

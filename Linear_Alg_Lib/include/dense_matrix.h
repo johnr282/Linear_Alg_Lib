@@ -52,7 +52,7 @@ namespace LinAlg
 		// initialized to 0
 		DenseMatrix(
 			const StorageType storage_type_in = StorageType::ColumnMajor) :
-			Matrix<DataType, DenseMatrix<DataType> >(0, 0),
+			Matrix<DataType, DenseMatrix<DataType> >(),
 			_data(std::vector<DataType>()),
 			_storage_type(storage_type_in)
 		{ }
@@ -272,7 +272,7 @@ namespace LinAlg
 		// Adds given row to bottom of matrix
 		void addRow(const MathVector<DataType>& new_row)
 		{
-			if (new_row.size() != this->_cols)
+			if (this->_size != 0 && new_row.size() != this->_cols)
 				throw InvalidDimensions();
 
 			std::vector<DataType> new_row_data = new_row.getData();
@@ -295,6 +295,11 @@ namespace LinAlg
 				}
 			}
 				
+			// Adding a row only changes number of columns when matrix 
+			// was empty before
+			if (this->_size == 0)
+				this->_cols += new_row.size();
+
 			++this->_rows;
 			this->_size += new_row.size();
 		}
@@ -302,7 +307,7 @@ namespace LinAlg
 		// Adds given col to right of matrix
 		void addCol(const MathVector<DataType>& new_col)
 		{
-			if (new_col.size() != this->_rows)
+			if (this->_size != 0 && new_col.size() != this->_rows)
 				throw InvalidDimensions();
 
 			std::vector<DataType> new_col_data = new_col.getData();
@@ -324,19 +329,52 @@ namespace LinAlg
 				}
 			}
 
+			// Adding a column only changes number of rows when matrix 
+			// was empty before
+			if (this->_size == 0)
+				this->_rows += new_col.size();
+
 			++this->_cols;
 			this->_size += new_col.size();
 		}
 
-		// Returns matrix containing rows first_row to last_row and 
-		// columns first_col to last_col
-		DenseMatrix<DataType> subMatrix(size_t first_row,
-			size_t last_row,
-			size_t first_col,
-			size_t last_col) const override
+		// Returns matrix containing rows [first_row, last_row) and 
+		// columns [first_col, last_col)
+		DenseMatrix<DataType> subMatrix(const size_t first_row,
+			const size_t last_row,
+			const size_t first_col,
+			const size_t last_col) const override
 		{
+			if (first_row > this->_rows ||
+				last_row > this->_rows ||
+				first_col > this->_cols ||
+				last_col > this->_cols)
+			{
+				throw OutOfBounds();
+			}
+
 			DenseMatrix<DataType> sub_matrix(_storage_type);
 
+			// Build matrix row by row or col by col depending on 
+			// storage type for performance purposes
+			if (_storage_type == StorageType::RowMajor)
+			{
+				for (size_t i = first_row; i < last_row; ++i)
+				{
+					MathVector<DataType> row_i = 
+						row(i).subVector(first_col, last_col);
+					sub_matrix.addRow(row_i);
+				}
+			}
+			else
+			{
+				for (size_t i = first_col; i < last_col; ++i)
+				{
+					MathVector<DataType> col_i =
+						col(i).subVector(first_row, last_row);
+					sub_matrix.addCol(col_i);
+				}
+			}
 
 			return sub_matrix;
 		}
