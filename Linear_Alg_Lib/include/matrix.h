@@ -84,6 +84,12 @@ namespace LinAlg
 		// Adds given col to the matrix to the left of col pos
 		virtual void addCol(const MathVector<DataType>& new_col, const size_t pos) = 0;
 
+		// Removes row pos from the matrix entirely
+		virtual void removeRow(const size_t pos) = 0;
+
+		// Removes col pos from the matrix entirely
+		virtual void removeCol(const size_t pos) = 0;
+
 		// Returns matrix containing rows first_row to last_row and 
 		// columns first_col to last_col
 		virtual MatrixType getSubMatrix(const size_t first_row,

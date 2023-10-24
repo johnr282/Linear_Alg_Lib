@@ -345,6 +345,20 @@ namespace LinAlg
 			this->_size += new_col.size();
 		}
 
+		// Removes row pos from the matrix entirely
+		void removeRow(const size_t pos)
+		{
+			removeHelper(pos, rowBounds(pos), this->_rows, this->_cols, 
+				StorageType::RowMajor);
+		}
+
+		// Removes col pos from the matrix entirely
+		void removeCol(const size_t pos)
+		{
+			removeHelper(pos, colBounds(pos), this->_cols, this->_rows,
+				StorageType::ColumnMajor);
+		}
+
 		// Returns matrix containing rows [first_row, last_row) and 
 		// columns [first_col, last_col)
 		DenseMatrix<DataType> getSubMatrix(const size_t first_row,
@@ -490,6 +504,34 @@ namespace LinAlg
 				return row * this->_cols + col;
 			else 
 				return col * this->_rows + row;
+		}
+	
+		// Helper for removeRow() and removeCol()
+		void removeHelper(const size_t pos,
+			const std::pair<size_t, size_t>& bounds,
+			size_t& num_of,
+			const size_t size_of,
+			const StorageType desired_storage_type)
+		{
+			if (pos >= num_of)
+				throw OutOfBounds();
+
+			if (_storage_type == desired_storage_type)
+			{
+				_data.erase(
+					_data.begin() + bounds.first, _data.begin() + bounds.second);
+			}
+			else
+			{
+				// Add num_of - 1 to account for erased element
+				for (size_t i = pos; i < _data.size(); i += num_of - 1)
+				{
+					_data.erase(_data.begin() + i);
+				}
+			}
+
+			--num_of;
+			this->_size = _data.size();
 		}
 
 		// Returns [start, end) indices of row row_index; assumes 

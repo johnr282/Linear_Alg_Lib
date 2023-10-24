@@ -25,6 +25,8 @@ void testDenseAtRowCol();
 
 void testDenseAddRowCol();
 
+void testDenseRemoveRowCol();
+
 void testDenseSubMatrix();
 
 void testDenseEquals();
