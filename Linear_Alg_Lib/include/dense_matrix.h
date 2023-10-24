@@ -143,67 +143,21 @@ namespace LinAlg
 			return _data[atHelper(row, col)];
 		}
 
-		// Returns row row_index as a MathVector
-		MathVector<DataType> row(const size_t row_index) const
+		// Returns row pos as a MathVector
+		MathVector<DataType> row(const size_t pos) const
 		{
-			bool invalid_index = (row_index >= this->_rows);
-			if (invalid_index)
-				throw OutOfBounds();
-
-			std::vector<DataType> row_data(this->_cols);
-
-			if (_storage_type == StorageType::RowMajor)
-			{
-				std::pair<size_t, size_t> row_bounds = rowBounds(row_index);
-				size_t row_start = row_bounds.first;
-				size_t row_end = row_bounds.second;
-				row_data = std::vector<DataType>(
-					_data.begin() + row_start, _data.begin() + row_end);
-			}
-			else
-			{
-				std::vector<size_t> row_indices = rowIndices(row_index);
-				for (size_t i = 0; i < row_data.size(); ++i)
-				{
-					size_t row_elt_index = row_indices[i];
-					row_data[i] = _data[row_elt_index];
-				}
-			}
-
-			return MathVector<DataType>(row_data);
+			return rowColHelper(pos, rowBounds(pos), rowIndices(pos), 
+				this->_rows, this->_cols, StorageType::RowMajor);
 		}
 
 		// Returns col j as a MathVector
-		MathVector<DataType> col(const size_t col_index) const
+		MathVector<DataType> col(const size_t pos) const
 		{
-			bool invalid_index = (col_index >= this->_cols);
-			if (invalid_index)
-				throw OutOfBounds();
-
-			std::vector<DataType> col_data(this->_rows);
-
-			if (_storage_type == StorageType::ColumnMajor)
-			{
-				std::pair<size_t, size_t> col_bounds = colBounds(col_index);
-				size_t col_start = col_bounds.first;
-				size_t col_end = col_bounds.second;
-				col_data = std::vector<DataType>(
-					_data.begin() + col_start, _data.begin() + col_end);
-			}
-			else
-			{
-				std::vector<size_t> col_indices = colIndices(col_index);
-				for (size_t i = 0; i < col_data.size(); ++i)
-				{
-					size_t col_elt_index = col_indices[i];
-					col_data[i] = _data[col_elt_index];
-				}
-			}
-
-			return MathVector<DataType>(col_data);
+			return rowColHelper(pos, colBounds(pos), colIndices(pos),
+				this->_cols, this->_rows, StorageType::ColumnMajor);
 		}
 
-		// Sets row row_index to given MathVector
+		// Sets row pos to given MathVector
 		void setRow(const size_t row_index,
 			const MathVector<DataType>& new_row)
 		{
@@ -505,6 +459,37 @@ namespace LinAlg
 			else 
 				return col * this->_rows + row;
 		}
+
+		// Helper for row() and col()
+		MathVector<DataType> rowColHelper(const size_t pos,
+			const std::pair<size_t, size_t>& bounds,
+			const std::vector<size_t>& indices,
+			const size_t& num_of,
+			const size_t size_of,
+			const StorageType desired_storage_type) const
+		{
+			if (pos >= num_of)
+				throw OutOfBounds();
+
+			std::vector<DataType> row_col_data(size_of);
+
+			if (_storage_type == desired_storage_type)
+			{
+				row_col_data = std::vector<DataType>(
+					_data.begin() + bounds.first, _data.begin() + bounds.second);
+			}
+			else
+			{
+				for (size_t i = 0; i < row_col_data.size(); ++i)
+				{
+					row_col_data[i] = _data[indices[i]];
+				}
+			}
+
+			return MathVector<DataType>(row_col_data);
+		}
+
+		
 	
 		// Helper for removeRow() and removeCol()
 		void removeHelper(const size_t pos,
@@ -534,30 +519,30 @@ namespace LinAlg
 			this->_size = _data.size();
 		}
 
-		// Returns [start, end) indices of row row_index; assumes 
-		// _storage_type is RowMajor and row_index is in bounds
-		std::pair<size_t, size_t> rowBounds(const size_t row_index) const
+		// Returns [start, end) indices of row pos; assumes 
+		// _storage_type is RowMajor and pos is in bounds
+		std::pair<size_t, size_t> rowBounds(const size_t pos) const
 		{
-			size_t row_start = row_index * this->_cols;
+			size_t row_start = pos * this->_cols;
 			size_t row_end = row_start + this->_cols;
 			return { row_start, row_end };
 		}
 
-		// Returns [start, end) indices of col col_index; assumes 
-		// _storage_type is ColMajor and col_index is in bounds
-		std::pair<size_t, size_t> colBounds(const size_t col_index) const
+		// Returns [start, end) indices of col pos; assumes 
+		// _storage_type is ColMajor and pos is in bounds
+		std::pair<size_t, size_t> colBounds(const size_t pos) const
 		{
-			size_t col_start = col_index * this->_rows;
+			size_t col_start = pos * this->_rows;
 			size_t col_end = col_start + this->_rows;
 			return { col_start, col_end };
 		}
 
-		// Returns vector of indices of the elements in row row_index;
-		// assumes _storage_type is ColumnMajor and row_index is in bounds
-		std::vector<size_t> rowIndices(const size_t row_index) const
+		// Returns vector of indices of the elements in row pos;
+		// assumes _storage_type is ColumnMajor and pos is in bounds
+		std::vector<size_t> rowIndices(const size_t pos) const
 		{
 			std::vector<size_t> row_indices(this->_cols);
-			size_t row_elt_index = row_index;
+			size_t row_elt_index = pos;
 
 			for (size_t i = 0; i < row_indices.size(); ++i)
 			{
@@ -568,12 +553,12 @@ namespace LinAlg
 			return row_indices;
 		}
 
-		// Returns vector of indices of the elements in col col_index; 
-		// assumes _storage_type is RowMajor and col_index is in bounds
-		std::vector<size_t> colIndices(const size_t col_index) const
+		// Returns vector of indices of the elements in col pos; 
+		// assumes _storage_type is RowMajor and pos is in bounds
+		std::vector<size_t> colIndices(const size_t pos) const
 		{
 			std::vector<size_t> col_indices(this->_rows);
-			size_t col_elt_index = col_index;
+			size_t col_elt_index = pos;
 
 			for (size_t i = 0; i < col_indices.size(); ++i)
 			{
