@@ -269,8 +269,9 @@ namespace LinAlg
 			}
 		}
 
-		// Adds given row to bottom of matrix
-		void addRow(const MathVector<DataType>& new_row)
+		// Adds given row to the matrix above row pos
+		void addRow(const MathVector<DataType>& new_row, 
+			const size_t pos) override
 		{
 			if (this->_size != 0 && new_row.size() != this->_cols)
 				throw InvalidDimensions();
@@ -281,12 +282,14 @@ namespace LinAlg
 
 			if (_storage_type == StorageType::RowMajor)
 			{
-				_data.insert(
-					_data.end(), new_row_data.begin(), new_row_data.end());
+				size_t new_row_start = pos * this->_cols;
+				_data.insert(_data.begin() + new_row_start, 
+					new_row_data.begin(), 
+					new_row_data.end());
 			}
 			else
 			{
-				size_t i = this->_rows;
+				size_t i = pos;
 				for (DataType elt : new_row_data)
 				{
 					_data.insert(_data.begin() + i, elt);
@@ -304,8 +307,9 @@ namespace LinAlg
 			this->_size += new_row.size();
 		}
 
-		// Adds given col to right of matrix
-		void addCol(const MathVector<DataType>& new_col)
+		// Adds given col to the matrix to the left of col pos
+		void addCol(const MathVector<DataType>& new_col, 
+			const size_t pos) override
 		{
 			if (this->_size != 0 && new_col.size() != this->_rows)
 				throw InvalidDimensions();
@@ -315,12 +319,15 @@ namespace LinAlg
 
 			if (_storage_type == StorageType::ColumnMajor)
 			{
-				_data.insert(
-					_data.end(), new_col_data.begin(), new_col_data.end());
+				size_t new_col_start = pos * this->_rows;
+
+				_data.insert(_data.begin() + new_col_start, 
+					new_col_data.begin(), 
+					new_col_data.end());
 			}
 			else
 			{
-				size_t i = this->_cols;
+				size_t i = pos;
 				for (DataType elt : new_col_data)
 				{
 					_data.insert(_data.begin() + i, elt);
@@ -363,7 +370,7 @@ namespace LinAlg
 				{
 					MathVector<DataType> row_i = 
 						row(i).getSubVector(first_col, last_col);
-					sub_matrix.addRow(row_i);
+					sub_matrix.addRow(row_i, sub_matrix.rows());
 				}
 			}
 			else
@@ -372,7 +379,7 @@ namespace LinAlg
 				{
 					MathVector<DataType> col_i =
 						col(i).getSubVector(first_row, last_row);
-					sub_matrix.addCol(col_i);
+					sub_matrix.addCol(col_i, sub_matrix.cols());
 				}
 			}
 
