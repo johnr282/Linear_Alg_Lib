@@ -76,49 +76,37 @@ namespace LinAlg
 		const DenseMatrix<DataType>& B,
 		const size_t threshold)
 	{
-		bool A_padded_row, A_padded_col, B_padded_row, B_padded_col = false;
+		// Switches to basic multiplication algorithm once matrices get
+		// small enough for performance reasons
+		if (A.rows() <= threshold ||
+			A.cols() <= threshold ||
+			B.rows() <= threshold ||
+			B.cols() <= threshold)
+		{
+			return basicMultWithConversion(A, B);
+		}
+
+		bool A_padded_row, A_padded_col, B_padded_row, B_padded_col;
+		A_padded_row = A_padded_col = B_padded_row = B_padded_col = false;
+
 		DenseMatrix<DataType> padded_A = 
 			padMatrix(A, A_padded_row, A_padded_col);
 		DenseMatrix<DataType> padded_B = 
 			padMatrix(B, B_padded_row, B_padded_col);
 
-		DenseMatrix<DataType> C = strassenHelper(padded_A, padded_B, threshold);
+		DenseMatrix<DataType> A_11, A_12, A_21, A_22, B_11, B_12, B_21, B_22;
+		partitionMatrix(padded_A, A_11, A_12, A_21, A_22);
+		partitionMatrix(padded_B, B_11, B_12, B_21, B_22);
 
-		return C;
-	}
+		DenseMatrix<DataType> M_1 = strassen(A_11 + A_22, B_11 + B_22, threshold);
+		DenseMatrix<DataType> M_2 = strassen(A_21 + A_22, B_11, threshold);
+		DenseMatrix<DataType> M_3 = strassen(A_11, B_12 - B_22, threshold);
+		DenseMatrix<DataType> M_4 = strassen(A_22, B_21 - B_11, threshold);
+		DenseMatrix<DataType> M_5 = strassen(A_11 + A_12, B_22, threshold);
+		DenseMatrix<DataType> M_6 = strassen(A_21 - A_11, B_11 + B_12, threshold);
+		DenseMatrix<DataType> M_7 = strassen(A_12 - A_22, B_21 + B_22, threshold);
 
-	// Helper for strassen; makes sure padMatrix is only called on initial
-	// matrices; assumes A and B have an even number of rows and columns
-	template<typename DataType>
-	inline DenseMatrix<DataType> strassenHelper(
-		const DenseMatrix<DataType>& A,
-		const DenseMatrix<DataType>& B,
-		const size_t threshold)
-	{
-		// Switches to basic multiplication algorithm once matrices get
-		// small enough for performance reasons
-		if (A.rows() < threshold ||
-			A.cols() < threshold ||
-			B.rows() < threshold ||
-			B.cols < threshold)
-		{
-			return basicMultWithConversion(A, B);
-		}
-
-		DenseMatrix<DataType> A_11, A_12, A_21, A_22;
-		DenseMatrix<DataType> B_11, B_12, B_21, B_22;
-		partitionMatrix(A, A_11, A_12, A_21, A_22);
-		partitionMatrix(B, B_11, B_12, B_21, B_22);
-
-		DenseMatrix<DataType> M_1 = strassenHelper(A_11 + A_22, B_11 + B_22);
-		DenseMatrix<DataType> M_2 = strassenHelper(A_21 + A_22, B_11);
-		DenseMatrix<DataType> M_3 = strassenHelper(A_11, B_12 - B_22);
-		DenseMatrix<DataType> M_4 = strassenHelper(A_22, B_21 - B_11);
-		DenseMatrix<DataType> M_5 = strassenHelper(A_11 + A_12, B_22);
-		DenseMatrix<DataType> M_6 = strassenHelper(A_21 - A_11, B_11 + B_12);
-		DenseMatrix<DataType> M_7 = strassenHelper(A_12 - A_22, B_21 + B_22);
-
-		DenseMatrix<DataType> C(A.rows(), B.cols(), A.getStorageType());
+		DenseMatrix<DataType> C(padded_A.rows(), padded_B.cols(), A.getStorageType());
 
 		DenseMatrix<DataType> C_11 = M_1 + M_4 - M_5 + M_7;
 		DenseMatrix<DataType> C_12 = M_3 + M_5;
@@ -126,7 +114,17 @@ namespace LinAlg
 		DenseMatrix<DataType> C_22 = M_1 - M_2 + M_3 + M_6;
 
 		constructFromSubMatrices(C, C_11, C_12, C_21, C_22);
-		return C;
+
+		// Don't need to check A_padded_col and B_padded_row; if one is 
+		// true, the other must be true as well, and C is unchanged if
+		// both are true
+		if (B_padded_col)
+			C.removeCol(C.cols() - 1);
+
+		if (A_padded_row)
+			C.removeRow(C.rows() - 1);
+
+		return C;	
 	}
 
 	// Returns a matrix with same data as A, but with an extra row 
@@ -140,17 +138,17 @@ namespace LinAlg
 		DenseMatrix<DataType> padded_A = A;
 		if (!isEven(A.rows()))
 		{
-			std::vector<DataType> zeros(A.cols(), 0);
+			std::vector<DataType> zeros(padded_A.cols(), 0);
 			MathVector<DataType> padding(zeros);
-			padded_A.addRow(padding);
+			padded_A.addRow(padding, A.rows());
 			padded_row = true;
 		}
 
 		if (!isEven(A.cols()))
 		{
-			std::vector<DataType> zeros(A.rows(), 0);
+			std::vector<DataType> zeros(padded_A.rows(), 0);
 			MathVector<DataType> padding(zeros);
-			padded_A.addCol(padding);
+			padded_A.addCol(padding, A.cols());
 			padded_col = true;
 		}
 
@@ -192,11 +190,6 @@ namespace LinAlg
 		C.setSubMatrix(partition_rows, C.rows(), 0, partition_cols, C_21);
 		C.setSubMatrix(partition_rows, C.rows(), partition_cols, C.cols(), C_22);
 	}
-
-
-
-
 }
-
 
 #endif

@@ -165,7 +165,7 @@ namespace LinAlg
 		return result;
 	}
 
-	// Multiplication overload for DenseMatrix; returns a DenseMatrix with the 
+	// Matrix multiplication overload for DenseMatrix; returns a DenseMatrix with the 
 	// the same storage type as mat1
 	template <typename DataType>
 	inline DenseMatrix<DataType> operator*(const DenseMatrix<DataType>& mat1,
@@ -174,7 +174,7 @@ namespace LinAlg
 		if (mat1.cols() != mat2.rows())
 			throw InvalidDimensions();
 
-		return strassen(mat1, mat2, 4);
+		return strassen(mat1, mat2, 1);
 	}
 
 	

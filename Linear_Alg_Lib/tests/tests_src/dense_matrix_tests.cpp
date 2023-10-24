@@ -485,6 +485,14 @@ void testDenseRemoveRowCol()
 	new_data = { 0, 2, 4, 2 };
 	checkDenseMatrix(mat, new_data, 2, 2, StorageType::ColumnMajor);
 
+	mat.removeCol(1);
+	new_data = { 0, 2 };
+	checkDenseMatrix(mat, new_data, 2, 1, StorageType::ColumnMajor);
+
+	mat.removeRow(1);
+	new_data = { 0 };
+	checkDenseMatrix(mat, new_data, 1, 1, StorageType::ColumnMajor);
+
 	mat = DenseMatrix<int>({ 0, 1, 3, 2, 5, 4, 0, 0, 2 }, 3, 3, StorageType::RowMajor);
 	mat.removeRow(2);
 	new_data = { 0, 1, 3, 2, 5, 4 };
@@ -493,6 +501,14 @@ void testDenseRemoveRowCol()
 	mat.removeCol(0);
 	new_data = { 1, 3, 5, 4 };
 	checkDenseMatrix(mat, new_data, 2, 2, StorageType::RowMajor);
+
+	mat.removeCol(1);
+	new_data = { 1, 5 };
+	checkDenseMatrix(mat, new_data, 2, 1, StorageType::RowMajor);
+
+	mat.removeRow(1);
+	new_data = { 1 };
+	checkDenseMatrix(mat, new_data, 1, 1, StorageType::RowMajor);
 }
 
 void testDenseSubMatrix()
