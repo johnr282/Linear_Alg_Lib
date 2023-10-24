@@ -76,10 +76,15 @@ namespace LinAlg
 		const DenseMatrix<DataType>& B,
 		const size_t threshold)
 	{
-		DenseMatrix<DataType> padded_A = padMatrix(A);
-		DenseMatrix<DataType> padded_B = padMatrix(B);
+		bool A_padded_row, A_padded_col, B_padded_row, B_padded_col = false;
+		DenseMatrix<DataType> padded_A = 
+			padMatrix(A, A_padded_row, A_padded_col);
+		DenseMatrix<DataType> padded_B = 
+			padMatrix(B, B_padded_row, B_padded_col);
 
-		return strassenHelper(padded_A, padded_B, threshold);
+		DenseMatrix<DataType> C = strassenHelper(padded_A, padded_B, threshold);
+
+		return C;
 	}
 
 	// Helper for strassen; makes sure padMatrix is only called on initial
@@ -90,6 +95,8 @@ namespace LinAlg
 		const DenseMatrix<DataType>& B,
 		const size_t threshold)
 	{
+		// Switches to basic multiplication algorithm once matrices get
+		// small enough for performance reasons
 		if (A.rows() < threshold ||
 			A.cols() < threshold ||
 			B.rows() < threshold ||
@@ -99,16 +106,36 @@ namespace LinAlg
 		}
 
 		DenseMatrix<DataType> A_11, A_12, A_21, A_22;
-
 		DenseMatrix<DataType> B_11, B_12, B_21, B_22;
+		partitionMatrix(A, A_11, A_12, A_21, A_22);
+		partitionMatrix(B, B_11, B_12, B_21, B_22);
 
+		DenseMatrix<DataType> M_1 = strassenHelper(A_11 + A_22, B_11 + B_22);
+		DenseMatrix<DataType> M_2 = strassenHelper(A_21 + A_22, B_11);
+		DenseMatrix<DataType> M_3 = strassenHelper(A_11, B_12 - B_22);
+		DenseMatrix<DataType> M_4 = strassenHelper(A_22, B_21 - B_11);
+		DenseMatrix<DataType> M_5 = strassenHelper(A_11 + A_12, B_22);
+		DenseMatrix<DataType> M_6 = strassenHelper(A_21 - A_11, B_11 + B_12);
+		DenseMatrix<DataType> M_7 = strassenHelper(A_12 - A_22, B_21 + B_22);
+
+		DenseMatrix<DataType> C(A.rows(), B.cols(), A.getStorageType());
+
+		DenseMatrix<DataType> C_11 = M_1 + M_4 - M_5 + M_7;
+		DenseMatrix<DataType> C_12 = M_3 + M_5;
+		DenseMatrix<DataType> C_21 = M_2 + M_4;
+		DenseMatrix<DataType> C_22 = M_1 - M_2 + M_3 + M_6;
+
+		constructFromSubMatrices(C, C_11, C_12, C_21, C_22);
+		return C;
 	}
 
 	// Returns a matrix with same data as A, but with an extra row 
 	// and/or column filled with zeros for "padding", ensuring A has 
 	// an even number of rows and columns
 	template<typename DataType>
-	inline DenseMatrix<DataType> padMatrix(const DenseMatrix<DataType>& A)
+	inline DenseMatrix<DataType> padMatrix(const DenseMatrix<DataType>& A, 
+		bool& padded_row,
+		bool& padded_col)
 	{
 		DenseMatrix<DataType> padded_A = A;
 		if (!isEven(A.rows()))
@@ -116,6 +143,7 @@ namespace LinAlg
 			std::vector<DataType> zeros(A.cols(), 0);
 			MathVector<DataType> padding(zeros);
 			padded_A.addRow(padding);
+			padded_row = true;
 		}
 
 		if (!isEven(A.cols()))
@@ -123,6 +151,7 @@ namespace LinAlg
 			std::vector<DataType> zeros(A.rows(), 0);
 			MathVector<DataType> padding(zeros);
 			padded_A.addCol(padding);
+			padded_col = true;
 		}
 
 		return padded_A;
@@ -137,9 +166,33 @@ namespace LinAlg
 		DenseMatrix<DataType>& A_21,
 		DenseMatrix<DataType>& A_22)
 	{
-		size_t new_rows = A.rows() / 2;
-		size_t new_cols = A.cols() / 2;
+		size_t partition_rows = A.rows() / 2;
+		size_t partition_cols = A.cols() / 2;
+
+		A_11 = A.getSubMatrix(0, partition_rows, 0, partition_cols);
+		A_12 = A.getSubMatrix(0, partition_rows, partition_cols, A.cols());
+		A_21 = A.getSubMatrix(partition_rows, A.rows(), 0, partition_cols);
+		A_22 = A.getSubMatrix(partition_rows, A.rows(), partition_cols, A.cols());
 	}
+
+	// Constructs matrix C from given sub_matrices C_11, C_12, C_21, and C_22;
+	// assumes C is a zero-initialized matrix with the correct dimensions
+	template<typename DataType> 
+	inline void constructFromSubMatrices(DenseMatrix<DataType>& C,
+		const DenseMatrix<DataType>& C_11,
+		const DenseMatrix<DataType>& C_12,
+		const DenseMatrix<DataType>& C_21,
+		const DenseMatrix<DataType>& C_22)
+	{
+		size_t partition_rows = C.rows() / 2;
+		size_t partition_cols = C.cols() / 2;
+
+		C.setSubMatrix(0, partition_rows, 0, partition_cols, C_11);
+		C.setSubMatrix(0, partition_rows, partition_cols, C.cols(), C_12);
+		C.setSubMatrix(partition_rows, C.rows(), 0, partition_cols, C_21);
+		C.setSubMatrix(partition_rows, C.rows(), partition_cols, C.cols(), C_22);
+	}
+
 
 
 
