@@ -140,7 +140,7 @@ namespace LinAlg
 		{
 			std::vector<DataType> zeros(padded_A.cols(), 0);
 			MathVector<DataType> padding(zeros);
-			padded_A.addRow(padding, A.rows());
+			padded_A.addRow(A.rows(), padding);
 			padded_row = true;
 		}
 
@@ -148,7 +148,7 @@ namespace LinAlg
 		{
 			std::vector<DataType> zeros(padded_A.rows(), 0);
 			MathVector<DataType> padding(zeros);
-			padded_A.addCol(padding, A.cols());
+			padded_A.addCol(A.cols(), padding);
 			padded_col = true;
 		}
 

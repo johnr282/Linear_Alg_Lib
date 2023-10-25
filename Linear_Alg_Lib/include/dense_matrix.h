@@ -68,9 +68,8 @@ namespace LinAlg
 		{
 			// Check that data_in vector matches matrix size
 			if (data_in.size() != this->size())
-			{
 				throw InvalidDimensions();
-			}
+
 			_data = data_in;
 		}
 
@@ -150,7 +149,7 @@ namespace LinAlg
 				this->_rows, this->_cols, StorageType::RowMajor);
 		}
 
-		// Returns col j as a MathVector
+		// Returns col pos as a MathVector
 		MathVector<DataType> col(const size_t pos) const
 		{
 			return rowColHelper(pos, colBounds(pos), colIndices(pos),
@@ -158,145 +157,35 @@ namespace LinAlg
 		}
 
 		// Sets row pos to given MathVector
-		void setRow(const size_t row_index,
+		void setRow(const size_t pos,
 			const MathVector<DataType>& new_row)
 		{
-			bool invalid_index = (row_index >= this->_rows);
-			if (invalid_index)
-				throw OutOfBounds();
-
-			bool invalid_row = (new_row.size() != this->_cols);
-			if (invalid_row)
-				throw InvalidDimensions();
-
-			std::vector<DataType> new_row_data = new_row.getData();
-
-			if (_storage_type == StorageType::RowMajor)
-			{
-				std::pair<size_t, size_t> row_bounds = rowBounds(row_index);
-				size_t row_start = row_bounds.first;
-				
-				std::copy(new_row_data.begin(), new_row_data.end(), 
-					_data.begin() + row_start);
-			}
-			else
-			{
-				std::vector<size_t> row_indices = rowIndices(row_index);
-				for (size_t i = 0; i < new_row_data.size(); ++i)
-				{
-					size_t row_elt_index = row_indices[i];
-					_data[row_elt_index] = new_row_data[i];
-				}
-			}
+			setHelper(pos, new_row, rowBounds(pos), rowIndices(pos),
+				this->_rows, this->_cols, StorageType::RowMajor);
 		}
 
-		// Sets col j to given MathVector
-		void setCol(const size_t col_index,
+		// Sets col pos to given MathVector
+		void setCol(const size_t pos,
 			const MathVector<DataType>& new_col)
 		{
-			bool invalid_index = (col_index >= this->_cols);
-			if (invalid_index)
-				throw OutOfBounds();
-
-			bool invalid_row = (new_col.size() != this->_rows);
-			if (invalid_row)
-				throw InvalidDimensions();
-
-			std::vector<DataType> new_col_data = new_col.getData();
-
-			if (_storage_type == StorageType::ColumnMajor)
-			{
-				std::pair<size_t, size_t> col_bounds = colBounds(col_index);
-				size_t col_start = col_bounds.first;
-
-				std::copy(new_col_data.begin(), new_col_data.end(),
-					_data.begin() + col_start);
-			}
-			else
-			{
-				std::vector<size_t> col_indices = colIndices(col_index);
-				for (size_t i = 0; i < new_col_data.size(); ++i)
-				{
-					size_t col_elt_index = col_indices[i];
-					_data[col_elt_index] = new_col_data[i];
-				}
-			}
+			setHelper(pos, new_col, colBounds(pos), colIndices(pos),
+				this->_cols, this->_rows, StorageType::ColumnMajor);
 		}
 
 		// Adds given row to the matrix above row pos
-		void addRow(const MathVector<DataType>& new_row, 
-			const size_t pos) override
+		void addRow(const size_t pos, 
+			const MathVector<DataType>& new_row) override
 		{
-			if (this->_size != 0 && new_row.size() != this->_cols)
-				throw InvalidDimensions();
-
-			std::vector<DataType> new_row_data = new_row.getData();
-			_data.reserve(_data.size() + new_row.size());
-
-
-			if (_storage_type == StorageType::RowMajor)
-			{
-				size_t new_row_start = pos * this->_cols;
-				_data.insert(_data.begin() + new_row_start, 
-					new_row_data.begin(), 
-					new_row_data.end());
-			}
-			else
-			{
-				size_t i = pos;
-				for (DataType elt : new_row_data)
-				{
-					_data.insert(_data.begin() + i, elt);
-					// Need the + 1 to account for the new element
-					i += this->_rows + 1;
-				}
-			}
-				
-			// Adding a row only changes number of columns when matrix 
-			// was empty before
-			if (this->_size == 0)
-				this->_cols += new_row.size();
-
-			++this->_rows;
-			this->_size += new_row.size();
+			addHelper(pos, new_row, rowBounds(pos),
+				this->_rows, this->_cols, StorageType::RowMajor);
 		}
 
 		// Adds given col to the matrix to the left of col pos
-		void addCol(const MathVector<DataType>& new_col, 
-			const size_t pos) override
+		void addCol(const size_t pos, 
+			const MathVector<DataType>& new_col) override
 		{
-			if (this->_size != 0 && new_col.size() != this->_rows)
-				throw InvalidDimensions();
-
-			std::vector<DataType> new_col_data = new_col.getData();
-			_data.reserve(_data.size() + new_col.size());
-
-			if (_storage_type == StorageType::ColumnMajor)
-			{
-				size_t new_col_start = pos * this->_rows;
-
-				_data.insert(_data.begin() + new_col_start, 
-					new_col_data.begin(), 
-					new_col_data.end());
-			}
-			else
-			{
-				size_t i = pos;
-				for (DataType elt : new_col_data)
-				{
-					_data.insert(_data.begin() + i, elt);
-					// Need the + 1 to account for the new element
-					i += this->_cols + 1;
-				}
-			}
-
-			// Adding a column only changes number of rows when matrix 
-			// was empty before
-			if (this->_size == 0)
-				this->_rows += new_col.size();
-
-			++this->_cols;
-			this->_size += new_col.size();
+			addHelper(pos, new_col, colBounds(pos),
+				this->_cols, this->_rows, StorageType::ColumnMajor);
 		}
 
 		// Removes row pos from the matrix entirely
@@ -338,7 +227,7 @@ namespace LinAlg
 				{
 					MathVector<DataType> row_i = 
 						row(i).getSubVector(first_col, last_col);
-					sub_matrix.addRow(row_i, sub_matrix.rows());
+					sub_matrix.addRow(sub_matrix.rows(), row_i);
 				}
 			}
 			else
@@ -347,7 +236,7 @@ namespace LinAlg
 				{
 					MathVector<DataType> col_i =
 						col(i).getSubVector(first_row, last_row);
-					sub_matrix.addCol(col_i, sub_matrix.cols());
+					sub_matrix.addCol(sub_matrix.cols(), col_i);
 				}
 			}
 
@@ -464,7 +353,7 @@ namespace LinAlg
 		MathVector<DataType> rowColHelper(const size_t pos,
 			const std::pair<size_t, size_t>& bounds,
 			const std::vector<size_t>& indices,
-			const size_t& num_of,
+			const size_t num_of,
 			const size_t size_of,
 			const StorageType desired_storage_type) const
 		{
@@ -489,7 +378,78 @@ namespace LinAlg
 			return MathVector<DataType>(row_col_data);
 		}
 
-		
+		// Helper for setRow() and setCol()
+		void setHelper(const size_t pos,
+			const MathVector<DataType>& new_row_col,
+			const std::pair<size_t, size_t>& bounds,
+			const std::vector<size_t>& indices,
+			const size_t num_of,
+			const size_t size_of,
+			const StorageType desired_storage_type)
+		{
+			if (pos >= num_of)
+				throw OutOfBounds();
+
+			if (new_row_col.size() != size_of)
+				throw InvalidDimensions();
+
+			std::vector<DataType> new_row_col_data = new_row_col.getData();
+
+			if (_storage_type == desired_storage_type)
+			{
+				std::copy(new_row_col_data.begin(), new_row_col_data.end(),
+					_data.begin() + bounds.first);
+			}
+			else
+			{
+				for (size_t i = 0; i < new_row_col_data.size(); ++i)
+				{
+					_data[indices[i]] = new_row_col_data[i];
+				}
+			}
+		}
+
+		// Helper for addRow() and addCol()
+		void addHelper(const size_t pos,
+			const MathVector<DataType>& new_row_col,
+			const std::pair<size_t, size_t>& bounds,
+			size_t& num_of,
+			size_t& size_of,
+			const StorageType desired_storage_type)
+		{
+			if (pos > num_of)
+				throw OutOfBounds();
+
+			if (!this->isEmpty() && new_row_col.size() != size_of)
+				throw InvalidDimensions();
+
+			std::vector<DataType> new_row_col_data = new_row_col.getData();
+			_data.reserve(_data.size() + new_row_col.size());
+
+			if (_storage_type == desired_storage_type)
+			{
+				_data.insert(_data.begin() + bounds.first,
+					new_row_col_data.begin(), new_row_col_data.end());
+			}
+			else
+			{
+				size_t i = pos;
+				for (DataType elt : new_row_col_data)
+				{
+					_data.insert(_data.begin() + i, elt);
+					// Need the + 1 to account for the new element
+					i += num_of + 1;
+				}
+			}
+
+			// If matrix is empty, adding a row will change number of
+			// columns and vice versa
+			if (this->isEmpty())
+				size_of += new_row_col.size();
+
+			++num_of;
+			this->_size += new_row_col.size();
+		}
 	
 		// Helper for removeRow() and removeCol()
 		void removeHelper(const size_t pos,

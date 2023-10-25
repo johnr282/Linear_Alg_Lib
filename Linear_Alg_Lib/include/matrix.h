@@ -64,25 +64,27 @@ namespace LinAlg
 		// Returns element at location (row, col), non-const version
 		virtual DataType& at(const size_t row, const size_t col) = 0;
 
-		// Returns row i as a MathVector
-		virtual MathVector<DataType> row(const size_t i) const = 0;
+		// Returns row pos as a MathVector
+		virtual MathVector<DataType> row(const size_t pos) const = 0;
 
-		// Returns col j as a MathVector
-		virtual MathVector<DataType> col(const size_t j) const = 0;
+		// Returns col pos as a MathVector
+		virtual MathVector<DataType> col(const size_t pos) const = 0;
 
-		// Sets row i to given MathVector
-		virtual void setRow(const size_t i, 
+		// Sets row pos to given MathVector
+		virtual void setRow(const size_t pos, 
 			const MathVector<DataType>& new_row) = 0;
 
-		// Sets col j to given MathVector
-		virtual void setCol(const size_t j,
+		// Sets col pos to given MathVector
+		virtual void setCol(const size_t pos,
 			const MathVector<DataType>& new_col) = 0;
 
 		// Adds given row to the matrix above row pos
-		virtual void addRow(const MathVector<DataType>& new_row, const size_t pos) = 0;
+		virtual void addRow(const size_t pos, 
+			const MathVector<DataType>& new_row) = 0;
 
 		// Adds given col to the matrix to the left of col pos
-		virtual void addCol(const MathVector<DataType>& new_col, const size_t pos) = 0;
+		virtual void addCol(const size_t pos, 
+			const MathVector<DataType>& new_col) = 0;
 
 		// Removes row pos from the matrix entirely
 		virtual void removeRow(const size_t pos) = 0;

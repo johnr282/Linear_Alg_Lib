@@ -394,14 +394,14 @@ void testDenseAddRowCol()
 	std::vector<int> new_row_data{ 1, 4, 2 };
 	MathVector<int> new_row(new_row_data);
 
-	mat1.addRow(new_row, mat1.rows());
+	mat1.addRow(mat1.rows(), new_row);
 	std::vector<int> new_data{ 0, 1, 3, 2, 1, 4, 5, 1, 2, 1, 4, 2 };
 	checkDenseMatrix(mat1, new_data, 4, 3, StorageType::RowMajor);
 
 	std::vector<int> new_col_data{ 0, 5, 2, 1 };
 	MathVector<int> new_col(new_col_data);
 
-	mat1.addCol(new_col, mat1.cols());
+	mat1.addCol(mat1.cols(), new_col);
 	new_data = { 0, 1, 3, 0, 2, 1, 4, 5, 5, 1, 2, 2, 1, 4, 2, 1 };
 
 	/*
@@ -418,7 +418,7 @@ void testDenseAddRowCol()
 	new_col_data = { 9, 1, 3, 6 };
 	new_col = MathVector<int>(new_col_data);
 
-	mat1.addCol(new_col, mat1.cols());
+	mat1.addCol(mat1.cols(), new_col);
 	new_data = { 0, 2, 5, 1, 1, 1, 1, 4, 3, 4, 2, 2, 0, 5, 2, 1, 9, 1, 3, 6 };
 
 	checkDenseMatrix(mat1, new_data, 4, 5, StorageType::ColumnMajor);
@@ -426,50 +426,50 @@ void testDenseAddRowCol()
 	new_row_data = { 7, 8, 2, 7, 0 };
 	new_row = MathVector<int>(new_row_data);
 
-	mat1.addRow(new_row, mat1.rows());
+	mat1.addRow(mat1.rows(), new_row);
 	new_data = { 0, 2, 5, 1, 7, 1, 1, 1, 4, 8, 3, 4, 2, 2, 2, 0, 5, 2, 1, 7, 9, 1, 3, 6, 0 };
 
 	checkDenseMatrix(mat1, new_data, 5, 5, StorageType::ColumnMajor);
 
 	mat1 = DenseMatrix<int>({ 1, 3, 4, 0 }, 2, 2);
 	new_col = MathVector<int>({ 0, 0 });
-	mat1.addCol(new_col, 0);
+	mat1.addCol(0, new_col);
 	new_data = { 0, 0, 1, 3, 4, 0 };
 	checkDenseMatrix(mat1, new_data, 2, 3, StorageType::ColumnMajor);
 
 	new_col = MathVector<int>({ 1, 2 });
-	mat1.addCol(new_col, 2);
+	mat1.addCol(2, new_col);
 	new_data = { 0, 0, 1, 3, 1, 2, 4, 0 };
 	checkDenseMatrix(mat1, new_data, 2, 4, StorageType::ColumnMajor);
 
 	new_row = MathVector<int>({ 1, 3, 6, 4 });
-	mat1.addRow(new_row, 0);
+	mat1.addRow(0, new_row);
 	new_data = { 1, 0, 0, 3, 1, 3, 6, 1, 2, 4, 4, 0 };
 	checkDenseMatrix(mat1, new_data, 3, 4, StorageType::ColumnMajor);
 
 	new_row = MathVector<int>({ 0, 0, 4, 2 });
-	mat1.addRow(new_row, 1);
+	mat1.addRow(1, new_row);
 	new_data = { 1, 0, 0, 0, 3, 0, 1, 3, 6, 4, 1, 2, 4, 2, 4, 0 };
 	checkDenseMatrix(mat1, new_data, 4, 4, StorageType::ColumnMajor);
 
 	mat1 = DenseMatrix<int>({ 1, 3, 0, 0 }, 2, 2, StorageType::RowMajor);
 	new_col = MathVector<int>({ 2, 2 });
-	mat1.addCol(new_col, 0);
+	mat1.addCol(0, new_col);
 	new_data = { 2, 1, 3, 2, 0, 0 };
 	checkDenseMatrix(mat1, new_data, 2, 3, StorageType::RowMajor);
 
 	new_col = MathVector<int>({ 0, 5 });
-	mat1.addCol(new_col, 2);
+	mat1.addCol(2, new_col);
 	new_data = { 2, 1, 0, 3, 2, 0, 5, 0 };
 	checkDenseMatrix(mat1, new_data, 2, 4, StorageType::RowMajor);
 
 	new_row = MathVector<int>({ 0, 1, 2, 3 });
-	mat1.addRow(new_row, 1);
+	mat1.addRow(1, new_row);
 	new_data = { 2, 1, 0, 3, 0, 1, 2, 3, 2, 0, 5, 0 };
 	checkDenseMatrix(mat1, new_data, 3, 4, StorageType::RowMajor);
 
 	new_row = MathVector<int>({ 1, 3, 5, 2 });
-	mat1.addRow(new_row, 0);
+	mat1.addRow(0, new_row);
 	new_data = { 1, 3, 5, 2, 2, 1, 0, 3, 0, 1, 2, 3, 2, 0, 5, 0 };
 	checkDenseMatrix(mat1, new_data, 4, 4, StorageType::RowMajor);
 }
