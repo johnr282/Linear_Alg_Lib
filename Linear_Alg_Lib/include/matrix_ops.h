@@ -174,7 +174,7 @@ namespace LinAlg
 		if (mat1.cols() != mat2.rows())
 			throw InvalidDimensions();
 
-		return strassen(mat1, mat2, 1);
+		return basicMultWithConversion(mat1, mat2);
 	}
 
 	

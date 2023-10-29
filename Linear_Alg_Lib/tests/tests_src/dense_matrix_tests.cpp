@@ -672,4 +672,8 @@ void testDenseMult()
 	DenseMatrix<int> mat19 = mat17 * mat16;
 	std::vector<int> data19{ 3, 6, 8, 4, 3, 3, 6, 6, 0, 4, 6, 4, 2, 6, 5, 9 };
 	checkDenseMatrix(mat19, data19, 4, 4, StorageType::RowMajor);
+
+	DenseMatrix<int> mat20(generateRandomVector(441), 21, 21);
+	DenseMatrix<int> mat21(generateRandomVector(441), 21, 21);
+	assert(basicMultWithConversion(mat20, mat21) == strassen(mat20, mat21, 1));
 }

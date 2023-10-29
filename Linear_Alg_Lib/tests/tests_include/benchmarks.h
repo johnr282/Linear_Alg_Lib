@@ -10,6 +10,8 @@ void runBenchmarks();
 
 void benchmarkDenseMatrixBasicMult();
 
+void benchmarkDenseMatrixStrassen();
+
 
 
 #endif 
