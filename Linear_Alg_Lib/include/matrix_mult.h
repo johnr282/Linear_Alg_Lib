@@ -5,7 +5,6 @@
 
 // ------------------------------------------------------------------
 // Implementations of matrix multiplication algorithms
-// These functions should be hidden, don't include this file in linalg.h
 // ------------------------------------------------------------------
 
 namespace LinAlg
