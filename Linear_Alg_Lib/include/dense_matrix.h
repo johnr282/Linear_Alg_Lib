@@ -143,14 +143,14 @@ namespace LinAlg
 		}
 
 		// Returns row pos as a MathVector
-		MathVector<DataType> row(const size_t pos) const
+		MathVector<DataType> row(const size_t pos) const override
 		{
 			return rowColHelper(pos, rowBounds(pos), rowIndices(pos), 
 				this->_rows, this->_cols, StorageType::RowMajor);
 		}
 
 		// Returns col pos as a MathVector
-		MathVector<DataType> col(const size_t pos) const
+		MathVector<DataType> col(const size_t pos) const override
 		{
 			return rowColHelper(pos, colBounds(pos), colIndices(pos),
 				this->_cols, this->_rows, StorageType::ColumnMajor);
@@ -158,7 +158,7 @@ namespace LinAlg
 
 		// Sets row pos to given MathVector
 		void setRow(const size_t pos,
-			const MathVector<DataType>& new_row)
+			const MathVector<DataType>& new_row) override
 		{
 			setHelper(pos, new_row, rowBounds(pos), rowIndices(pos),
 				this->_rows, this->_cols, StorageType::RowMajor);
@@ -166,7 +166,7 @@ namespace LinAlg
 
 		// Sets col pos to given MathVector
 		void setCol(const size_t pos,
-			const MathVector<DataType>& new_col)
+			const MathVector<DataType>& new_col) override
 		{
 			setHelper(pos, new_col, colBounds(pos), colIndices(pos),
 				this->_cols, this->_rows, StorageType::ColumnMajor);
@@ -189,14 +189,14 @@ namespace LinAlg
 		}
 
 		// Removes row pos from the matrix entirely
-		void removeRow(const size_t pos)
+		void removeRow(const size_t pos) override
 		{
 			removeHelper(pos, rowBounds(pos), this->_rows, this->_cols, 
 				StorageType::RowMajor);
 		}
 
 		// Removes col pos from the matrix entirely
-		void removeCol(const size_t pos)
+		void removeCol(const size_t pos) override
 		{
 			removeHelper(pos, colBounds(pos), this->_cols, this->_rows,
 				StorageType::ColumnMajor);

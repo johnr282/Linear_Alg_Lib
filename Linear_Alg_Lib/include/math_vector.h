@@ -18,12 +18,12 @@ namespace LinAlg
 	{
 	public:
 
-		// Constructor
+		// Creates a vector with size and elements of given std::vector
 		MathVector(const std::vector<DataType>& data_in) :
 			_data(data_in)
 		{ }
 
-		// Default constructor
+		// Default constructor; creates a vector with no elements
 		MathVector() :
 			_data(std::vector<DataType>())
 		{ }

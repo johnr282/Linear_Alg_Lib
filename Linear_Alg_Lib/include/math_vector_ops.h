@@ -74,7 +74,7 @@ namespace LinAlg
 		return result;
 	}
 
-	// Returns dot product of two given vectors; vectors must of equal 
+	// Returns dot product of two given vectors; vectors must be of equal 
 	// length
 	template <typename DataType>
 	inline DataType dotProduct(const MathVector<DataType>& vec1,
