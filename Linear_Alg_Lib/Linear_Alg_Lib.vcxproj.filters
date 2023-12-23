@@ -74,6 +74,9 @@
     <ClInclude Include="include\matrix_mult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\linear_solver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lib_utils.cpp">

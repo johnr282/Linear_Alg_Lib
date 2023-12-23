@@ -33,4 +33,6 @@ void testDenseEquals();
 
 void testDenseMult();
 
+void testDenseLinearSolver();
+
 #endif

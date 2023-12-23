@@ -134,6 +134,7 @@
     <ClInclude Include="include\exceptions.h" />
     <ClInclude Include="include\lib_utils.h" />
     <ClInclude Include="include\linalg.h" />
+    <ClInclude Include="include\linear_solver.h" />
     <ClInclude Include="include\math_vector.h" />
     <ClInclude Include="include\math_vector_ops.h" />
     <ClInclude Include="include\matrix.h" />

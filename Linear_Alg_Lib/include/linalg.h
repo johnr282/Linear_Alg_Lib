@@ -9,6 +9,7 @@
 #include "sparse_matrix.h"
 #include "matrix_ops.h"
 #include "matrix_utils.h"
+#include "linear_solver.h"
 
 #include "exceptions.h"
 #include "lib_utils.h"
