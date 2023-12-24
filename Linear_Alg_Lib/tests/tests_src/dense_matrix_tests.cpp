@@ -684,16 +684,16 @@ void testDenseLinearSolver()
 	DenseMatrix<int> A1({ 1, 0, 3, 4, 5, 2, 5, 7, 0 }, 3, 3, StorageType::ColumnMajor);
 	MathVector<int> b1({ 1, 4, 2 });
 	MathVector<double> x;
-	assert(solveLinearEquation(A1, x, b1));
+	assert(solveLinearEquation(A1, b1, x));
 	checkVectors(x.getData(), { -32 / 5, 53 / 5, -7 });
 
 	DenseMatrix<int> A2({ 1, 3, 0, 9 }, 2, 2, StorageType::RowMajor);
 	MathVector<int> b2({ 0, 1 });
-	assert(solveLinearEquation(A2, x, b2));
+	assert(solveLinearEquation(A2, b2, x));
 	checkVectors(x.getData(), {-1 / 3, 1 / 9});
 
 	DenseMatrix<double> A3({ 1.9, -0.2, 3.92, 8.4, -9.3, 0, 1.0, 11.2, -5.9 }, 3, 3, StorageType::RowMajor);
 	MathVector<double> b3({ 0.9, -2.1, 4.34 });
-	assert(solveLinearEquation(A3, x, b3));
+	assert(solveLinearEquation(A3, b3, x));
 	checkVectors(x.getData(), { 0.2359565, 0.4389284, 0.1376195 });
 }
