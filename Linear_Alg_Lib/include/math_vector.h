@@ -91,6 +91,15 @@ namespace LinAlg
 				new_data.begin(), new_data.end(), _data.begin() + first);
 		}
 
+		// Scales every element of the vector by the given value
+		void scale(DataType factor)
+		{
+			for (int i = 0; i < _data.size(); ++i)
+			{
+				_data[i] *= factor;
+			}
+		}
+
 		// Returns the magnitude of the vector
 		double magnitude() const
 		{
