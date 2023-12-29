@@ -92,6 +92,12 @@ namespace LinAlg
 		// Removes col pos from the matrix entirely
 		virtual void removeCol(const size_t pos) = 0;
 
+		// Swaps the two rows at given positions
+		virtual void swapRows(const size_t pos1, const size_t pos2) = 0;
+
+		// Swaps the two columns at given positions
+		virtual void swapCols(const size_t pos1, const size_t pos2) = 0;
+
 		// Returns matrix containing rows first_row to last_row and 
 		// columns first_col to last_col
 		virtual MatrixType getSubMatrix(const size_t first_row,

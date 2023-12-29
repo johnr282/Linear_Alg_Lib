@@ -202,6 +202,24 @@ namespace LinAlg
 				StorageType::ColumnMajor);
 		}
 
+		// Swaps the two rows at given positions
+		void swapRows(const size_t pos1, const size_t pos2) override
+		{
+			MathVector<DataType> row1 = row(pos1);
+			MathVector<DataType> row2 = row(pos2);
+			setRow(pos1, row2);
+			setRow(pos2, row1);
+		}
+
+		// Swaps the two columns at given positions
+		void swapCols(const size_t pos1, const size_t pos2) override
+		{
+			MathVector<DataType> col1 = col(pos1);
+			MathVector<DataType> col2 = col(pos2);
+			setCol(pos1, col2);
+			setCol(pos2, col1);
+		}
+
 		// Returns matrix containing rows [first_row, last_row) and 
 		// columns [first_col, last_col)
 		DenseMatrix<DataType> getSubMatrix(const size_t first_row,
