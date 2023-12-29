@@ -46,15 +46,21 @@ namespace LinAlg
 		}
 
 		// Subscript operator overload for MathVector class, const version
-		DataType operator[](size_t index) const
+		DataType operator[](const size_t index) const
 		{
 			return _data[index];
 		}
 
 		// Subscript operator overload for MathVector class, non-const version
-		DataType& operator[](size_t index)
+		DataType& operator[](const size_t index)
 		{
 			return _data[index];
+		}
+
+		// Swaps the elements at the given positions
+		void swap(const size_t pos1, const size_t pos2)
+		{
+			std::swap(_data[pos1], _data[pos2]);
 		}
 
 		// Returns a MathVector containing elements [first, last)
