@@ -685,15 +685,26 @@ void testDenseLinearSolver()
 	MathVector<int> b1({ 1, 4, 2 });
 	MathVector<double> x;
 	assert(solveLinearEquation(A1, b1, x));
-	checkVectors(x.getData(), { -32 / 5, 53 / 5, -7 });
+	checkVectors(x.getData(), { -6.4, 10.6, -7 });
 
 	DenseMatrix<int> A2({ 1, 3, 0, 9 }, 2, 2, StorageType::RowMajor);
 	MathVector<int> b2({ 0, 1 });
 	assert(solveLinearEquation(A2, b2, x));
-	checkVectors(x.getData(), {-1 / 3, 1 / 9});
+	checkVectors(x.getData(), {-0.3333333, 0.1111111});
 
 	DenseMatrix<double> A3({ 1.9, -0.2, 3.92, 8.4, -9.3, 0, 1.0, 11.2, -5.9 }, 3, 3, StorageType::RowMajor);
 	MathVector<double> b3({ 0.9, -2.1, 4.34 });
 	assert(solveLinearEquation(A3, b3, x));
 	checkVectors(x.getData(), { 0.2359565, 0.4389284, 0.1376195 });
+
+	DenseMatrix<int> A4({ 5, 0, 1, 0 }, 2, 2);
+	MathVector<int> b4({ 1, 1 });
+	assert(!solveLinearEquation(A4, b4, x));
+
+	DenseMatrix<double> A({0, 9, 2, 1, 8, 5, 3, 1, 0, 0, 2, 5, 0, 0, 2, 1}, 4, 4, StorageType::RowMajor);
+	MathVector<double> b({1, 2, 6, 9});
+	solveLinearEquation(A, b, x);
+	std::cout << "A:\n" << A << "\n";
+	std::cout << "b:\n" << b << "\n";
+	std::cout << "Solution:\n" << x << "\n";
 }

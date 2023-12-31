@@ -57,6 +57,20 @@ namespace LinAlg
 			return _data[index];
 		}
 
+		// += operator overload
+		MathVector<DataType>& operator+=(const MathVector<DataType>& vec)
+		{
+			*this = *this + vec;
+			return *this;
+		}
+
+		// -= operator overload
+		MathVector<DataType>& operator-=(const MathVector<DataType>& vec)
+		{
+			*this = *this - vec;
+			return *this;
+		}
+
 		// Swaps the elements at the given positions
 		void swap(const size_t pos1, const size_t pos2)
 		{
@@ -92,12 +106,20 @@ namespace LinAlg
 		}
 
 		// Scales every element of the vector by the given value
-		void scale(DataType factor)
+		void scale(const DataType factor)
 		{
 			for (int i = 0; i < _data.size(); ++i)
 			{
 				_data[i] *= factor;
 			}
+		}
+
+		// Returns vector with every element scaled by the given value
+		MathVector<DataType> scaled(const DataType factor)
+		{
+			MathVector<DataType> scaled_vector = *this;
+			scaled_vector.scale(factor);
+			return scaled_vector;
 		}
 
 		// Returns the magnitude of the vector

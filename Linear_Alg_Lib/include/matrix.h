@@ -58,6 +58,20 @@ namespace LinAlg
 			return _rows == _cols;
 		}
 
+		// += operator overload
+		MatrixType& operator+=(const MatrixType& mat)
+		{
+			*this = *this + mat;
+			return *this;
+		}
+
+		// -= operator overload
+		MatrixType& operator-=(const MatrixType& mat)
+		{
+			*this = *this - mat;
+			return *this;
+		}
+
 		// Returns element at location (row, col), const version
 		virtual DataType at(const size_t row, const size_t col) const = 0;
 
