@@ -327,46 +327,6 @@ namespace LinAlg
 			}
 		}
 
-		// Returns transpose of matrix
-		DenseMatrix<DataType> tranpose() const override
-		{
-			// TODO
-			return *this;
-		}
-
-		// Calculates determinant of matrix and puts it in DataType 
-		// parameter; only returns false if matrix is not square
-		bool determinant(DataType& det) const override
-		{
-			// TODO
-			return false;
-		}
-
-		// Returns whether matrix is invertible
-		bool isInvertible() const override
-		{
-			// TODO
-			return false;
-		}
-
-		// Calculates inverse of matrix and puts it in MatrixType 
-		// parameter; returns whether the matrix is invertible
-		bool inverse(DenseMatrix<DataType>& inv) const override
-		{
-			// TODO
-			return false;
-		}
-
-		// Calculates eigenvectors and eigenvalues of matrix; puts 
-		// eigenvectors in eigenvecs parameter and eigenvalues in 
-		// eigenvals parameter; eigenvecs[i]'s eigenvalue is eigenvals[i]
-		bool eigenvectors(std::vector<MathVector<double> >& eigenvecs,
-						  std::vector<double>& eigenvals) const override
-		{
-			// TODO
-			return false;
-		}
-
 	private:
 
 		// Returns index in _data corresponding to given row and col

@@ -127,26 +127,6 @@ namespace LinAlg
 			const size_t last_col,
 			const MatrixType& new_sub_matrix) = 0;
 
-		// Returns transpose of matrix
-		virtual MatrixType tranpose() const = 0;
-
-		// Calculates determinant of matrix and puts it in DataType parameter; 
-		// only returns false if matrix is not square
-		virtual bool determinant(DataType&) const = 0;
-
-		// Returns whether matrix is invertible
-		virtual bool isInvertible() const = 0;
-
-		// Calculates inverse of matrix and puts it in MatrixType parameter;
-		// returns whether the matrix is invertible
-		virtual bool inverse(MatrixType&) const = 0;
-
-		// Calculates eigenvectors and eigenvalues of matrix; puts eigenvectors
-		// in eigenvecs parameter and eigenvalues in eigenvals parameter; 
-		// eigenvecs[i]'s eigenvalue is eigenvals[i]
-		virtual bool eigenvectors(std::vector<MathVector<double> >& eigenvecs,
-								  std::vector<double>& eigenvals) const = 0;
-
 	protected:
 
 		// Number of rows/columns and total number of elements
