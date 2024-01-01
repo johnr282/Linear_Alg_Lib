@@ -112,6 +112,12 @@ namespace LinAlg
 		// Swaps the two columns at given positions
 		virtual void swapCols(const size_t pos1, const size_t pos2) = 0;
 
+		// Scales row pos by the given factor
+		virtual void scaleRow(const size_t pos, const DataType factor) = 0;
+
+		// Scales row col by the given factor
+		virtual void scaleCol(const size_t pos, const DataType factor) = 0;
+
 		// Returns matrix containing rows first_row to last_row and 
 		// columns first_col to last_col
 		virtual MatrixType getSubMatrix(const size_t first_row,

@@ -221,7 +221,7 @@ namespace LinAlg
 		}
 
 		// Scales row pos by the given factor
-		void scaleRow(const size_t pos, const DataType factor)
+		void scaleRow(const size_t pos, const DataType factor) override
 		{
 			MathVector<DataType> row_to_scale = row(pos);
 			row_to_scale.scale(factor);
@@ -229,7 +229,7 @@ namespace LinAlg
 		}
 
 		// Scales row col by the given factor
-		void scaleCol(const size_t pos, const DataType factor)
+		void scaleCol(const size_t pos, const DataType factor) override
 		{
 			MathVector<DataType> col_to_scale = col(pos);
 			col_to_scale.scale(factor);
