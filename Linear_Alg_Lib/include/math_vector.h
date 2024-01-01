@@ -115,7 +115,7 @@ namespace LinAlg
 		}
 
 		// Returns vector with every element scaled by the given value
-		MathVector<DataType> scaled(const DataType factor)
+		MathVector<DataType> scaled(const DataType factor) const
 		{
 			MathVector<DataType> scaled_vector = *this;
 			scaled_vector.scale(factor);
