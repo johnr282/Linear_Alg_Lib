@@ -6,7 +6,9 @@ Currently, the library provides a `MathVector` class, which represents an $n$-di
 Detailed documentation of the classes and operations provided by the library can be found in the Wiki. 
 
 ## MathVector
-`LinAlg::MathVector<DataType>`
+```cpp
+LinAlg::MathVector<DataType>
+```
 - Represents an $n$-dimensional mathematical vector
 - Internally uses a `std::vector<DataType>` to store data
 
@@ -66,6 +68,18 @@ MathVector<DataType> MathVector::getSubVector(const size_t first,
 void MathVector::setSubVector(const size_t first,
 	const size_t last,
 	const MathVector<DataType>& new_sub_vec);
+```
+<br>
+
+- Scales every element of the `MathVector` by the given value
+```cpp
+void MathVector::scale(const DataType factor);
+```
+<br>
+
+- Returns this `MathVector` with every element scaled by the given value
+```cpp
+MathVector<DataType> MathVector::scaled(const DataType factor) const;
 ```
 <br>
 
