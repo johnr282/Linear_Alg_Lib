@@ -228,7 +228,7 @@ namespace LinAlg
 			setRow(pos, row_to_scale);
 		}
 
-		// Scales row col by the given factor
+		// Scales col pos by the given factor
 		void scaleCol(const size_t pos, const DataType factor) override
 		{
 			MathVector<DataType> col_to_scale = col(pos);
