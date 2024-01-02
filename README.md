@@ -333,3 +333,47 @@ void DenseMatrix::setSubMatrix(const size_t first_row,
   const DenseMatrix<DataType>& new_sub_matrix) override;
 ```
 <br>
+
+### Operator overloads and other operations
+- == operator overload for DenseMatrix class; only use with integral data types
+```cpp
+inline bool operator==(const DenseMatrix<DataType>& lhs,
+	const DenseMatrix<DataType>& rhs);
+```
+<br>
+
+- != operator overload for DenseMatrix class
+```cpp
+inline bool operator!=(const DenseMatrix<DataType>& lhs,
+	const DenseMatrix<DataType>& rhs);
+```
+<br>
+
+- Insertion operator overload for DenseMatrix class; outputs DenseMatrix in row major format
+- Ensures columns are aligned, even with different amounts of digits
+```cpp
+inline std::ostream& operator<<(std::ostream& stream,
+	const DenseMatrix<DataType>& mat);
+```
+<br>
+
+- Addition overload for DenseMatrix class; returns a DenseMatrix with the same StorageType as mat1
+```cpp
+inline DenseMatrix<DataType> operator+(const DenseMatrix<DataType>& mat1,
+	const DenseMatrix<DataType>& mat2);
+```
+<br>
+
+- Subtraction overload for DenseMatrix class; returns a DenseMatrix with the same StorageType as mat1
+```cpp
+inline DenseMatrix<DataType> operator-(const DenseMatrix<DataType>& mat1,
+	const DenseMatrix<DataType>& mat2);
+```
+<br>
+
+- Matrix multiplication overload for DenseMatrix class; returns a DenseMatrix with the same StorageType as mat1
+```cpp
+inline DenseMatrix<DataType> operator*(const DenseMatrix<DataType>& mat1,
+	const DenseMatrix<DataType>& mat2);
+```
+<br>
