@@ -291,6 +291,30 @@ void DenseMatrix::removeCol(const size_t pos) override;
 ```
 <br>
 
+- Swaps the two rows at given positions; throws `OutOfBounds` exception if pos1 or pos2 is >= the number of rows in the matrix
+```cpp
+void DenseMatrix::swapRows(const size_t pos1, const size_t pos2) override;
+```
+<br>
+
+- Swaps the two columns at given positions; throws `OutOfBounds` exception if pos1 or pos2 is >= the number of columns in the matrix
+```cpp
+void DenseMatrix::swapCols(const size_t pos1, const size_t pos2) override;
+```
+<br>
+
+- Scales row pos by the given factor; throws `OutOfBounds` exception if pos is >= the number of rows in the matrix
+```cpp
+void DenseMatrix::scaleRow(const size_t pos, const DataType factor) override;
+```
+<br>
+
+- Scales col pos by the given factor; throws `OutOfBounds` exception if pos is >= the number of columns in the matrix
+```cpp
+void DenseMatrix::scaleCol(const size_t pos, const DataType factor) override;
+```
+<br>
+
 - Returns matrix containing rows [first_row, last_row) and columns [first_col, last_col); throws `OutOfBounds` exception if first_row or last_row > the number of rows, or if first_col or last_col > the number of columns
 ```cpp
 DenseMatrix<DataType> DenseMatrix::getSubMatrix(const size_t first_row,
@@ -307,5 +331,49 @@ void DenseMatrix::setSubMatrix(const size_t first_row,
   const size_t first_col,
   const size_t last_col,
   const DenseMatrix<DataType>& new_sub_matrix) override;
+```
+<br>
+
+### Operator overloads and other operations
+- == operator overload for DenseMatrix class; only use with integral data types
+```cpp
+inline bool operator==(const DenseMatrix<DataType>& lhs,
+	const DenseMatrix<DataType>& rhs);
+```
+<br>
+
+- != operator overload for DenseMatrix class
+```cpp
+inline bool operator!=(const DenseMatrix<DataType>& lhs,
+	const DenseMatrix<DataType>& rhs);
+```
+<br>
+
+- Insertion operator overload for DenseMatrix class; outputs DenseMatrix in row major format
+- Ensures columns are aligned, even with different amounts of digits
+```cpp
+inline std::ostream& operator<<(std::ostream& stream,
+	const DenseMatrix<DataType>& mat);
+```
+<br>
+
+- Addition overload for DenseMatrix class; returns a DenseMatrix with the same StorageType as mat1
+```cpp
+inline DenseMatrix<DataType> operator+(const DenseMatrix<DataType>& mat1,
+	const DenseMatrix<DataType>& mat2);
+```
+<br>
+
+- Subtraction overload for DenseMatrix class; returns a DenseMatrix with the same StorageType as mat1
+```cpp
+inline DenseMatrix<DataType> operator-(const DenseMatrix<DataType>& mat1,
+	const DenseMatrix<DataType>& mat2);
+```
+<br>
+
+- Matrix multiplication overload for DenseMatrix class; returns a DenseMatrix with the same StorageType as mat1
+```cpp
+inline DenseMatrix<DataType> operator*(const DenseMatrix<DataType>& mat1,
+	const DenseMatrix<DataType>& mat2);
 ```
 <br>
