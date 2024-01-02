@@ -377,3 +377,15 @@ inline DenseMatrix<DataType> operator*(const DenseMatrix<DataType>& mat1,
 	const DenseMatrix<DataType>& mat2);
 ```
 <br>
+
+## Linear Equation Solver
+- Given a matrix A and vector b representing a system Ax = b, tries to find a unique
+solution x to the system; if successful, returns true and puts the solution vector 
+into the output parameter x; if not, returns false
+- Will only find solution if A is invertible
+```cpp
+inline bool solveLinearEquation(const DenseMatrix<DataType>& A,
+	const MathVector<DataType>& b, 
+	MathVector<double>& x);
+```
+<br>
